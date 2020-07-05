@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>495808324336-0jjq4jorrvg4pvdk1j5q6biq0b15ihq9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.495808324336-0jjq4jorrvg4pvdk1j5q6biq0b15ihq9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCYo83ce9TN-3mKhVEATOF9Z1g-9j879rI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>495808324336</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>dev.leehiggins.suncircle</string>
+	<key>PROJECT_ID</key>
+	<string>suncircle0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>suncircle0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:495808324336:ios:0104b4b6bc4b02721d1835</string>
+	<key>DATABASE_URL</key>
+	<string>https://suncircle0.firebaseio.com</string>
+</dict>
+</plist>
