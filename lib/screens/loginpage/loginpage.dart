@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suncircle/screens/loginpage/login.dart';
-import 'package:suncircle/screens/homepage/homepage.dart';
+import 'package:suncircle/screens/landingpage/landingpage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return HomePage(title: 'suncircle');
+                return LandingPage();
               },
             ),
           );
