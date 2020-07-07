@@ -14,7 +14,7 @@ class LandingPage extends StatelessWidget {
           if (user == null) {
             return LoginPage();
           }
-          return HomePage();
+          return HomePage(title: 'suncircle');
         } else {
           return Scaffold(
             body: Center(

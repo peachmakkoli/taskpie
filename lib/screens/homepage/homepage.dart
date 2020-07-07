@@ -3,7 +3,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  HomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  
+  // TODO: Check if a new event has been added so the app can re-render 
+  // the calendar circle
+
+  // int _counter = 0;
+
+  // void _incrementCounter() {
+  //   setState(() {
+  //     // This call to setState tells the Flutter framework that something has
+  //     // changed in this State, which causes it to rerun the build method below
+  //     // so that the display can reflect the updated values. If we changed
+  //     // _counter without calling setState(), then the build method would not be
+  //     // called again, and so nothing would appear to happen.
+  //     _counter++;
+  //   });
+  // }
 
   Future<void> signOut() async {
     try {
@@ -17,7 +42,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('suncircle'),
+        title: Text(widget.title),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           FlatButton(
