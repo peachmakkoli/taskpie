@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_core/core.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
 
 void main() {
+  SyncfusionLicense.registerLicense("NT8mJyc2IWhia31hfWN9Z2doYmF8YGJ8ampqanNiYmlmamlmanMDHmg/NjZ9Ozo0NDo9IH03NiUTND4yOj99MDw+"); 
   runApp(MyApp());
 }
 

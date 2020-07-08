@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);
@@ -69,22 +70,31 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Center(
-        child: StreamBuilder(
-          stream: Firestore.instance
-            .collection('users')
-            .document(widget.user.uid)
-            .snapshots(),
-          builder: (context, snapshot) {
-            if(!snapshot.hasData) return Text('Loading data...');
-            return Column(
-              children: <Widget>[
-                Text(snapshot.data['uid']),
-                Text(snapshot.data['name']),
-                Text(snapshot.data['email']),
-              ], // <Widget>
-            ); // Column
-          },
-        ), // Streambuilder
+        child: Column (
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            StreamBuilder(
+              stream: Firestore.instance
+                .collection('users')
+                .document(widget.user.uid)
+                .snapshots(),
+              builder: (context, snapshot) {
+                if(!snapshot.hasData) return Text('Loading data...');
+                return Column(
+                  children: <Widget>[
+                    Text(snapshot.data['uid']),
+                    Text(snapshot.data['name']),
+                    Text(snapshot.data['email']),
+                  ], // <Widget>
+                ); // Column
+              },
+            ), // Streambuilder
+            Container(
+              height: 500,
+              child: SfCartesianChart(),
+            ) // Container
+          ],
+        ),
       ), // Center
     ); // Scaffold
   }

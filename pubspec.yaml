@@ -35,6 +35,9 @@ dependencies:
   # Google 
   google_sign_in: ^4.5.1
 
+  # UI
+  syncfusion_flutter_charts: ^18.2.44
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
