@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+  HomePage({Key key, this.title, this.user}) : super(key: key);
 
   final String title;
+  final FirebaseUser user;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -69,14 +70,17 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: StreamBuilder(
-          stream: Firestore.instance.collection('users').snapshots(),
+          stream: Firestore.instance
+            .collection('users')
+            .document(widget.user.uid)
+            .snapshots(),
           builder: (context, snapshot) {
             if(!snapshot.hasData) return Text('Loading data...');
             return Column(
               children: <Widget>[
-                Text(snapshot.data.documents[0]['username']),
-                Text(snapshot.data.documents[0]['name']),
-                Text(snapshot.data.documents[0]['email'])
+                Text(snapshot.data['uid']),
+                Text(snapshot.data['name']),
+                Text(snapshot.data['email']),
               ], // <Widget>
             ); // Column
           },
