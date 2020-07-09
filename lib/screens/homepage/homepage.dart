@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   DateTime _selectedDate;
+  DateTime _nextDay;
 
   @override
   void initState() {
@@ -39,7 +40,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _resetSelectedDate() {
-    _selectedDate = DateTime.now();
+    DateTime today = new DateTime.now();
+    _selectedDate = DateTime(today.year, today.month, today.day);
   }
 
   // TODO: Check if a new event has been added so the app can re-render 
@@ -93,8 +95,7 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: Column (
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
           children: <Widget>[
              CalendarTimeline(
               initialDate: _selectedDate,
@@ -103,6 +104,7 @@ class _HomePageState extends State<HomePage> {
               onDateSelected: (date) {
                 setState(() {
                   _selectedDate = date;
+                  _nextDay = date.add(Duration(days: 1));
                 });
               },
               leftMargin: 20,
@@ -123,18 +125,21 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => setState(() => _resetSelectedDate()),
               ),
             ),
-            // SizedBox(height: 20),
-            Center(child: Text('Selected date is $_selectedDate', style: TextStyle(color: Colors.black))),
             StreamBuilder(
               stream: Firestore.instance
                 .collection('users')
                 .document(widget.user.uid)
+                .collection('tasks')
+                .where('time_start', isGreaterThanOrEqualTo: _selectedDate)
+                .where('time_start', isLessThan: _nextDay)
+                .orderBy('time_start')
                 .snapshots(),
               builder: (context, snapshot) {
                 if(!snapshot.hasData) return Text('Loading data...');
+                if(snapshot.data.documents.isEmpty) return Text('No tasks found for selected day.');
                 return Column(
                   children: <Widget>[
-                  //   Text(snapshot.data['uid']),
+                    Text(snapshot.data.documents[0]['name']),
                   //   Text(snapshot.data['name']),
                   //   Text(snapshot.data['email']),
                     Container(
