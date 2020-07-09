@@ -1,6 +1,6 @@
-# suncircle
+# TaskPie
 
-A new Flutter project.
+A task management app featuring data visualization, tactile navigation, and time prediction tools. For Android and iOS users who would like assistance in visualizing how much of their day is devoted to certain tasks (e.g., sleeping, eating, working, socializing) and predicting how long a task will take. 
 
 ## Getting Started
 
