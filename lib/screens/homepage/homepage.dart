@@ -137,37 +137,34 @@ class _HomePageState extends State<HomePage> {
               builder: (context, snapshot) {
                 if(!snapshot.hasData) return Text('Loading data...');
                 if(snapshot.data.documents.isEmpty) return Text('No tasks found for selected day.');
-                return Column(
-                  children: <Widget>[
-                    Text(snapshot.data.documents[0]['name']),
-                  //   Text(snapshot.data['name']),
-                  //   Text(snapshot.data['email']),
-                    Container(
-                      height: 550,
-                      child: SfCircularChart(series: <CircularSeries>[
-                        PieSeries<ChartData, String>(
-                          enableSmartLabels: true,
-                          dataSource: [
-                            ChartData('', 25, '', Colors.white),
-                            ChartData('Task One', 38, 'Task One (38 mins)', Colors.yellow),
-                            ChartData('', 4, '', Colors.white),
-                            ChartData('Task Two', 2, 'Task Two (2 mins)', Colors.orange)
-                          ],
-                          pointColorMapper:(ChartData data,  _) => data.color,
-                          xValueMapper: (ChartData data, _) => data.x,
-                          yValueMapper: (ChartData data, _) => data.y,
-                          radius: '90%',
-                          // explode: true,
-                          // explodeIndex: 0,
-                          dataLabelMapper: (ChartData data, _) => data.text,
-                          dataLabelSettings: DataLabelSettings(
-                            isVisible: true,
-                            useSeriesColor: true,
-                          ),
-                        )
-                      ]),
-                    ), // Container
-                  ], // <Widget>
+                return Container(
+                  height: 400,
+                  child: SfCircularChart(series: <CircularSeries>[
+                    PieSeries<ChartData, String>(
+                      enableSmartLabels: true,
+                      dataSource: [ 
+                        for (var task in snapshot.data.documents) ChartData(task['name'], 25, task['name'])
+                      ],
+                      // snapshot.data.documents.map((task) => ChartData(task['name'], 25, task['name'])).toList(),
+                      // [
+                      //   ChartData('', 25, '', Colors.white),
+                      //   ChartData(snapshot.data.documents[0]['name'], 38, snapshot.data.documents[0]['name'], Colors.yellow),
+                      //   ChartData('', 4, '', Colors.white),
+                      //   ChartData('Task Two', 2, 'Task Two (2 mins)', Colors.orange)
+                      // ],
+                      pointColorMapper:(ChartData data,  _) => data.color,
+                      xValueMapper: (ChartData data, _) => data.x,
+                      yValueMapper: (ChartData data, _) => data.y,
+                      radius: '90%',
+                      // explode: true,
+                      // explodeIndex: 0,
+                      dataLabelMapper: (ChartData data, _) => data.text,
+                      dataLabelSettings: DataLabelSettings(
+                        isVisible: true,
+                        useSeriesColor: true,
+                      ),
+                    )
+                  ]),
                 ); // Column
               },
             ), // Streambuilder
