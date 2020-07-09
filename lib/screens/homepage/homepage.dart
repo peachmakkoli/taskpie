@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
 import 'package:suncircle/screens/homepage/task.dart';
+
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);
@@ -24,6 +28,20 @@ class _HomePageState extends State<HomePage> {
       print(error); // TODO: show dialog with error
     }
   }
+
+  DateTime _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _resetSelectedDate();
+    initializeDateFormatting();
+  }
+
+  void _resetSelectedDate() {
+    _selectedDate = DateTime.now();
+  }
+
   // TODO: Check if a new event has been added so the app can re-render 
   // the calendar circle
 
@@ -78,6 +96,35 @@ class _HomePageState extends State<HomePage> {
         child: Column (
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+             CalendarTimeline(
+              initialDate: _selectedDate,
+              firstDate: DateTime.now().subtract(Duration(days: 365)),
+              lastDate: DateTime.now().add(Duration(days: 365)),
+              onDateSelected: (date) {
+                setState(() {
+                  _selectedDate = date;
+                });
+              },
+              leftMargin: 20,
+              monthColor: Colors.black,
+              dayColor: Colors.teal[200],
+              dayNameColor: Color(0xFF333A47),
+              activeDayColor: Colors.white,
+              activeBackgroundDayColor: Colors.redAccent[100],
+              dotsColor: Color(0xFF333A47),
+              selectableDayPredicate: (date) => date.day != 23,
+            ),
+            // SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: FlatButton(
+                color: Colors.teal[200],
+                child: Text('TODAY', style: TextStyle(color: Color(0xFF333A47))),
+                onPressed: () => setState(() => _resetSelectedDate()),
+              ),
+            ),
+            // SizedBox(height: 20),
+            Center(child: Text('Selected date is $_selectedDate', style: TextStyle(color: Colors.black))),
             StreamBuilder(
               stream: Firestore.instance
                 .collection('users')
@@ -87,11 +134,11 @@ class _HomePageState extends State<HomePage> {
                 if(!snapshot.hasData) return Text('Loading data...');
                 return Column(
                   children: <Widget>[
-                    Text(snapshot.data['uid']),
-                    Text(snapshot.data['name']),
-                    Text(snapshot.data['email']),
+                  //   Text(snapshot.data['uid']),
+                  //   Text(snapshot.data['name']),
+                  //   Text(snapshot.data['email']),
                     Container(
-                      height: 500,
+                      height: 550,
                       child: SfCircularChart(series: <CircularSeries>[
                         PieSeries<ChartData, String>(
                           enableSmartLabels: true,
