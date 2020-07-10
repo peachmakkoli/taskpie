@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-// import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
 import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:intl/intl.dart';
@@ -120,33 +119,6 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            //  CalendarTimeline(
-            //   initialDate: _selectedDate,
-            //   firstDate: DateTime.now().subtract(Duration(days: 365)),
-            //   lastDate: DateTime.now().add(Duration(days: 365)),
-            //   onDateSelected: (date) {
-            //     setState(() {
-            //       _selectedDate = date;
-            //       _nextDay = date.add(Duration(days: 1));
-            //     });
-            //   },
-            //   leftMargin: 20,
-            //   monthColor: Colors.black,
-            //   dayColor: Colors.teal[200],
-            //   dayNameColor: Color(0xFF333A47),
-            //   activeDayColor: Colors.white,
-            //   activeBackgroundDayColor: Colors.redAccent[100],
-            //   dotsColor: Color(0xFF333A47),
-            // ),
-            // // SizedBox(height: 20),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 16),
-            //   child: FlatButton(
-            //     color: Colors.teal[200],
-            //     child: Text('TODAY', style: TextStyle(color: Color(0xFF333A47))),
-            //     onPressed: () => setState(() => _resetSelectedDate()),
-            //   ),
-            // ),
             CustomHorizontalCalendar(
               onDateChoosen: (date){
                 setState(() {
