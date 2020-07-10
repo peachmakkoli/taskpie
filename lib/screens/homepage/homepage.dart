@@ -44,25 +44,45 @@ class _HomePageState extends State<HomePage> {
     _selectedDate = DateTime(today.year, today.month, today.day);
   }
 
-  // TODO: Check if a new event has been added so the app can re-render 
-  // the calendar circle
+  List<ChartData> _getChartData(tasks) {
+    List<ChartData> _chartData = List<ChartData>();
 
-  // function with setState that is called anytime the user refreshes the screen
-  // map tasks to chartData list
-  // query database for all tasks with reference to current user
+    // add white space between start of day and start of first task
+    _chartData.add(new ChartData(
+      '', 
+      (tasks[0]['time_start'].seconds - Timestamp.fromDate(_selectedDate).seconds).toDouble(), 
+      '', 
+      Colors.white
+    ));
 
-  // int _counter = 0;
+    for (var i = 0; i < tasks.length; i++) {
+      var name = tasks[i]['name'];
+      var size = (tasks[i]['time_end'].seconds - tasks[i]['time_start'].seconds).toDouble();
+      var duration = size / 3600; // converts to hours
 
-  // void _incrementCounter() {
-  //   setState(() {
-  //     // This call to setState tells the Flutter framework that something has
-  //     // changed in this State, which causes it to rerun the build method below
-  //     // so that the display can reflect the updated values. If we changed
-  //     // _counter without calling setState(), then the build method would not be
-  //     // called again, and so nothing would appear to happen.
-  //     _counter++;
-  //   });
-  // }
+      _chartData.add(new ChartData(name, size, name + '\n($duration hrs)'));
+      
+      // add white space between tasks
+      if (i < tasks.length - 1) {
+        _chartData.add(new ChartData(
+          '', 
+          (tasks[i+1]['time_start'].seconds - tasks[i]['time_end'].seconds).toDouble(), 
+          '', 
+          Colors.white
+        ));
+      }
+    }
+
+    // add white space between end of last task and end of day
+    _chartData.add(new ChartData(
+      '', 
+      (Timestamp.fromDate(_selectedDate.add(Duration(days: 1))).seconds - tasks[tasks.length - 1]['time_end'].seconds).toDouble(), 
+      '', 
+      Colors.white
+    )); 
+    
+    return _chartData;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +134,6 @@ class _HomePageState extends State<HomePage> {
               activeDayColor: Colors.white,
               activeBackgroundDayColor: Colors.redAccent[100],
               dotsColor: Color(0xFF333A47),
-              selectableDayPredicate: (date) => date.day != 23,
             ),
             // SizedBox(height: 20),
             Padding(
@@ -142,22 +161,13 @@ class _HomePageState extends State<HomePage> {
                   child: SfCircularChart(series: <CircularSeries>[
                     PieSeries<ChartData, String>(
                       enableSmartLabels: true,
-                      dataSource: [ 
-                        for (var task in snapshot.data.documents) ChartData(task['name'], 25, task['name'])
-                      ],
-                      // snapshot.data.documents.map((task) => ChartData(task['name'], 25, task['name'])).toList(),
-                      // [
-                      //   ChartData('', 25, '', Colors.white),
-                      //   ChartData(snapshot.data.documents[0]['name'], 38, snapshot.data.documents[0]['name'], Colors.yellow),
-                      //   ChartData('', 4, '', Colors.white),
-                      //   ChartData('Task Two', 2, 'Task Two (2 mins)', Colors.orange)
-                      // ],
+                      dataSource: _getChartData(snapshot.data.documents),
                       pointColorMapper:(ChartData data,  _) => data.color,
                       xValueMapper: (ChartData data, _) => data.x,
                       yValueMapper: (ChartData data, _) => data.y,
-                      radius: '90%',
-                      // explode: true,
-                      // explodeIndex: 0,
+                      radius: '80%',
+                      explode: true,
+                      explodeIndex: 0,
                       dataLabelMapper: (ChartData data, _) => data.text,
                       dataLabelSettings: DataLabelSettings(
                         isVisible: true,
@@ -165,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     )
                   ]),
-                ); // Column
+                ); // Container
               },
             ), // Streambuilder
           ], // <Widget>
