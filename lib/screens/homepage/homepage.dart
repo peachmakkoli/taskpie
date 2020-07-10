@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:calendar_timeline/calendar_timeline.dart';
+// import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
+import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
@@ -117,33 +119,59 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           children: <Widget>[
-             CalendarTimeline(
-              initialDate: _selectedDate,
-              firstDate: DateTime.now().subtract(Duration(days: 365)),
-              lastDate: DateTime.now().add(Duration(days: 365)),
-              onDateSelected: (date) {
+            //  CalendarTimeline(
+            //   initialDate: _selectedDate,
+            //   firstDate: DateTime.now().subtract(Duration(days: 365)),
+            //   lastDate: DateTime.now().add(Duration(days: 365)),
+            //   onDateSelected: (date) {
+            //     setState(() {
+            //       _selectedDate = date;
+            //       _nextDay = date.add(Duration(days: 1));
+            //     });
+            //   },
+            //   leftMargin: 20,
+            //   monthColor: Colors.black,
+            //   dayColor: Colors.teal[200],
+            //   dayNameColor: Color(0xFF333A47),
+            //   activeDayColor: Colors.white,
+            //   activeBackgroundDayColor: Colors.redAccent[100],
+            //   dotsColor: Color(0xFF333A47),
+            // ),
+            // // SizedBox(height: 20),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 16),
+            //   child: FlatButton(
+            //     color: Colors.teal[200],
+            //     child: Text('TODAY', style: TextStyle(color: Color(0xFF333A47))),
+            //     onPressed: () => setState(() => _resetSelectedDate()),
+            //   ),
+            // ),
+            CustomHorizontalCalendar(
+              onDateChoosen: (date){
                 setState(() {
                   _selectedDate = date;
                   _nextDay = date.add(Duration(days: 1));
                 });
               },
-              leftMargin: 20,
-              monthColor: Colors.black,
-              dayColor: Colors.teal[200],
-              dayNameColor: Color(0xFF333A47),
-              activeDayColor: Colors.white,
-              activeBackgroundDayColor: Colors.redAccent[100],
-              dotsColor: Color(0xFF333A47),
+              inintialDate: _selectedDate,
+              height: 60,
+              builder: (context, i, d, width) {
+                if (i != 2)
+                  return DateRow(
+                    d,
+                    width: width,
+                  );
+                else
+                  return DateRow(
+                    d,
+                    background: Colors.blue,
+                    selectedDayStyle: TextStyle(color: Colors.white),
+                    selectedDayOfWeekStyle: TextStyle(color: Colors.white),
+                    selectedMonthStyle: TextStyle(color: Colors.white),width: width,
+                  );
+              },
             ),
-            // SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: FlatButton(
-                color: Colors.teal[200],
-                child: Text('TODAY', style: TextStyle(color: Color(0xFF333A47))),
-                onPressed: () => setState(() => _resetSelectedDate()),
-              ),
-            ),
+            SizedBox(height: 20),
             StreamBuilder(
               stream: Firestore.instance
                 .collection('users')
@@ -157,6 +185,12 @@ class _HomePageState extends State<HomePage> {
                 if(!snapshot.hasData) return Text('Loading data...');
                 if(snapshot.data.documents.isEmpty) return Text('No tasks found for selected day.');
                 return Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: ExactAssetImage("assets/clock-face.png"), 
+                      fit: BoxFit.fill
+                    ),
+                  ),
                   height: 400,
                   child: SfCircularChart(series: <CircularSeries>[
                     PieSeries<ChartData, String>(
@@ -166,8 +200,8 @@ class _HomePageState extends State<HomePage> {
                       xValueMapper: (ChartData data, _) => data.x,
                       yValueMapper: (ChartData data, _) => data.y,
                       radius: '80%',
-                      explode: true,
-                      explodeIndex: 0,
+                      // explode: true,
+                      // explodeIndex: 0,
                       dataLabelMapper: (ChartData data, _) => data.text,
                       dataLabelSettings: DataLabelSettings(
                         isVisible: true,

@@ -37,7 +37,8 @@ dependencies:
 
   # UI
   syncfusion_flutter_charts: ^18.2.44
-  calendar_timeline: ^0.6.2
+  # calendar_timeline: ^0.6.2
+  custom_horizontal_calendar: ^0.1.3
 
 dev_dependencies:
   flutter_test:

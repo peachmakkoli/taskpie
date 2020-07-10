@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  calendar_timeline:
-    dependency: "direct main"
-    description:
-      name: calendar_timeline
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.2"
   charcode:
     dependency: transitive
     description:
@@ -89,6 +82,13 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
+  custom_horizontal_calendar:
+    dependency: "direct main"
+    description:
+      name: custom_horizontal_calendar
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
@@ -146,6 +146,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_datetime_picker:
+    dependency: transitive
+    description:
+      name: flutter_datetime_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.8"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -275,13 +282,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.3"
-  scrollable_positioned_list:
-    dependency: transitive
-    description:
-      name: scrollable_positioned_list
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.6"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -315,6 +315,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  swipedetector:
+    dependency: transitive
+    description:
+      name: swipedetector
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
