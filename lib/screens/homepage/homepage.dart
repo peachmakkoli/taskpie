@@ -189,10 +189,10 @@ class _HomePageState extends State<HomePage> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: ExactAssetImage("assets/clock-face.png"), 
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                     ),
                   ),
-                  height: 400,
+                  height: 420,
                   child: SfCircularChart(series: <CircularSeries>[
                     PieSeries<ChartData, String>(
                       enableSmartLabels: true,
