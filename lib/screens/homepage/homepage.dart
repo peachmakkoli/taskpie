@@ -91,6 +91,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Color(0xFF14BDEB),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           FlatButton(
@@ -164,14 +165,14 @@ class _HomePageState extends State<HomePage> {
                 else
                   return DateRow(
                     d,
-                    background: Colors.blue,
+                    background: Color(0xFF14BDEB),
                     selectedDayStyle: TextStyle(color: Colors.white),
                     selectedDayOfWeekStyle: TextStyle(color: Colors.white),
                     selectedMonthStyle: TextStyle(color: Colors.white),width: width,
                   );
               },
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             StreamBuilder(
               stream: Firestore.instance
                 .collection('users')
@@ -188,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: ExactAssetImage("assets/clock-face.png"), 
-                      fit: BoxFit.fill
+                      fit: BoxFit.fill,
                     ),
                   ),
                   height: 400,

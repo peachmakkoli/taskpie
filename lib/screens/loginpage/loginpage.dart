@@ -18,7 +18,14 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: ExactAssetImage('assets/ryanlerch-simple-sun-motif.png'), height: 300.0),
+              Text(
+                'TaskPie',
+                style: TextStyle(
+                  fontSize: 48,
+                  color: Color(0xFF14BDEB),
+                ),
+              ),
+              Image(image: ExactAssetImage('assets/apple-pie.png'), height: 300.0),
               SizedBox(height: 50),
               _signInButton(),
             ],

@@ -14,7 +14,7 @@ class LandingPage extends StatelessWidget {
           if (user == null) {
             return LoginPage();
           }
-          return HomePage(title: 'suncircle', user: user);
+          return HomePage(title: 'TaskPie', user: user);
         } else {
           return Scaffold(
             body: Center(
