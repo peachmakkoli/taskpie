@@ -31,15 +31,32 @@ class NewTaskFormBloc extends FormBloc<String, String> {
       final CollectionReference usersRef = Firestore.instance.collection('users');
       final snapShot = await usersRef.document(user.uid).get();
 
-      if (snapShot.exists) {
+      // check whether the task is split over two days (e.g., sleep)
+      if (timeStart.value.day != timeEnd.value.day) {
+        var taskData1 = {
+          'name': name.value,
+          'time_start': timeStart.value,
+          'time_end': new DateTime(timeStart.value.year, timeStart.value.month, timeStart.value.day, 23, 59, 59, 59, 59),
+          'notes': notes.value,
+        };
+
+        var taskData2 = {
+          'name': name.value,
+          'time_start': new DateTime(timeEnd.value.year, timeEnd.value.month, timeEnd.value.day),
+          'time_end': timeEnd.value,
+          'notes': notes.value,
+        }; 
+
+        await usersRef.document(user.uid).collection('tasks').document().setData(taskData1);
+        await usersRef.document(user.uid).collection('tasks').document().setData(taskData2);
+      }
+      else {
         var taskData = {
           'name': name.value,
           'time_start': timeStart.value,
           'time_end': timeEnd.value,
           'notes': notes.value,
         };
-
-        print(taskData);
 
         await usersRef.document(user.uid).collection('tasks').document().setData(taskData);
       }
