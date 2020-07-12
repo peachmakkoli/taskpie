@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class NewTaskFormBloc extends FormBloc<String, String> {
   final name = TextFieldBloc();
@@ -27,8 +26,23 @@ class NewTaskFormBloc extends FormBloc<String, String> {
   @override
   void onSubmitting() async {
     try {
-      await Future<void>.delayed(Duration(milliseconds: 500));
-      // send form data to database
+      final FirebaseUser user = await _auth.currentUser();
+
+      final CollectionReference usersRef = Firestore.instance.collection('users');
+      final snapShot = await usersRef.document(user.uid).get();
+
+      if (snapShot.exists) {
+        var taskData = {
+          'name': name.value,
+          'time_start': timeStart.value,
+          'time_end': timeEnd.value,
+          'notes': notes.value,
+        };
+
+        print(taskData);
+
+        await usersRef.document(user.uid).collection('tasks').document().setData(taskData);
+      }
       emitSuccess(canSubmitAgain: false);
     } catch (e) {
       emitFailure();
@@ -37,10 +51,9 @@ class NewTaskFormBloc extends FormBloc<String, String> {
 }
 
 class NewTaskForm extends StatelessWidget {
-  NewTaskForm({Key key, this.title, this.user}) : super(key: key);
+  NewTaskForm({Key key, this.title}) : super(key: key);
 
   final String title;
-  final FirebaseUser user;
 
   @override
   Widget build(BuildContext context) {
