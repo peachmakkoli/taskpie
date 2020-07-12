@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   void _resetSelectedDate() {
     DateTime today = new DateTime.now();
     _selectedDate = DateTime(today.year, today.month, today.day);
+    _nextDay = _selectedDate.add(Duration(days: 1));
   }
 
   List<ChartData> _getChartData(tasks) {
