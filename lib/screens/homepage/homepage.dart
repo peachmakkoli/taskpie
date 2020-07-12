@@ -7,7 +7,7 @@ import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
-import 'package:suncircle/screens/homepage/task.dart';
+import 'package:suncircle/screens/newtaskform/newtaskform.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: Color(0xFF14BDEB),
+        // backgroundColor: Color(0xFFFF737D),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           FlatButton(
@@ -116,6 +116,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       backgroundColor: Colors.white,
+      floatingActionButton: _newTaskButton(),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -137,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                 else
                   return DateRow(
                     d,
-                    background: Color(0xFF14BDEB),
+                    background: Colors.indigo,
                     selectedDayStyle: TextStyle(color: Colors.white),
                     selectedDayOfWeekStyle: TextStyle(color: Colors.white),
                     selectedMonthStyle: TextStyle(color: Colors.white),width: width,
@@ -190,6 +191,29 @@ class _HomePageState extends State<HomePage> {
       ), // Center
     ); // Scaffold
   }
+
+  Widget _newTaskButton() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[ 
+        FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return NewTaskForm(title: widget.title, user: widget.user);
+                },
+              ),
+            );
+          },
+          tooltip: 'Add a new task',
+          child: Icon(Icons.add, size: 40.0),                  
+        ),
+      ],
+    );
+  }
 }
 
 class ChartData {
@@ -199,3 +223,4 @@ class ChartData {
   final String text;
   final Color color;
 }
+

@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
                 'TaskPie',
                 style: TextStyle(
                   fontSize: 48,
-                  color: Color(0xFF14BDEB),
+                  color: Colors.indigo,
                 ),
               ),
               Image(image: ExactAssetImage('assets/apple-pie.png'), height: 300.0),

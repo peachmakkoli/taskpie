@@ -16,7 +16,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TaskPie',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
+        inputDecorationTheme: const InputDecorationTheme(
+          // labelStyle: TextStyle(color: Colors.purple),
+          border: OutlineInputBorder(
+            gapPadding: 10,
+          ),
+        ),
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
