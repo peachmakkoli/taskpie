@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
         inputDecorationTheme: const InputDecorationTheme(
-          // labelStyle: TextStyle(color: Colors.purple),
+          labelStyle: TextStyle(color: Colors.indigo),
           border: OutlineInputBorder(
             gapPadding: 10,
           ),

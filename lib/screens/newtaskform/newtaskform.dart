@@ -1,16 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:card_settings/card_settings.dart';
 import 'package:intl/intl.dart';
 import 'package:suncircle/screens/newtaskform/savetask.dart';
+import 'package:suncircle/screens/homepage/circlecalendar.dart';
 
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 class NewTaskForm extends StatefulWidget {
-  NewTaskForm({Key key, this.title}) : super(key: key);
+  NewTaskForm({Key key, this.title, this.user}) : super(key: key);
 
   final String title;
+  final FirebaseUser user;
 
   @override
   NewTaskFormState createState() => NewTaskFormState();
@@ -19,16 +22,25 @@ class NewTaskForm extends StatefulWidget {
 class NewTaskFormState extends State<NewTaskForm>{
   TaskModel _task;
 
+  DateTime _selectedDate;
+  DateTime _nextDay;
+
   bool _autoValidate = false;
 
   @override
   void initState() {
     super.initState();
     initModel();
+    _resetSelectedDate();
   }
 
   void initModel() {
     _task = TaskModel('', DateTime.now(), DateTime.now());
+  }
+
+  void _resetSelectedDate() {
+    _selectedDate = DateTime(_task.timeStart.year, _task.timeStart.month, _task.timeStart.day);
+    _nextDay = _selectedDate.add(Duration(days: 1));
   }
 
   Future savePressed() async {
@@ -37,7 +49,7 @@ class NewTaskFormState extends State<NewTaskForm>{
     LoadingDialog.show(context);
 
     if (form.validate()) {
-      saveTask(_task).whenComplete(() {
+      saveTask(_task, widget.user).whenComplete(() {
         LoadingDialog.hide(context);
         Navigator.of(context).pop();
       });
@@ -51,84 +63,132 @@ class NewTaskFormState extends State<NewTaskForm>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title + ': Add Task'),
         // backgroundColor: Color(0xFFFF737D),
       ),
       backgroundColor: Colors.white,
       floatingActionButton: _submitFormButton(),
-      body: Form(
-        key: _formKey,
-        child: CardSettings.sectioned(
-          showMaterialonIOS: false,
-          labelWidth: 150,
-          contentAlign: TextAlign.right,
-          children: <CardSettingsSection>[
-            CardSettingsSection(
-              header: CardSettingsHeader(
-                label: 'Date and Time',
-              ),
-              children: <CardSettingsWidget>[
-                CardSettingsDateTimePicker(
-                  label: 'Start',
-                  initialValue: _task.timeStart,
-                  requiredIndicator: Text('*', style: TextStyle(color: Colors.red)),
-                  firstDate: DateTime(1900),
-                  lastDate: DateTime(2100),
-                  onChanged: (value) {
-                    setState(() {
-                      _task.timeStart = value;
-                    });
-                  },
+      body: Stack(
+        children: <Widget>[
+          Form(
+            key: _formKey,
+            child: CardSettings.sectioned(
+              showMaterialonIOS: false,
+              labelWidth: 150,
+              contentAlign: TextAlign.right,
+              children: <CardSettingsSection>[
+                CardSettingsSection(
+                  header: CardSettingsHeader(
+                    label: 'Date and Time',
+                  ),
+                  children: <CardSettingsWidget>[
+                    CardSettingsDateTimePicker(
+                      label: 'Start',
+                      initialValue: _task.timeStart,
+                      requiredIndicator: Text('*', style: TextStyle(color: Colors.red)),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2100),
+                      onChanged: (value) {
+                        setState(() {
+                          _task.timeStart = value;
+                          _selectedDate = value;
+                          _nextDay = value.add(Duration(days: 1));
+                        });
+                      },
+                    ),
+                    CardSettingsDateTimePicker(
+                      label: 'End',
+                      initialValue: _task.timeEnd,
+                      requiredIndicator: Text('*', style: TextStyle(color: Colors.red)),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2100),
+                      validator: (value) {
+                        if (value.isBefore(_task.timeStart)) return 'End time cannot be before start time.';
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _task.timeEnd = value;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                CardSettingsDateTimePicker(
-                  label: 'End',
-                  initialValue: _task.timeEnd,
-                  requiredIndicator: Text('*', style: TextStyle(color: Colors.red)),
-                  firstDate: DateTime(1900),
-                  lastDate: DateTime(2100),
-                  validator: (value) {
-                    if (value.isBefore(_task.timeStart)) return 'End time cannot be before start time.';
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      _task.timeEnd = value;
-                    });
-                  },
+                CardSettingsSection(
+                  header: CardSettingsHeader(
+                    label: 'Info',
+                  ),
+                  children: <CardSettingsWidget>[
+                    CardSettingsText(
+                      label: 'Name',
+                      initialValue: _task.name,
+                      requiredIndicator: Text('*', style: TextStyle(color: Colors.red)),
+                      validator: (value) {
+                        if (value.isEmpty) return 'Name is required.';
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _task.name = value;
+                        });
+                      },
+                    ),
+                    CardSettingsParagraph(
+                      label: 'Notes',
+                      initialValue: _task.notes,
+                      onChanged: (value) {
+                        setState(() {
+                          _task.notes = value;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
-            CardSettingsSection(
-              header: CardSettingsHeader(
-                label: 'Info',
-              ),
-              children: <CardSettingsWidget>[
-                CardSettingsText(
-                  label: 'Name',
-                  initialValue: _task.name,
-                  requiredIndicator: Text('*', style: TextStyle(color: Colors.red)),
-                  validator: (value) {
-                    if (value.isEmpty) return 'Name is required.';
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      _task.name = value;
-                    });
-                  },
+          ),
+          DraggableScrollableSheet(
+            minChildSize: 0.14,
+            maxChildSize: 0.9,
+            initialChildSize: 0.14,
+            builder: (BuildContext context, ScrollController scrollController){
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30), 
+                    topLeft: Radius.circular(30)
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(1.0, -2.0),
+                      blurRadius: 4.0,
+                      spreadRadius: 2.0)
+                  ],
+                  color: Colors.white,
                 ),
-                CardSettingsParagraph(
-                  label: 'Notes',
-                  initialValue: _task.notes,
-                  onChanged: (value) {
-                    setState(() {
-                      _task.notes = value;
-                    });
-                  },
+                child: ListView(
+                  controller: scrollController,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
+                        child: Text(
+                          'Task Chart',
+                          style:
+                            Theme.of(context).textTheme.headline6,
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: circleCalendar(widget.user, _selectedDate, _nextDay),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ],
-        ),
-      ),
+              ); 
+            },
+          ),
+        ],
+      ), 
     );
   }
 
