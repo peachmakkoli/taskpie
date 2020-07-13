@@ -1,71 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:card_settings/card_settings.dart';
 import 'package:intl/intl.dart';
+import 'package:suncircle/screens/newtaskform/savetask.dart';
 
-
-// class NewTaskFormBloc extends FormBloc<String, String> {
-//   final name = TextFieldBloc();
-
-//   final timeStart = InputFieldBloc<DateTime, Object>();
-
-//   final timeEnd = InputFieldBloc<DateTime, Object>();
-
-//   final notes = TextFieldBloc();
-
-//   NewTaskFormBloc() {
-//     addFieldBlocs(fieldBlocs: [
-//       name,
-//       timeStart,
-//       timeEnd,
-//       notes,
-//     ]);
-//   }
-
-//   @override
-//   void onSubmitting() async {
-//     try {
-//       final FirebaseUser user = await _auth.currentUser();
-
-//       final CollectionReference usersRef = Firestore.instance.collection('users');
-//       final snapShot = await usersRef.document(user.uid).get();
-
-//       // check whether the task is split over two days (e.g., sleep)
-//       if (timeStart.value.day != timeEnd.value.day) {
-//         var taskData1 = {
-//           'name': name.value,
-//           'time_start': timeStart.value,
-//           'time_end': new DateTime(timeStart.value.year, timeStart.value.month, timeStart.value.day, 23, 59, 59, 59, 59),
-//           'notes': notes.value,
-//         };
-
-//         var taskData2 = {
-//           'name': name.value,
-//           'time_start': new DateTime(timeEnd.value.year, timeEnd.value.month, timeEnd.value.day),
-//           'time_end': timeEnd.value,
-//           'notes': notes.value,
-//         }; 
-
-//         await usersRef.document(user.uid).collection('tasks').document().setData(taskData1);
-//         await usersRef.document(user.uid).collection('tasks').document().setData(taskData2);
-//       }
-//       else {
-//         var taskData = {
-//           'name': name.value,
-//           'time_start': timeStart.value,
-//           'time_end': timeEnd.value,
-//           'notes': notes.value,
-//         };
-
-//         await usersRef.document(user.uid).collection('tasks').document().setData(taskData);
-//       }
-//       emitSuccess(canSubmitAgain: false);
-//     } catch (e) {
-//       emitFailure();
-//     }
-//   }
-// }
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -96,9 +34,15 @@ class NewTaskFormState extends State<NewTaskForm>{
   Future savePressed() async {
     final form = _formKey.currentState;
 
+    LoadingDialog.show(context);
+
     if (form.validate()) {
-      // send data to database
+      saveTask(_task).whenComplete(() {
+        LoadingDialog.hide(context);
+        Navigator.of(context).pop();
+      });
     } else {
+      LoadingDialog.hide(context);
       setState(() => _autoValidate = true);
     }
   }
@@ -116,9 +60,8 @@ class NewTaskFormState extends State<NewTaskForm>{
         key: _formKey,
         child: CardSettings.sectioned(
           showMaterialonIOS: false,
-          // labelWidth: 150,
-          // contentAlign: TextAlign.right,
-          // cardless: false,
+          labelWidth: 150,
+          contentAlign: TextAlign.right,
           children: <CardSettingsSection>[
             CardSettingsSection(
               header: CardSettingsHeader(
@@ -131,7 +74,6 @@ class NewTaskFormState extends State<NewTaskForm>{
                   requiredIndicator: Text('*', style: TextStyle(color: Colors.red)),
                   firstDate: DateTime(1900),
                   lastDate: DateTime(2100),
-                  // onSaved: (value) => _task.timeStart = value,
                   onChanged: (value) {
                     setState(() {
                       _task.timeStart = value;
@@ -147,7 +89,6 @@ class NewTaskFormState extends State<NewTaskForm>{
                   validator: (value) {
                     if (value.isBefore(_task.timeStart)) return 'End time cannot be before start time.';
                   },
-                  // onSaved: (value) => _task.timeEnd = value,
                   onChanged: (value) {
                     setState(() {
                       _task.timeEnd = value;
@@ -168,7 +109,6 @@ class NewTaskFormState extends State<NewTaskForm>{
                   validator: (value) {
                     if (value.isEmpty) return 'Name is required.';
                   },
-                  // onSaved: (value) => _task.name = value,
                   onChanged: (value) {
                     setState(() {
                       _task.name = value;
@@ -178,7 +118,6 @@ class NewTaskFormState extends State<NewTaskForm>{
                 CardSettingsParagraph(
                   label: 'Notes',
                   initialValue: _task.notes,
-                  // onSaved: (value) => _task.notes = value,
                   onChanged: (value) {
                     setState(() {
                       _task.notes = value;

@@ -39,7 +39,6 @@ dependencies:
   # UI
   syncfusion_flutter_charts: ^18.2.44
   custom_horizontal_calendar: ^0.1.3
-  # flutter_form_bloc: ^0.15.0
   card_settings: ^1.11.0
 
 dev_dependencies:
