@@ -30,12 +30,12 @@ Widget circleCalendar(user, _selectedDate, _nextDay) {
             enableSmartLabels: true,
             dataSource: _getChartData(snapshot.data.documents, _selectedDate, _nextDay),
             pointColorMapper:(ChartData data,  _) => data.color,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y,
+            xValueMapper: (ChartData data, _) => data.id,
+            yValueMapper: (ChartData data, _) => data.duration,
             radius: '80%',
             // explode: true,
             // explodeIndex: 0,
-            dataLabelMapper: (ChartData data, _) => data.text,
+            dataLabelMapper: (ChartData data, _) => data.name,
             dataLabelSettings: DataLabelSettings(
               isVisible: true,
               useSeriesColor: true,
@@ -49,38 +49,53 @@ Widget circleCalendar(user, _selectedDate, _nextDay) {
 
 List<ChartData> _getChartData(tasks, _selectedDate, _nextDay) {
     List<ChartData> _chartData = List<ChartData>();
+    double _getDuration(Timestamp timeEnd, Timestamp timeStart) {
+      return (timeEnd.seconds - timeStart.seconds) / 3600;
+    }
 
     // add white space between start of day and start of first task
-    _chartData.add(new ChartData(
-      '', 
-      (tasks[0]['time_start'].seconds - Timestamp.fromDate(_selectedDate).seconds).toDouble(), 
-      '', 
-      Colors.white
+    _chartData.add(ChartData(
+      '',
+      '',
+      DateTime.now(),
+      DateTime.now(),
+      '',
+      _getDuration(tasks[0]['time_start'], Timestamp.fromDate(_selectedDate)), 
+      Colors.white,
     ));
 
     for (var i = 0; i < tasks.length; i++) {
-      var name = tasks[i]['name'];
-      var size = (tasks[i]['time_end'].seconds - tasks[i]['time_start'].seconds).toDouble();
-      var duration = size / 3600; // converts to hours
-
-      _chartData.add(new ChartData(name, size, name + '\n($duration hrs)'));
+      _chartData.add(ChartData(
+        tasks[i].documentID, 
+        tasks[i]['name'],
+        tasks[i]['time_start'].toDate(),
+        tasks[i]['time_end'].toDate(),
+        tasks[i]['notes'],
+        _getDuration(tasks[i]['time_end'], tasks[i]['time_start']), 
+      ));
       
       // add white space between tasks
       if (i < tasks.length - 1) {
-        _chartData.add(new ChartData(
-          '', 
-          (tasks[i+1]['time_start'].seconds - tasks[i]['time_end'].seconds).toDouble(), 
-          '', 
+        _chartData.add(ChartData(
+          '',
+          '',
+          DateTime.now(),
+          DateTime.now(),
+          '',
+          _getDuration(tasks[i+1]['time_start'], tasks[i]['time_end']), 
           Colors.white
         ));
       }
     }
 
     // add white space between end of last task and end of day
-    _chartData.add(new ChartData(
+    _chartData.add(ChartData(
+      '',
+      '',
+      DateTime.now(),
+      DateTime.now(),
       '', 
-      (Timestamp.fromDate(_selectedDate.add(Duration(days: 1))).seconds - tasks[tasks.length - 1]['time_end'].seconds).toDouble(), 
-      '', 
+      _getDuration(Timestamp.fromDate(_selectedDate.add(Duration(days: 1))), tasks[tasks.length - 1]['time_end']), 
       Colors.white
     )); 
     
@@ -88,9 +103,12 @@ List<ChartData> _getChartData(tasks, _selectedDate, _nextDay) {
   }
 
 class ChartData {
-  ChartData(this.x, this.y, this.text, [this.color]);
-  final String x;
-  final double y;
-  final String text;
+  ChartData(this.id, this.name, this.timeStart, this.timeEnd, this.notes, this.duration, [this.color]);
+  final String id;
+  final String name;
+  final DateTime timeStart;
+  final DateTime timeEnd;
+  final double duration;
+  final String notes;
   final Color color;
 }
