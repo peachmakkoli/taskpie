@@ -29,6 +29,7 @@ Widget circleCalendar(user, _selectedDate, _nextDay) {
         child: SfCircularChart(
           tooltipBehavior: TooltipBehavior(
             enable: true,
+            activationMode: ActivationMode.longPress,
             builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
               _viewTaskModal(context, data);
             }
