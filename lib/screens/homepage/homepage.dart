@@ -204,7 +204,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return NewTaskForm(title: widget.title);
+                  return NewTaskForm(title: widget.title, user: widget.user);
                 },
               ),
             );
