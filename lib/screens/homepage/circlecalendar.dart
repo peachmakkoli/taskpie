@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
 
 
 Widget circleCalendar(user, _selectedDate, _nextDay) {
@@ -25,26 +26,82 @@ Widget circleCalendar(user, _selectedDate, _nextDay) {
           ),
         ),
         height: 420,
-        child: SfCircularChart(series: <CircularSeries>[
-          PieSeries<ChartData, String>(
-            enableSmartLabels: true,
-            dataSource: _getChartData(snapshot.data.documents, _selectedDate, _nextDay),
-            pointColorMapper:(ChartData data,  _) => data.color,
-            xValueMapper: (ChartData data, _) => data.id,
-            yValueMapper: (ChartData data, _) => data.duration,
-            radius: '80%',
-            // explode: true,
-            // explodeIndex: 0,
-            dataLabelMapper: (ChartData data, _) => data.name,
-            dataLabelSettings: DataLabelSettings(
-              isVisible: true,
-              useSeriesColor: true,
-            ),
-          )
-        ]),
+        child: SfCircularChart(
+          tooltipBehavior: TooltipBehavior(
+            enable: true,
+            builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+              _viewTaskModal(context, data);
+            }
+          ),
+          series: <CircularSeries>[
+            PieSeries<ChartData, String>(
+              enableSmartLabels: true,
+              dataSource: _getChartData(snapshot.data.documents, _selectedDate, _nextDay),
+              pointColorMapper:(ChartData data,  _) => data.color,
+              xValueMapper: (ChartData data, _) => data.id,
+              yValueMapper: (ChartData data, _) => data.duration,
+              radius: '80%',
+              // explode: true,
+              // explodeIndex: 0,
+              dataLabelMapper: (ChartData data, _) => data.name,
+              dataLabelSettings: DataLabelSettings(
+                isVisible: true,
+                useSeriesColor: true,
+              ),
+            )
+          ],
+        ),
       ); 
     },
   ); 
+}
+
+void _viewTaskModal(context, dynamic data) {
+  if (data.id.isEmpty) return null; // prevents placeholders from being tapped
+
+  int durationHour = data.duration.floor();
+  int durationMinute = ((data.duration - data.duration.floor()) * 60).floor();
+
+  showModalBottomSheet(context: context, builder: (BuildContext bc) {
+    return Container(
+      height: MediaQuery.of(context).size.height * .40,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  'Task Details',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.indigo,
+                  ),
+                ),
+                Spacer(),
+                IconButton(
+                  icon: Icon(Icons.close, color: Colors.red, size: 25,),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+            Text('Name: ' + data.name),
+            SizedBox(height: 10),
+            Text('Start: ' + DateFormat.yMMMd().add_jm().format(data.timeStart)),
+            SizedBox(height: 10),
+            Text('End: ' + DateFormat.yMMMd().add_jm().format(data.timeEnd)),
+            SizedBox(height: 10),
+            Text('Duration: $durationHour h $durationMinute m'),
+            SizedBox(height: 10),
+            Text('Notes: ' + data.notes),
+          ],
+        ),
+      ),
+    );
+  });
 }
 
 List<ChartData> _getChartData(tasks, _selectedDate, _nextDay) {
