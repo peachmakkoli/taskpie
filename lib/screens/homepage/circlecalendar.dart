@@ -25,7 +25,8 @@ Widget circleCalendar(user, _selectedDate, _nextDay) {
             fit: BoxFit.contain,
           ),
         ),
-        height: 420,
+        height: MediaQuery.of(context).size.height / 1.5,
+        alignment: Alignment(0.0, 0.0),
         child: SfCircularChart(
           tooltipBehavior: TooltipBehavior(
             enable: true,
