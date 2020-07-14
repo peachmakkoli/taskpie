@@ -12,7 +12,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: Colors.indigo,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
                 'TaskPie',
                 style: TextStyle(
                   fontSize: 48,
-                  color: Colors.indigo,
+                  color: Colors.white,
                 ),
               ),
               Image(image: ExactAssetImage('assets/apple-pie.png'), height: 300.0),
@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _signInButton() {
     return OutlineButton(
-      splashColor: Colors.grey,
+      splashColor: Colors.white,
       onPressed: () {
         signInWithGoogle().whenComplete(() {
           Navigator.of(context).push(
@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
+      borderSide: BorderSide(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Row(
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Sign in with Google',
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.grey,
+                  color: Colors.white,
                 ),
               ),
             )
