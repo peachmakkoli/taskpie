@@ -5,7 +5,7 @@ import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
-import 'package:suncircle/screens/newtaskform/newtaskform.dart';
+import 'package:suncircle/screens/taskform/taskform.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
 
 
@@ -129,7 +129,12 @@ class _HomePageState extends State<HomePage> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return NewTaskForm(title: widget.title, user: widget.user);
+                  return TaskForm(
+                    title: widget.title, 
+                    subtitle: 'Create Task',
+                    user: widget.user, 
+                    task: TaskModel('', DateTime.now(), DateTime.now()),
+                  );
                 },
               ),
             );
