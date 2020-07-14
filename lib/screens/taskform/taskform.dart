@@ -242,9 +242,10 @@ class LoadingDialog extends StatelessWidget {
 }
 
 class TaskModel {
-  TaskModel(this.name, this.timeStart, this.timeEnd, [this.notes]);
+  TaskModel(this.name, this.timeStart, this.timeEnd, [this.notes, this.id]);
   String name;
   DateTime timeStart;
   DateTime timeEnd;
   String notes;
+  String id;
 }

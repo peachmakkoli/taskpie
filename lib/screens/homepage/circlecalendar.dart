@@ -106,6 +106,7 @@ void _viewTaskModal(context, FirebaseUser user, dynamic data) {
                   tooltip: 'Edit task',
                   icon: Icon(Icons.create, size: 40,),
                   onPressed: () {
+                    Navigator.of(context).pop();
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
@@ -113,7 +114,7 @@ void _viewTaskModal(context, FirebaseUser user, dynamic data) {
                             title: 'TaskPie', 
                             subtitle: 'Update Task',
                             user: user, 
-                            task: TaskModel(data.name, data.timeStart, data.timeEnd, data.notes),
+                            task: TaskModel(data.name, data.timeStart, data.timeEnd, data.notes, data.id),
                           );
                         },
                       ),
