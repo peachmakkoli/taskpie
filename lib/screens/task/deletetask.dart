@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+
 Future<void> _deleteTask(task, user) async {
   final CollectionReference usersRef = Firestore.instance.collection('users');
   final snapShot = await usersRef.document(user.uid).get();
@@ -19,23 +20,24 @@ Future<void> showDeleteTaskAlert(context, task, user) async {
           child: ListBody(
             children: <Widget>[
               Text('Are you sure you want to delete this task?'),
+              SizedBox(height: 20),
               Text(task.name),
             ],
           ),
         ),
         actions: <Widget>[
           FlatButton(
-            child: Text('No'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          FlatButton(
             child: Text('Yes'),
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
               _deleteTask(task, user);
+            },
+          ),
+          FlatButton(
+            child: Text('No'),
+            onPressed: () {
+              Navigator.of(context).pop();
             },
           ),
         ],

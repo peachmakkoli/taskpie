@@ -1,10 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:intl/intl.dart';
-import 'package:suncircle/screens/taskform/taskform.dart';
-import 'package:suncircle/screens/taskform/deletetask.dart';
+import 'package:suncircle/screens/task/viewtaskmodal.dart';
 
 
 Widget circleCalendar(FirebaseUser user, DateTime selectedDate, DateTime nextDay) {
@@ -34,7 +32,7 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate, DateTime nextDay
             enable: true,
             activationMode: ActivationMode.longPress,
             builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
-              _viewTaskModal(context, user, data);
+              viewTaskModal(context, user, data);
             }
           ),
           series: <CircularSeries>[
@@ -46,7 +44,6 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate, DateTime nextDay
               yValueMapper: (ChartData data, _) => data.duration,
               radius: '80%',
               // explode: true,
-              // explodeIndex: 0,
               dataLabelMapper: (ChartData data, _) => data.name,
               dataLabelSettings: DataLabelSettings(
                 isVisible: true,
@@ -58,84 +55,6 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate, DateTime nextDay
       ); 
     },
   ); 
-}
-
-void _viewTaskModal(context, FirebaseUser user, dynamic data) {
-  if (data.id.isEmpty) return null; // prevents placeholders from being tapped
-
-  int durationHour = data.duration.floor();
-  int durationMinute = ((data.duration - data.duration.floor()) * 60).floor();
-
-  showModalBottomSheet(context: context, builder: (BuildContext bc) {
-    return Container(
-      height: MediaQuery.of(context).size.height * .40,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text(
-                  data.name,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.indigo,
-                  ),
-                ),
-                Spacer(),
-                IconButton(
-                  icon: Icon(Icons.close, color: Colors.red, size: 25,),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-            Text('Start: ' + DateFormat.yMMMd().add_jm().format(data.timeStart)),
-            SizedBox(height: 10),
-            Text('End: ' + DateFormat.yMMMd().add_jm().format(data.timeEnd)),
-            SizedBox(height: 10),
-            Text('Duration: $durationHour h $durationMinute m'),
-            SizedBox(height: 10),
-            Text('Notes: ' + data.notes),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                IconButton(
-                  tooltip: 'Edit task',
-                  icon: Icon(Icons.create, size: 40,),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return TaskForm(
-                            title: 'TaskPie', 
-                            subtitle: 'Update Task',
-                            user: user, 
-                            task: TaskModel(data.name, data.timeStart, data.timeEnd, data.notes, data.id),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-                IconButton(
-                  tooltip: 'Delete task',
-                  icon: Icon(Icons.delete_outline, size: 40,),
-                  onPressed: () {
-                    showDeleteTaskAlert(bc, data, user);
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  });
 }
 
 List<ChartData> _getChartData(tasks, selectedDate, nextDay) {
