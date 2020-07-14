@@ -5,14 +5,14 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 
 
-Widget circleCalendar(user, _selectedDate, _nextDay) {
+Widget circleCalendar(user, selectedDate, nextDay) {
   return StreamBuilder(
     stream: Firestore.instance
       .collection('users')
       .document(user.uid)
       .collection('tasks')
-      .where('time_start', isGreaterThanOrEqualTo: _selectedDate)
-      .where('time_start', isLessThan: _nextDay)
+      .where('time_start', isGreaterThanOrEqualTo: selectedDate)
+      .where('time_start', isLessThan: nextDay)
       .orderBy('time_start')
       .snapshots(),
     builder: (context, snapshot) {
@@ -38,7 +38,7 @@ Widget circleCalendar(user, _selectedDate, _nextDay) {
           series: <CircularSeries>[
             PieSeries<ChartData, String>(
               enableSmartLabels: true,
-              dataSource: _getChartData(snapshot.data.documents, _selectedDate, _nextDay),
+              dataSource: _getChartData(snapshot.data.documents, selectedDate, nextDay),
               pointColorMapper:(ChartData data,  _) => data.color,
               xValueMapper: (ChartData data, _) => data.id,
               yValueMapper: (ChartData data, _) => data.duration,
@@ -126,7 +126,7 @@ void _viewTaskModal(context, dynamic data) {
   });
 }
 
-List<ChartData> _getChartData(tasks, _selectedDate, _nextDay) {
+List<ChartData> _getChartData(tasks, selectedDate, nextDay) {
     List<ChartData> _chartData = List<ChartData>();
     double _getDuration(Timestamp timeEnd, Timestamp timeStart) {
       return (timeEnd.seconds - timeStart.seconds) / 3600;
@@ -139,7 +139,7 @@ List<ChartData> _getChartData(tasks, _selectedDate, _nextDay) {
       DateTime.now(),
       DateTime.now(),
       '',
-      _getDuration(tasks[0]['time_start'], Timestamp.fromDate(_selectedDate)), 
+      _getDuration(tasks[0]['time_start'], Timestamp.fromDate(selectedDate)), 
       Colors.white,
     ));
 
@@ -174,7 +174,7 @@ List<ChartData> _getChartData(tasks, _selectedDate, _nextDay) {
       DateTime.now(),
       DateTime.now(),
       '', 
-      _getDuration(Timestamp.fromDate(_selectedDate.add(Duration(days: 1))), tasks[tasks.length - 1]['time_end']), 
+      _getDuration(Timestamp.fromDate(selectedDate.add(Duration(days: 1))), tasks[tasks.length - 1]['time_end']), 
       Colors.white
     )); 
     

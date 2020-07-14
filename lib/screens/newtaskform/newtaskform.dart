@@ -22,8 +22,8 @@ class NewTaskForm extends StatefulWidget {
 class NewTaskFormState extends State<NewTaskForm>{
   TaskModel _task;
 
-  DateTime _selectedDate;
-  DateTime _nextDay;
+  DateTime selectedDate;
+  DateTime nextDay;
 
   bool _autoValidate = false;
 
@@ -39,8 +39,8 @@ class NewTaskFormState extends State<NewTaskForm>{
   }
 
   void _resetSelectedDate() {
-    _selectedDate = DateTime(_task.timeStart.year, _task.timeStart.month, _task.timeStart.day);
-    _nextDay = _selectedDate.add(Duration(days: 1));
+    selectedDate = DateTime(_task.timeStart.year, _task.timeStart.month, _task.timeStart.day);
+    nextDay = selectedDate.add(Duration(days: 1));
   }
 
   Future savePressed() async {
@@ -91,8 +91,7 @@ class NewTaskFormState extends State<NewTaskForm>{
                       onChanged: (value) {
                         setState(() {
                           _task.timeStart = value;
-                          _selectedDate = value;
-                          _nextDay = value.add(Duration(days: 1));
+                          _resetSelectedDate();
                         });
                       },
                     ),
@@ -180,7 +179,7 @@ class NewTaskFormState extends State<NewTaskForm>{
                       ),
                     ),
                     Center(
-                      child: circleCalendar(widget.user, _selectedDate, _nextDay),
+                      child: circleCalendar(widget.user, selectedDate, nextDay),
                     ),
                   ],
                 ),

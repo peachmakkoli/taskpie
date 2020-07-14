@@ -30,8 +30,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  DateTime _selectedDate;
-  DateTime _nextDay;
+  DateTime selectedDate;
+  DateTime nextDay;
 
   @override
   void initState() {
@@ -42,8 +42,8 @@ class _HomePageState extends State<HomePage> {
 
   void _resetSelectedDate() {
     DateTime today = new DateTime.now();
-    _selectedDate = DateTime(today.year, today.month, today.day);
-    _nextDay = _selectedDate.add(Duration(days: 1));
+    selectedDate = DateTime(today.year, today.month, today.day);
+    nextDay = selectedDate.add(Duration(days: 1));
   }
 
   @override
@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             _dayPicker(),
             SizedBox(height: 30),
-            circleCalendar(widget.user, _selectedDate, _nextDay),
+            circleCalendar(widget.user, selectedDate, nextDay),
           ], 
         ),
       ),
@@ -94,11 +94,11 @@ class _HomePageState extends State<HomePage> {
     return CustomHorizontalCalendar(
       onDateChoosen: (date){
         setState(() {
-          _selectedDate = date;
-          _nextDay = date.add(Duration(days: 1));
+          selectedDate = date;
+          nextDay = date.add(Duration(days: 1));
         });
       },
-      inintialDate: _selectedDate,
+      inintialDate: selectedDate,
       height: 60,
       builder: (context, i, d, width) {
         if (i != 2)
