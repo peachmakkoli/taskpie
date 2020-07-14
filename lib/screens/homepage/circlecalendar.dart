@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 import 'package:suncircle/screens/taskform/taskform.dart';
+import 'package:suncircle/screens/taskform/deletetask.dart';
 
 
 Widget circleCalendar(FirebaseUser user, DateTime selectedDate, DateTime nextDay) {
@@ -125,8 +126,7 @@ void _viewTaskModal(context, FirebaseUser user, dynamic data) {
                   tooltip: 'Delete task',
                   icon: Icon(Icons.delete_outline, size: 40,),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    // TODO: execute delete task function
+                    showDeleteTaskAlert(bc, data, user);
                   },
                 ),
               ],
