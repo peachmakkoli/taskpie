@@ -74,7 +74,7 @@ void _viewTaskModal(context, dynamic data) {
             Row(
               children: <Widget>[
                 Text(
-                  'Task Details',
+                  data.name,
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.indigo,
@@ -89,8 +89,6 @@ void _viewTaskModal(context, dynamic data) {
                 ),
               ],
             ),
-            Text('Name: ' + data.name),
-            SizedBox(height: 10),
             Text('Start: ' + DateFormat.yMMMd().add_jm().format(data.timeStart)),
             SizedBox(height: 10),
             Text('End: ' + DateFormat.yMMMd().add_jm().format(data.timeEnd)),
@@ -98,6 +96,28 @@ void _viewTaskModal(context, dynamic data) {
             Text('Duration: $durationHour h $durationMinute m'),
             SizedBox(height: 10),
             Text('Notes: ' + data.notes),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                IconButton(
+                  tooltip: 'Edit task',
+                  icon: Icon(Icons.create, size: 40,),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    // TODO: go to edit task form view, pass in task info
+                  },
+                ),
+                IconButton(
+                  tooltip: 'Delete task',
+                  icon: Icon(Icons.delete_outline, size: 40,),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    // TODO: execute delete task function
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),
