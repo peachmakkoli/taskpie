@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
+import 'package:suncircle/screens/taskform/taskform.dart';
 
 
-Widget circleCalendar(user, selectedDate, nextDay) {
+Widget circleCalendar(FirebaseUser user, DateTime selectedDate, DateTime nextDay) {
   return StreamBuilder(
     stream: Firestore.instance
       .collection('users')
@@ -32,7 +33,7 @@ Widget circleCalendar(user, selectedDate, nextDay) {
             enable: true,
             activationMode: ActivationMode.longPress,
             builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
-              _viewTaskModal(context, data);
+              _viewTaskModal(context, user, data);
             }
           ),
           series: <CircularSeries>[
@@ -58,7 +59,7 @@ Widget circleCalendar(user, selectedDate, nextDay) {
   ); 
 }
 
-void _viewTaskModal(context, dynamic data) {
+void _viewTaskModal(context, FirebaseUser user, dynamic data) {
   if (data.id.isEmpty) return null; // prevents placeholders from being tapped
 
   int durationHour = data.duration.floor();
@@ -106,7 +107,18 @@ void _viewTaskModal(context, dynamic data) {
                   icon: Icon(Icons.create, size: 40,),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    // TODO: go to edit task form view, pass in task info
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return TaskForm(
+                            title: 'TaskPie', 
+                            subtitle: 'Update Task',
+                            user: user, 
+                            task: TaskModel(data.name, data.timeStart, data.timeEnd, data.notes, data.id),
+                          );
+                        },
+                      ),
+                    );
                   },
                 ),
                 IconButton(

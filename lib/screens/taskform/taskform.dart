@@ -3,23 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:card_settings/card_settings.dart';
 import 'package:intl/intl.dart';
-import 'package:suncircle/screens/newtaskform/savetask.dart';
+import 'package:suncircle/screens/taskform/savetask.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
 
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-class NewTaskForm extends StatefulWidget {
-  NewTaskForm({Key key, this.title, this.user}) : super(key: key);
+class TaskForm extends StatefulWidget {
+  TaskForm({Key key, this.title, this.subtitle, this.user, this.task}) : super(key: key);
 
   final String title;
+  final String subtitle;
   final FirebaseUser user;
+  TaskModel task;
 
   @override
-  NewTaskFormState createState() => NewTaskFormState();
+  TaskFormState createState() => TaskFormState();
 }
 
-class NewTaskFormState extends State<NewTaskForm>{
+class TaskFormState extends State<TaskForm>{
   TaskModel _task;
 
   DateTime selectedDate;
@@ -35,7 +37,7 @@ class NewTaskFormState extends State<NewTaskForm>{
   }
 
   void initModel() {
-    _task = TaskModel('', DateTime.now(), DateTime.now());
+    _task = widget.task;
   }
 
   void _resetSelectedDate() {
@@ -63,7 +65,7 @@ class NewTaskFormState extends State<NewTaskForm>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title + ': Add Task'),
+        title: Text('${widget.title}: ${widget.subtitle}'),
         // backgroundColor: Color(0xFFFF737D),
       ),
       backgroundColor: Colors.white,
@@ -240,9 +242,10 @@ class LoadingDialog extends StatelessWidget {
 }
 
 class TaskModel {
-  TaskModel(this.name, this.timeStart, this.timeEnd, [this.notes]);
+  TaskModel(this.name, this.timeStart, this.timeEnd, [this.notes, this.id]);
   String name;
   DateTime timeStart;
   DateTime timeEnd;
   String notes;
+  String id;
 }

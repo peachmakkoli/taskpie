@@ -20,7 +20,7 @@ Future<void> saveTask(task, user) async {
       'notes': task.notes,
     }; 
 
-    await usersRef.document(user.uid).collection('tasks').document().setData(taskData1);
+    await usersRef.document(user.uid).collection('tasks').document(task.id).setData(taskData1);
     await usersRef.document(user.uid).collection('tasks').document().setData(taskData2);
   }
   else {
@@ -31,6 +31,6 @@ Future<void> saveTask(task, user) async {
       'notes': task.notes,
     };
 
-    await usersRef.document(user.uid).collection('tasks').document().setData(taskData);
+    await usersRef.document(user.uid).collection('tasks').document(task.id).setData(taskData);
   }
 }
