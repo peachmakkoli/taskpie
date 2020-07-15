@@ -4,6 +4,7 @@ import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
 import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:unicorndial/unicorndial.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
 import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
@@ -77,7 +78,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       backgroundColor: Colors.white,
-      floatingActionButton: _newTaskButton(),
+      floatingActionButton: UnicornDialer(
+        backgroundColor: Color.fromRGBO(255, 255, 255, 0.5),
+        parentButtonBackground: Colors.indigo,
+        orientation: UnicornOrientation.VERTICAL,
+        parentButton: Icon(Icons.add),
+        childButtons: _getChildButtons(),
+      ),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -117,6 +124,52 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+
+  List<UnicornButton> _getChildButtons() {
+    var childButtons = List<UnicornButton>();
+    
+    childButtons.add(UnicornButton(
+      hasLabel: true,
+      labelText: "New Task",
+      currentButton: FloatingActionButton(
+        heroTag: "event",
+        backgroundColor: Colors.indigo,
+        mini: true,
+        child: Icon(Icons.event_note),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return TaskForm(
+                  title: widget.title, 
+                  subtitle: 'Create Task',
+                  user: widget.user, 
+                  task: TaskModel('', DateTime.now(), DateTime.now()),
+                );
+              },
+            ),
+          );
+        },
+      )
+    ));
+
+    childButtons.add(UnicornButton(
+      hasLabel: true,
+      labelText: "New Tag",
+      currentButton: FloatingActionButton(
+        heroTag: "label",
+        backgroundColor: Colors.indigo,
+        mini: true,
+        child: Icon(Icons.label),
+        onPressed: () {
+          // navigate to new tag form
+        },
+      )
+    ));
+
+    return childButtons;
+  }
+  
 
   Widget _newTaskButton() {
     return Column(
