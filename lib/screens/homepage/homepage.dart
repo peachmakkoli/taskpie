@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
       hasLabel: true,
       labelText: "New Task",
       currentButton: FloatingActionButton(
-        heroTag: "event",
+        heroTag: "task",
         backgroundColor: Colors.indigo,
         mini: true,
         child: Icon(Icons.event_note),
@@ -155,14 +155,14 @@ class _HomePageState extends State<HomePage> {
 
     childButtons.add(UnicornButton(
       hasLabel: true,
-      labelText: "New Tag",
+      labelText: "New Category",
       currentButton: FloatingActionButton(
-        heroTag: "label",
+        heroTag: "category",
         backgroundColor: Colors.indigo,
         mini: true,
         child: Icon(Icons.label),
         onPressed: () {
-          // navigate to new tag form
+          // navigate to new category form
         },
       )
     ));
