@@ -60,7 +60,7 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                             title: 'TaskPie', 
                             subtitle: 'Update Task',
                             user: user, 
-                            task: TaskModel(data.name, data.timeStart, data.timeEnd, data.notes, data.id),
+                            task: TaskModel(data.category, data.name, data.timeStart, data.timeEnd, data.notes, data.id),
                           );
                         },
                       ),

@@ -36,7 +36,16 @@ Future<FirebaseUser> signInWithGoogle() async {
       'email': user.email,
     };
 
+    var categoryData = {
+      'color': 'ff9e9e9e'
+    };
+
     await usersRef.document(user.uid).setData(userData);
+    await usersRef
+      .document(user.uid)
+      .collection('categories')
+      .document('uncategorized')
+      .setData(categoryData); // create a default category
   }
 
   return user;

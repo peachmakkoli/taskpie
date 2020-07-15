@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                   title: widget.title, 
                   subtitle: 'Create Task',
                   user: widget.user, 
-                  task: TaskModel('', DateTime.now(), DateTime.now()),
+                  task: TaskModel('uncategorized', '', DateTime.now(), DateTime.now()),
                 );
               },
             ),
@@ -180,34 +180,5 @@ class _HomePageState extends State<HomePage> {
     ));
 
     return childButtons;
-  }
-  
-
-  Widget _newTaskButton() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[ 
-        FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return TaskForm(
-                    title: widget.title, 
-                    subtitle: 'Create Task',
-                    user: widget.user, 
-                    task: TaskModel('', DateTime.now(), DateTime.now()),
-                  );
-                },
-              ),
-            );
-          },
-          tooltip: 'Add a new task',
-          child: Icon(Icons.add, size: 40.0),                  
-        ),
-      ],
-    );
   }
 }
