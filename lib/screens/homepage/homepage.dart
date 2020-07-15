@@ -2,15 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
 import 'package:custom_horizontal_calendar/date_row.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
 import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/screens/categoryform/categoryform.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
-
-
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);
@@ -23,7 +20,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
   Future<void> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -92,7 +88,7 @@ class _HomePageState extends State<HomePage> {
             _dayPicker(),
             SizedBox(height: 30),
             circleCalendar(widget.user, selectedDate, nextDay),
-          ], 
+          ],
         ),
       ),
     );
@@ -100,7 +96,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _dayPicker() {
     return CustomHorizontalCalendar(
-      onDateChoosen: (date){
+      onDateChoosen: (date) {
         setState(() {
           selectedDate = date;
           nextDay = date.add(Duration(days: 1));
@@ -120,7 +116,8 @@ class _HomePageState extends State<HomePage> {
             background: Colors.indigo,
             selectedDayStyle: TextStyle(color: Colors.white),
             selectedDayOfWeekStyle: TextStyle(color: Colors.white),
-            selectedMonthStyle: TextStyle(color: Colors.white),width: width,
+            selectedMonthStyle: TextStyle(color: Colors.white),
+            width: width,
           );
       },
     );
@@ -128,56 +125,55 @@ class _HomePageState extends State<HomePage> {
 
   List<UnicornButton> _getChildButtons() {
     var childButtons = List<UnicornButton>();
-    
-    childButtons.add(UnicornButton(
-      hasLabel: true,
-      labelText: "New Task",
-      currentButton: FloatingActionButton(
-        heroTag: "task",
-        backgroundColor: Colors.indigo,
-        mini: true,
-        child: Icon(Icons.event_note),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return TaskForm(
-                  title: widget.title, 
-                  subtitle: 'Create Task',
-                  user: widget.user, 
-                  task: TaskModel('uncategorized', '', DateTime.now(), DateTime.now()),
-                );
-              },
-            ),
-          );
-        },
-      )
-    ));
 
     childButtons.add(UnicornButton(
-      hasLabel: true,
-      labelText: "New Category",
-      currentButton: FloatingActionButton(
-        heroTag: "category",
-        backgroundColor: Colors.indigo,
-        mini: true,
-        child: Icon(Icons.label),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return CategoryForm(
-                  title: widget.title, 
-                  subtitle: 'Create Category',
-                  user: widget.user, 
-                  category: CategoryModel('', '000000'),
-                );
-              },
-            ),
-          );
-        },
-      )
-    ));
+        hasLabel: true,
+        labelText: "New Task",
+        currentButton: FloatingActionButton(
+          heroTag: "task",
+          backgroundColor: Colors.indigo,
+          mini: true,
+          child: Icon(Icons.event_note),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return TaskForm(
+                    title: widget.title,
+                    subtitle: 'Create Task',
+                    user: widget.user,
+                    task: TaskModel(
+                        'uncategorized', '', DateTime.now(), DateTime.now()),
+                  );
+                },
+              ),
+            );
+          },
+        )));
+
+    childButtons.add(UnicornButton(
+        hasLabel: true,
+        labelText: "New Category",
+        currentButton: FloatingActionButton(
+          heroTag: "category",
+          backgroundColor: Colors.indigo,
+          mini: true,
+          child: Icon(Icons.label),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return CategoryForm(
+                    title: widget.title,
+                    subtitle: 'Create Category',
+                    user: widget.user,
+                    category: CategoryModel('', '00000000'),
+                  );
+                },
+              ),
+            );
+          },
+        )));
 
     return childButtons;
   }

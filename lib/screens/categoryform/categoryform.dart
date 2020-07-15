@@ -2,14 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:card_settings/card_settings.dart';
-import 'package:intl/intl.dart';
 import 'package:suncircle/screens/categoryform/savecategory.dart';
-
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 class CategoryForm extends StatefulWidget {
-  CategoryForm({Key key, this.title, this.subtitle, this.user, this.category}) : super(key: key);
+  CategoryForm({Key key, this.title, this.subtitle, this.user, this.category})
+      : super(key: key);
 
   final String title;
   final String subtitle;
@@ -20,13 +19,14 @@ class CategoryForm extends StatefulWidget {
   CategoryFormState createState() => CategoryFormState();
 }
 
-class CategoryFormState extends State<CategoryForm>{
+class CategoryFormState extends State<CategoryForm> {
   CategoryModel _category;
 
   DateTime selectedDate;
   DateTime nextDay;
 
   bool _autoValidate = false;
+  bool _unique = true;
 
   @override
   void initState() {
@@ -65,55 +65,62 @@ class CategoryFormState extends State<CategoryForm>{
       floatingActionButton: _submitFormButton(),
       body: Stack(
         children: <Widget>[
-          Form(
-            key: _formKey,
-            child: CardSettings(
-              showMaterialonIOS: false,
-              labelWidth: 150,
-              contentAlign: TextAlign.right,
-              children: <CardSettingsSection>[
-                CardSettingsSection(
-                  header: CardSettingsHeader(
-                    label: 'Category',
+          FutureBuilder<Object>(
+              future: checkUnique(_category.name, widget.user),
+              builder: (context, snapshot) {
+                return Form(
+                  key: _formKey,
+                  child: CardSettings(
+                    showMaterialonIOS: false,
+                    labelWidth: 150,
+                    contentAlign: TextAlign.right,
+                    children: <CardSettingsSection>[
+                      CardSettingsSection(
+                        header: CardSettingsHeader(
+                          label: 'Category',
+                        ),
+                        children: <CardSettingsWidget>[
+                          CardSettingsText(
+                            label: 'Name',
+                            initialValue: _category.name,
+                            requiredIndicator:
+                                Text('*', style: TextStyle(color: Colors.red)),
+                            validator: (value) {
+                              if (value.isEmpty) return 'Name is required.';
+                              if (value == snapshot.data)
+                                return 'Category already exists.';
+                              return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                _category.name = value;
+                              });
+                            },
+                          ),
+                          CardSettingsColorPicker(
+                            label: 'Color',
+                            initialValue:
+                                intelligentCast<Color>(_category.color),
+                            autovalidate: _autoValidate,
+                            pickerType: CardSettingsColorPickerType.block,
+                            // validator: (value) {
+                            //   if (value.computeLuminance() < .1) return 'This color is too dark.';
+                            //   return null;
+                            // },
+                            onChanged: (value) {
+                              setState(() {
+                                _category.color = colorToString(value);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  children: <CardSettingsWidget>[
-                    CardSettingsText(
-                      label: 'Name',
-                      initialValue: _category.name,
-                      requiredIndicator: Text('*', style: TextStyle(color: Colors.red)),
-                      validator: (value) {
-                        if (value.isEmpty) return 'Name is required.';
-                        checkUnique(value, widget.user);
-                        return null;
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          _category.name = value;
-                        });
-                      },
-                    ),
-                    CardSettingsColorPicker(
-                      label: 'Color',
-                      initialValue: intelligentCast<Color>(_category.color),
-                      autovalidate: _autoValidate,
-                      pickerType: CardSettingsColorPickerType.block,
-                      // validator: (value) {
-                      //   if (value.computeLuminance() < .1) return 'This color is too dark.';
-                      //   return null;
-                      // },
-                      onChanged: (value) {
-                        setState(() {
-                          _category.color = colorToString(value);
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+                );
+              }),
         ],
-      ), 
+      ),
     );
   }
 
@@ -122,13 +129,13 @@ class CategoryFormState extends State<CategoryForm>{
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[ 
+      children: <Widget>[
         FloatingActionButton(
           onPressed: () {
             savePressed();
           },
           tooltip: 'Submit',
-          child: Icon(Icons.send, size: 30.0),                  
+          child: Icon(Icons.send, size: 30.0),
         ),
       ],
     );

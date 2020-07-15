@@ -71,11 +71,6 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate, DateTime nextDay
   );
 }
 
-// Future<DocumentSnapshot> _getCategory(ref) async {
-//   final snapShot = await ref.get();
-//   return snapShot;
-// }
-
 double _getDuration(Timestamp timeEnd, Timestamp timeStart) {
   return (timeEnd.seconds - timeStart.seconds) / 3600;
 }
