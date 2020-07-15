@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:card_settings/card_settings.dart';
 import 'package:intl/intl.dart';
-// import 'package:suncircle/screens/task/savetask.dart';
-import 'package:suncircle/screens/homepage/circlecalendar.dart';
+import 'package:suncircle/screens/categoryform/savecategory.dart';
 
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -45,10 +44,10 @@ class CategoryFormState extends State<CategoryForm>{
     LoadingDialog.show(context);
 
     if (form.validate()) {
-      // saveCategory(_category, widget.user).whenComplete(() {
-      //   LoadingDialog.hide(context);
-      //   Navigator.of(context).pop();
-      // });
+      saveCategory(_category, widget.user).whenComplete(() {
+        LoadingDialog.hide(context);
+        Navigator.of(context).pop();
+      });
     } else {
       LoadingDialog.hide(context);
       setState(() => _autoValidate = true);
@@ -84,6 +83,7 @@ class CategoryFormState extends State<CategoryForm>{
                       requiredIndicator: Text('*', style: TextStyle(color: Colors.red)),
                       validator: (value) {
                         if (value.isEmpty) return 'Name is required.';
+                        checkUnique(value, widget.user);
                         return null;
                       },
                       onChanged: (value) {
@@ -96,11 +96,11 @@ class CategoryFormState extends State<CategoryForm>{
                       label: 'Color',
                       initialValue: intelligentCast<Color>(_category.color),
                       autovalidate: _autoValidate,
-                      pickerType: CardSettingsColorPickerType.material,
-                      validator: (value) {
-                        if (value.computeLuminance() < .1) return 'This color is too dark.';
-                        return null;
-                      },
+                      pickerType: CardSettingsColorPickerType.block,
+                      // validator: (value) {
+                      //   if (value.computeLuminance() < .1) return 'This color is too dark.';
+                      //   return null;
+                      // },
                       onChanged: (value) {
                         setState(() {
                           _category.color = colorToString(value);
