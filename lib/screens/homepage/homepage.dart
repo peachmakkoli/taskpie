@@ -7,6 +7,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
 import 'package:suncircle/screens/task/taskform.dart';
+import 'package:suncircle/screens/categoryform/categoryform.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
 
 
@@ -162,7 +163,18 @@ class _HomePageState extends State<HomePage> {
         mini: true,
         child: Icon(Icons.label),
         onPressed: () {
-          // navigate to new category form
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return CategoryForm(
+                  title: widget.title, 
+                  subtitle: 'Create Category',
+                  user: widget.user, 
+                  category: CategoryModel('', '000000'),
+                );
+              },
+            ),
+          );
         },
       )
     ));
