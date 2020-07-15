@@ -13,9 +13,9 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
 
   showModalBottomSheet(context: context, builder: (BuildContext bc) {
     return Container(
-      height: MediaQuery.of(context).size.height * .40,
+      height: MediaQuery.of(context).size.height * .50,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
+        padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -37,6 +37,8 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                 ),
               ],
             ),
+            Text('Category: ${data.category}'),
+            SizedBox(height: 10),
             Text('Start: ' + DateFormat.yMMMd().add_jm().format(data.timeStart)),
             SizedBox(height: 10),
             Text('End: ' + DateFormat.yMMMd().add_jm().format(data.timeEnd)),
@@ -44,7 +46,7 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
             Text('Duration: $durationHour h $durationMinute m'),
             SizedBox(height: 10),
             Text('Notes: ' + _showNotes(data.notes)),
-            SizedBox(height: 20),
+            Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[

@@ -10,62 +10,87 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate, DateTime nextDay
     stream: Firestore.instance
       .collection('users')
       .document(user.uid)
-      .collection('tasks')
-      .where('time_start', isGreaterThanOrEqualTo: selectedDate)
-      .where('time_start', isLessThan: nextDay)
-      .orderBy('time_start')
+      .collection('categories')
       .snapshots(),
-    builder: (context, snapshot) {
-      if(!snapshot.hasData) return Text('Loading data...');
-      if(snapshot.data.documents.isEmpty) return Text('No tasks found for selected day.');
-      return Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: ExactAssetImage("assets/clock-face.png"), 
-            fit: BoxFit.contain,
-          ),
-        ),
-        height: MediaQuery.of(context).size.height / 1.5,
-        alignment: Alignment(0.0, 0.0),
-        child: SfCircularChart(
-          tooltipBehavior: TooltipBehavior(
-            enable: true,
-            activationMode: ActivationMode.longPress,
-            builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
-              viewTaskModal(context, user, data);
-            }
-          ),
-          series: <CircularSeries>[
-            PieSeries<ChartData, String>(
-              enableSmartLabels: true,
-              dataSource: _getChartData(snapshot.data.documents, selectedDate, nextDay),
-              pointColorMapper:(ChartData data,  _) => data.color,
-              xValueMapper: (ChartData data, _) => data.id,
-              yValueMapper: (ChartData data, _) => data.duration,
-              radius: '80%',
-              // explode: true,
-              dataLabelMapper: (ChartData data, _) => data.name,
-              dataLabelSettings: DataLabelSettings(
-                isVisible: true,
-                useSeriesColor: true,
+    builder: (context, snapshot1) {
+      return StreamBuilder(
+        stream: Firestore.instance
+          .collection('users')
+          .document(user.uid)
+          .collection('tasks')
+          .where('time_start', isGreaterThanOrEqualTo: selectedDate)
+          .where('time_start', isLessThan: nextDay)
+          .orderBy('time_start')
+          .snapshots(),
+        builder: (context, snapshot2) {
+          if(!snapshot1.hasData || !snapshot2.hasData) return Text('Loading data...');
+          if(snapshot2.data.documents.isEmpty) return Text('No tasks found for selected day.');
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: ExactAssetImage("assets/clock-face.png"), 
+                fit: BoxFit.contain,
               ),
-            )
-          ],
-        ),
+            ),
+            height: MediaQuery.of(context).size.height / 1.5,
+            alignment: Alignment(0.0, 0.0),
+            child: SfCircularChart(
+              tooltipBehavior: TooltipBehavior(
+                enable: true,
+                activationMode: ActivationMode.longPress,
+                builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+                  viewTaskModal(context, user, data);
+                }
+              ),
+              series: <CircularSeries>[
+                PieSeries<ChartData, String>(
+                  enableSmartLabels: true,
+                  dataSource: _getChartData(
+                    snapshot1.data.documents, 
+                    snapshot2.data.documents, 
+                    selectedDate, 
+                    nextDay
+                  ),
+                  pointColorMapper:(ChartData data,  _) => data.color,
+                  xValueMapper: (ChartData data, _) => data.id,
+                  yValueMapper: (ChartData data, _) => data.duration,
+                  radius: '80%',
+                  // explode: true,
+                  dataLabelMapper: (ChartData data, _) => data.name,
+                  dataLabelSettings: DataLabelSettings(
+                    isVisible: true,
+                    useSeriesColor: true,
+                  ),
+                )
+              ],
+            ),
+          ); 
+        },
       ); 
-    },
-  ); 
+    }
+  );
 }
 
-List<ChartData> _getChartData(tasks, selectedDate, nextDay) {
+// Future<DocumentSnapshot> _getCategory(ref) async {
+//   final snapShot = await ref.get();
+//   return snapShot;
+// }
+
+double _getDuration(Timestamp timeEnd, Timestamp timeStart) {
+  return (timeEnd.seconds - timeStart.seconds) / 3600;
+}
+
+Color _getColor(category) {
+  return Color(int.parse('0x${category['color']}'));
+}
+
+List<ChartData> _getChartData(categories, tasks, selectedDate, nextDay) {
     List<ChartData> _chartData = List<ChartData>();
-    double _getDuration(Timestamp timeEnd, Timestamp timeStart) {
-      return (timeEnd.seconds - timeStart.seconds) / 3600;
-    }
 
     // add white space between start of day and start of first task
     _chartData.add(ChartData(
       '',
+      'free time',
       '',
       DateTime.now(),
       DateTime.now(),
@@ -75,19 +100,26 @@ List<ChartData> _getChartData(tasks, selectedDate, nextDay) {
     ));
 
     for (var i = 0; i < tasks.length; i++) {
+      var category = categories.firstWhere(
+        (category) => category.reference.path == tasks[i]['category'].path,
+      );
+
       _chartData.add(ChartData(
         tasks[i].documentID, 
+        category.documentID,
         tasks[i]['name'],
         tasks[i]['time_start'].toDate(),
         tasks[i]['time_end'].toDate(),
         tasks[i]['notes'],
         _getDuration(tasks[i]['time_end'], tasks[i]['time_start']), 
+        _getColor(category),
       ));
       
       // add white space between tasks
       if (i < tasks.length - 1) {
         _chartData.add(ChartData(
           '',
+          'free time',
           '',
           DateTime.now(),
           DateTime.now(),
@@ -101,6 +133,7 @@ List<ChartData> _getChartData(tasks, selectedDate, nextDay) {
     // add white space between end of last task and end of day
     _chartData.add(ChartData(
       '',
+      'free time',
       '',
       DateTime.now(),
       DateTime.now(),
@@ -113,8 +146,9 @@ List<ChartData> _getChartData(tasks, selectedDate, nextDay) {
   }
 
 class ChartData {
-  ChartData(this.id, this.name, this.timeStart, this.timeEnd, this.notes, this.duration, [this.color]);
+  ChartData(this.id, this.category, this.name, this.timeStart, this.timeEnd, this.notes, this.duration, [this.color]);
   final String id;
+  final String category;
   final String name;
   final DateTime timeStart;
   final DateTime timeEnd;
