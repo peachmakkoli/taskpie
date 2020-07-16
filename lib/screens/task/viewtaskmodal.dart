@@ -58,6 +58,23 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     IconButton(
+                      tooltip: 'Record time',
+                      icon: Icon(
+                        Icons.alarm_add,
+                        size: 40,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              // return stopwatch view
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    IconButton(
                       tooltip: 'Edit task',
                       icon: Icon(
                         Icons.create,
