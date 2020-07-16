@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:suncircle/screens/task/savetask.dart';
+import 'package:suncircle/screens/task/taskform.dart';
 
 class RecordTimePage extends StatefulWidget {
   RecordTimePage({Key key, this.user, this.task}) : super(key: key);
@@ -111,6 +113,18 @@ class _RecordTimePageState extends State<RecordTimePage> {
                         recordStart.add(Duration(seconds: secondsPassed));
                     secondsPassed = 0;
                     newRecording = true;
+                    saveTask(
+                        TaskModel(
+                          widget.task.category,
+                          widget.task.name,
+                          widget.task.timeStart,
+                          widget.task.timeEnd,
+                          widget.task.notes,
+                          widget.task.id,
+                          recordStart,
+                          recordEnd,
+                        ),
+                        widget.user);
                   });
                 },
               ),

@@ -16,6 +16,8 @@ Future<void> saveTask(task, user) async {
         'time_start': task.timeStart,
         'time_end': DateTime(task.timeStart.year, task.timeStart.month,
             task.timeStart.day, 23, 59, 59, 59, 59),
+        'record_start': task.recordStart,
+        'record_end': task.recordEnd,
         'name': task.name,
         'notes': task.notes,
         'category': categoryRef,
@@ -25,6 +27,8 @@ Future<void> saveTask(task, user) async {
         'time_start':
             DateTime(task.timeEnd.year, task.timeEnd.month, task.timeEnd.day),
         'time_end': task.timeEnd,
+        'record_start': task.recordStart,
+        'record_end': task.recordEnd,
         'name': task.name,
         'notes': task.notes,
         'category': categoryRef,
@@ -44,6 +48,8 @@ Future<void> saveTask(task, user) async {
       var taskData = {
         'time_start': task.timeStart,
         'time_end': task.timeEnd,
+        'record_start': task.recordStart,
+        'record_end': task.recordEnd,
         'name': task.name,
         'notes': task.notes,
         'category': categoryRef,

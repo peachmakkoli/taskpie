@@ -14,7 +14,7 @@ class TaskForm extends StatefulWidget {
   final String title;
   final String subtitle;
   final FirebaseUser user;
-  TaskModel task;
+  final TaskModel task;
 
   @override
   TaskFormState createState() => TaskFormState();
@@ -273,11 +273,13 @@ class LoadingDialog extends StatelessWidget {
 
 class TaskModel {
   TaskModel(this.category, this.name, this.timeStart, this.timeEnd,
-      [this.notes, this.id]);
+      [this.notes, this.id, this.recordStart, this.recordEnd]);
   String category;
   String name;
   DateTime timeStart;
   DateTime timeEnd;
   String notes;
   String id;
+  DateTime recordStart;
+  DateTime recordEnd;
 }
