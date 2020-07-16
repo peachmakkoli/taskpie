@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-
 Future<void> _deleteTask(task, user) async {
   final CollectionReference usersRef = Firestore.instance.collection('users');
   final snapShot = await usersRef.document(user.uid).get();
 
-  await usersRef.document(user.uid).collection('tasks').document(task.id).delete();
+  if (snapShot.exists) {
+    await usersRef
+        .document(user.uid)
+        .collection('tasks')
+        .document(task.id)
+        .delete();
+  }
 }
 
 Future<void> showDeleteTaskAlert(context, task, user) async {

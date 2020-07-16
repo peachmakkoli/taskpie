@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:card_settings/card_settings.dart';
-import 'package:suncircle/screens/categoryform/savecategory.dart';
+import 'package:suncircle/screens/category/savecategory.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -13,7 +13,7 @@ class CategoryForm extends StatefulWidget {
   final String title;
   final String subtitle;
   final FirebaseUser user;
-  CategoryModel category;
+  final CategoryModel category;
 
   @override
   CategoryFormState createState() => CategoryFormState();
@@ -21,6 +21,7 @@ class CategoryForm extends StatefulWidget {
 
 class CategoryFormState extends State<CategoryForm> {
   CategoryModel _category;
+  String _originalCategoryName;
 
   DateTime selectedDate;
   DateTime nextDay;
@@ -36,6 +37,7 @@ class CategoryFormState extends State<CategoryForm> {
 
   void initModel() {
     _category = widget.category;
+    _originalCategoryName = widget.category.name;
   }
 
   Future savePressed() async {
@@ -63,12 +65,13 @@ class CategoryFormState extends State<CategoryForm> {
       ),
       backgroundColor: Colors.white,
       floatingActionButton: _submitFormButton(),
-      body: Stack(
-        children: <Widget>[
-          FutureBuilder<Object>(
-              future: checkUnique(_category.name, widget.user),
-              builder: (context, snapshot) {
-                return Form(
+      body: FutureBuilder<String>(
+          future: checkUnique(_category.name, _originalCategoryName,
+              widget.user, widget.subtitle),
+          builder: (context, snapshot) {
+            return Stack(
+              children: <Widget>[
+                Form(
                   key: _formKey,
                   child: CardSettings(
                     showMaterialonIOS: false,
@@ -103,10 +106,6 @@ class CategoryFormState extends State<CategoryForm> {
                                 intelligentCast<Color>(_category.color),
                             autovalidate: _autoValidate,
                             pickerType: CardSettingsColorPickerType.block,
-                            // validator: (value) {
-                            //   if (value.computeLuminance() < .1) return 'This color is too dark.';
-                            //   return null;
-                            // },
                             onChanged: (value) {
                               setState(() {
                                 _category.color = colorToString(value);
@@ -117,10 +116,10 @@ class CategoryFormState extends State<CategoryForm> {
                       ),
                     ],
                   ),
-                );
-              }),
-        ],
-      ),
+                ),
+              ],
+            );
+          }),
     );
   }
 

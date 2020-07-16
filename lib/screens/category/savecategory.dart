@@ -13,11 +13,14 @@ Future<void> saveCategory(category, user) async {
         .document(user.uid)
         .collection('categories')
         .document(category.name.toLowerCase())
-        .setData(categoryData);
+        .setData(categoryData, merge: true);
   }
 }
 
-Future<String> checkUnique(name, user) async {
+Future<String> checkUnique(name, originalName, user, action) async {
+  if (name == originalName && action == 'Update Task')
+    return ''; // allows users to update existing category colors
+
   final CollectionReference usersRef = Firestore.instance.collection('users');
   final snapShot = await usersRef
       .document(user.uid)
@@ -26,5 +29,4 @@ Future<String> checkUnique(name, user) async {
       .get();
 
   if (snapShot.exists) return snapShot.documentID;
-  return '';
 }
