@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:card_settings/card_settings.dart';
 import 'package:suncircle/screens/categoryform/savecategory.dart';
+import 'package:suncircle/screens/categoryform/categoryListSheet.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -63,12 +64,12 @@ class CategoryFormState extends State<CategoryForm> {
       ),
       backgroundColor: Colors.white,
       floatingActionButton: _submitFormButton(),
-      body: Stack(
-        children: <Widget>[
-          FutureBuilder<Object>(
-              future: checkUnique(_category.name, widget.user),
-              builder: (context, snapshot) {
-                return Form(
+      body: FutureBuilder<String>(
+          future: checkUnique(_category.name, widget.user),
+          builder: (context, snapshot) {
+            return Stack(
+              children: <Widget>[
+                Form(
                   key: _formKey,
                   child: CardSettings(
                     showMaterialonIOS: false,
@@ -117,10 +118,19 @@ class CategoryFormState extends State<CategoryForm> {
                       ),
                     ],
                   ),
-                );
-              }),
-        ],
-      ),
+                ),
+                DraggableScrollableSheet(
+                  minChildSize: 0.14,
+                  maxChildSize: 0.5,
+                  initialChildSize: 0.14,
+                  builder: (BuildContext context,
+                      ScrollController scrollController) {
+                    return categoryListSheet(widget.user, scrollController);
+                  },
+                ),
+              ],
+            );
+          }),
     );
   }
 
