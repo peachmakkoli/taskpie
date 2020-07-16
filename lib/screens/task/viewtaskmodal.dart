@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/screens/task/deletetask.dart';
+import 'package:suncircle/screens/task/recordtimepage.dart';
 
 Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
   if (data.id.isEmpty) return null; // prevents placeholders from being tapped
@@ -62,13 +63,14 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                       icon: Icon(
                         Icons.alarm_add,
                         size: 40,
+                        color: Colors.indigo,
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
-                              // return stopwatch view
+                              return RecordTimePage(user: user, task: data);
                             },
                           ),
                         );
@@ -79,6 +81,7 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                       icon: Icon(
                         Icons.create,
                         size: 40,
+                        color: Colors.indigo,
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -107,6 +110,7 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                       icon: Icon(
                         Icons.delete_outline,
                         size: 40,
+                        color: Colors.red,
                       ),
                       onPressed: () {
                         showDeleteTaskAlert(bc, data, user);

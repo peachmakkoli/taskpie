@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
 
-
 Future<void> main() async {
   await DotEnv().load('.env');
-  await SyncfusionLicense.registerLicense(DotEnv().env['SF_LICENSE_KEY']); 
+  await SyncfusionLicense.registerLicense(DotEnv().env['SF_LICENSE_KEY']);
   runApp(MyApp());
 }
 
@@ -14,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'TaskPie',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
