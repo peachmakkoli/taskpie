@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:card_settings/card_settings.dart';
 import 'package:suncircle/screens/categoryform/savecategory.dart';
-import 'package:suncircle/screens/categoryform/categoryListSheet.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -14,7 +13,7 @@ class CategoryForm extends StatefulWidget {
   final String title;
   final String subtitle;
   final FirebaseUser user;
-  CategoryModel category;
+  final CategoryModel category;
 
   @override
   CategoryFormState createState() => CategoryFormState();
@@ -118,15 +117,6 @@ class CategoryFormState extends State<CategoryForm> {
                       ),
                     ],
                   ),
-                ),
-                DraggableScrollableSheet(
-                  minChildSize: 0.14,
-                  maxChildSize: 0.5,
-                  initialChildSize: 0.14,
-                  builder: (BuildContext context,
-                      ScrollController scrollController) {
-                    return categoryListSheet(widget.user, scrollController);
-                  },
                 ),
               ],
             );

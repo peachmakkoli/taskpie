@@ -8,6 +8,7 @@ import 'package:suncircle/screens/landingpage/landingpage.dart';
 import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/screens/categoryform/categoryform.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
+import 'package:suncircle/screens/categoryform/categoryListSheet.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);
@@ -82,14 +83,19 @@ class _HomePageState extends State<HomePage> {
         parentButton: Icon(Icons.add),
         childButtons: _getChildButtons(),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            _dayPicker(),
-            SizedBox(height: 30),
-            circleCalendar(widget.user, selectedDate, nextDay),
-          ],
-        ),
+      body: Stack(
+        children: <Widget>[
+          _dayPicker(),
+          circleCalendar(widget.user, selectedDate, nextDay),
+          DraggableScrollableSheet(
+            minChildSize: 0.14,
+            maxChildSize: 0.5,
+            initialChildSize: 0.14,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return categoryListSheet(widget.user, scrollController);
+            },
+          ),
+        ],
       ),
     );
   }

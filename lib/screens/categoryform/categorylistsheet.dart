@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:suncircle/screens/categoryform/categoryform.dart';
 
 Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
   return StreamBuilder<QuerySnapshot>(
@@ -36,7 +37,7 @@ Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(24, 16, 24, 48),
                     child: Text(
-                      'Saved Categories',
+                      'Categories',
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
@@ -46,9 +47,51 @@ Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
               return Card(
                 color: _getColor(_categories[index]),
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    _categories[index].documentID,
+                  padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        _categories[index].documentID,
+                      ),
+                      Spacer(),
+                      ButtonBar(
+                        children: <Widget>[
+                          IconButton(
+                            tooltip: 'Edit category',
+                            icon: Icon(
+                              Icons.create,
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return CategoryForm(
+                                      title: 'TaskPie',
+                                      subtitle: 'Update Task',
+                                      user: user,
+                                      category: CategoryModel(
+                                          _categories[index].documentID,
+                                          _categories[index]['color']),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          IconButton(
+                            tooltip: 'Delete category',
+                            icon: Icon(
+                              Icons.delete_outline,
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              // call delete function
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               );
