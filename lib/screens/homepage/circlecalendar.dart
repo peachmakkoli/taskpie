@@ -24,9 +24,15 @@ Widget circleCalendar(
               .snapshots(),
           builder: (context, snapshot2) {
             if (!snapshot1.hasData || !snapshot2.hasData)
-              return Text('Loading data...');
+              return Container(
+                  height: MediaQuery.of(context).size.height,
+                  alignment: Alignment(0.0, 0.0),
+                  child: Text('Loading data...'));
             if (snapshot2.data.documents.isEmpty)
-              return Text('No tasks found for selected day.');
+              return Container(
+                  height: MediaQuery.of(context).size.height,
+                  alignment: Alignment(0.0, 0.0),
+                  child: Text('No tasks found for selected day.'));
             return Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -34,7 +40,7 @@ Widget circleCalendar(
                   fit: BoxFit.contain,
                 ),
               ),
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height / 1.2,
               alignment: Alignment(0.0, 0.0),
               child: SfCircularChart(
                 tooltipBehavior: TooltipBehavior(

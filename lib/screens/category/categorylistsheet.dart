@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:suncircle/screens/categoryform/categoryform.dart';
+import 'package:suncircle/screens/category/categoryform.dart';
+import 'package:suncircle/screens/category/deletecategory.dart';
 
 Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
   return StreamBuilder<QuerySnapshot>(
@@ -86,7 +87,8 @@ Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
                               size: 30,
                             ),
                             onPressed: () {
-                              // call delete function
+                              showDeleteCategoryAlert(
+                                  context, _categories[index].documentID, user);
                             },
                           ),
                         ],

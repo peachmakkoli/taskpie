@@ -6,9 +6,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:suncircle/screens/landingpage/landingpage.dart';
 import 'package:suncircle/screens/task/taskform.dart';
-import 'package:suncircle/screens/categoryform/categoryform.dart';
+import 'package:suncircle/screens/category/categoryform.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
-import 'package:suncircle/screens/categoryform/categoryListSheet.dart';
+import 'package:suncircle/screens/category/categoryListSheet.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);
@@ -85,8 +85,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Stack(
         children: <Widget>[
-          _dayPicker(),
           circleCalendar(widget.user, selectedDate, nextDay),
+          _dayPicker(),
           DraggableScrollableSheet(
             minChildSize: 0.14,
             maxChildSize: 0.5,

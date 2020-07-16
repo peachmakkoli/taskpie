@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:card_settings/card_settings.dart';
-import 'package:suncircle/screens/categoryform/savecategory.dart';
+import 'package:suncircle/screens/category/savecategory.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
