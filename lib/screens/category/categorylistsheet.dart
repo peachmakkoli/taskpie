@@ -45,14 +45,19 @@ Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
                 );
               }
               index -= 1;
+              var _categoryColor = _getColor(_categories[index]);
+              var _adaptiveColor = _categoryColor.computeLuminance() > 0.3
+                  ? Colors.black
+                  : Colors.white;
               return Card(
-                color: _getColor(_categories[index]),
+                color: _categoryColor,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
                   child: Row(
                     children: <Widget>[
                       Text(
                         _categories[index].documentID,
+                        style: TextStyle(color: _adaptiveColor),
                       ),
                       Spacer(),
                       ButtonBar(
@@ -62,6 +67,7 @@ Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
                             icon: Icon(
                               Icons.create,
                               size: 30,
+                              color: _adaptiveColor,
                             ),
                             onPressed: () {
                               Navigator.of(context).push(
@@ -85,6 +91,7 @@ Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
                             icon: Icon(
                               Icons.delete_outline,
                               size: 30,
+                              color: _adaptiveColor,
                             ),
                             onPressed: () {
                               showDeleteCategoryAlert(

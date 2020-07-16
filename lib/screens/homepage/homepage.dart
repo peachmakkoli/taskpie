@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
           _dayPicker(),
           DraggableScrollableSheet(
             minChildSize: 0.14,
-            maxChildSize: 0.5,
+            maxChildSize: 1.0,
             initialChildSize: 0.14,
             builder: (BuildContext context, ScrollController scrollController) {
               return categoryListSheet(widget.user, scrollController);

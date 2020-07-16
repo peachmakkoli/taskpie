@@ -21,6 +21,7 @@ class CategoryForm extends StatefulWidget {
 
 class CategoryFormState extends State<CategoryForm> {
   CategoryModel _category;
+  String _originalCategoryName;
 
   DateTime selectedDate;
   DateTime nextDay;
@@ -36,6 +37,7 @@ class CategoryFormState extends State<CategoryForm> {
 
   void initModel() {
     _category = widget.category;
+    _originalCategoryName = widget.category.name;
   }
 
   Future savePressed() async {
@@ -64,7 +66,8 @@ class CategoryFormState extends State<CategoryForm> {
       backgroundColor: Colors.white,
       floatingActionButton: _submitFormButton(),
       body: FutureBuilder<String>(
-          future: checkUnique(_category.name, widget.user),
+          future: checkUnique(_category.name, _originalCategoryName,
+              widget.user, widget.subtitle),
           builder: (context, snapshot) {
             return Stack(
               children: <Widget>[
@@ -103,10 +106,6 @@ class CategoryFormState extends State<CategoryForm> {
                                 intelligentCast<Color>(_category.color),
                             autovalidate: _autoValidate,
                             pickerType: CardSettingsColorPickerType.block,
-                            // validator: (value) {
-                            //   if (value.computeLuminance() < .1) return 'This color is too dark.';
-                            //   return null;
-                            // },
                             onChanged: (value) {
                               setState(() {
                                 _category.color = colorToString(value);
