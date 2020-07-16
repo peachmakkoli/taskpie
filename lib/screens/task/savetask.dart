@@ -34,12 +34,12 @@ Future<void> saveTask(task, user) async {
           .document(user.uid)
           .collection('tasks')
           .document(task.id)
-          .setData(taskData1);
+          .setData(taskData1, merge: true);
       await usersRef
           .document(user.uid)
           .collection('tasks')
           .document()
-          .setData(taskData2);
+          .setData(taskData2, merge: true);
     } else {
       var taskData = {
         'time_start': task.timeStart,
@@ -53,7 +53,7 @@ Future<void> saveTask(task, user) async {
           .document(user.uid)
           .collection('tasks')
           .document(task.id)
-          .setData(taskData);
+          .setData(taskData, merge: true);
     }
   }
 }
