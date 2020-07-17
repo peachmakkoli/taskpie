@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:card_settings/card_settings.dart';
 import 'package:suncircle/screens/task/savetask.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
+import 'package:suncircle/loadingdialog.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -237,36 +238,6 @@ class TaskFormState extends State<TaskForm> {
           child: Icon(Icons.send, size: 30.0),
         ),
       ],
-    );
-  }
-}
-
-class LoadingDialog extends StatelessWidget {
-  static void show(BuildContext context, {Key key}) => showDialog<void>(
-        context: context,
-        useRootNavigator: false,
-        barrierDismissible: false,
-        builder: (_) => LoadingDialog(key: key),
-      ).then((_) => FocusScope.of(context).requestFocus(FocusNode()));
-
-  static void hide(BuildContext context) => Navigator.pop(context);
-
-  LoadingDialog({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Center(
-        child: Card(
-          child: Container(
-            width: 80,
-            height: 80,
-            padding: EdgeInsets.all(12.0),
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      ),
     );
   }
 }

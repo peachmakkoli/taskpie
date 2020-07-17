@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
 import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:suncircle/screens/loginpage/loginpage.dart';
 import 'package:unicorndial/unicorndial.dart';
-import 'package:suncircle/screens/landingpage/landingpage.dart';
 import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/screens/category/categoryform.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return LandingPage();
+                      return LoginPage();
                     },
                   ),
                 );
