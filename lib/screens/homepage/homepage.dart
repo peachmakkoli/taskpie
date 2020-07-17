@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                     subtitle: 'Create Task',
                     user: widget.user,
                     task: TaskModel(
-                        'uncategorized', '', DateTime.now(), DateTime.now()),
+                        'uncategorized', '', selectedDate, selectedDate),
                   );
                 },
               ),
