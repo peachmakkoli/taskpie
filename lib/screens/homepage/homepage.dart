@@ -110,15 +110,15 @@ class _HomePageState extends State<HomePage> {
       },
       inintialDate: selectedDate,
       height: 60,
-      builder: (context, i, d, width) {
-        if (i != 2)
+      builder: (context, index, date, width) {
+        if (index != 2)
           return DateRow(
-            d,
+            date,
             width: width,
           );
         else
           return DateRow(
-            d,
+            date,
             background: Colors.indigo,
             selectedDayStyle: TextStyle(color: Colors.white),
             selectedDayOfWeekStyle: TextStyle(color: Colors.white),

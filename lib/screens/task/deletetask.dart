@@ -32,17 +32,17 @@ Future<void> showDeleteTaskAlert(context, task, user) async {
         ),
         actions: <Widget>[
           FlatButton(
+            child: Text('No'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
             child: Text('Yes'),
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
               _deleteTask(task, user);
-            },
-          ),
-          FlatButton(
-            child: Text('No'),
-            onPressed: () {
-              Navigator.of(context).pop();
             },
           ),
         ],
