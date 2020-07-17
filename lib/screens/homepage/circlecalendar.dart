@@ -102,7 +102,7 @@ List<ChartData> _getChartData(categories, tasks, selectedDate, nextDay) {
       (category) => category.reference.path == tasks[i]['category'].path,
     );
 
-    _chartData.add(ChartData(
+    var _task = ChartData(
       tasks[i].documentID,
       category.documentID,
       tasks[i]['name'],
@@ -111,7 +111,17 @@ List<ChartData> _getChartData(categories, tasks, selectedDate, nextDay) {
       tasks[i]['notes'],
       _getDuration(tasks[i]['time_end'], tasks[i]['time_start']),
       _getColor(category),
-    ));
+    );
+
+    if (tasks[i]['record_start'] != null) {
+      _task.recordStart = tasks[i]['record_start'].toDate();
+    }
+
+    if (tasks[i]['record_end'] != null) {
+      _task.recordEnd = tasks[i]['record_end'].toDate();
+    }
+
+    _chartData.add(_task);
 
     // add white space between tasks
     if (i < tasks.length - 1) {
@@ -145,7 +155,7 @@ List<ChartData> _getChartData(categories, tasks, selectedDate, nextDay) {
 class ChartData {
   ChartData(this.id, this.category, this.name, this.timeStart, this.timeEnd,
       this.notes, this.duration,
-      [this.color]);
+      [this.color, this.recordStart, this.recordEnd]);
   final String id;
   final String category;
   final String name;
@@ -154,4 +164,6 @@ class ChartData {
   final double duration;
   final String notes;
   final Color color;
+  DateTime recordStart;
+  DateTime recordEnd;
 }

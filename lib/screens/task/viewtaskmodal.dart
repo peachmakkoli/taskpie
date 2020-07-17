@@ -51,6 +51,16 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                 Text(
                     'End: ' + DateFormat.yMMMd().add_jm().format(data.timeEnd)),
                 SizedBox(height: 10),
+                Text(data.recordStart == null
+                    ? 'Recorded Start: '
+                    : 'Recorded Start: ' +
+                        DateFormat.yMMMd().add_jm().format(data.recordStart)),
+                SizedBox(height: 10),
+                Text(data.recordStart == null
+                    ? 'Recorded End: '
+                    : 'Recorded End: ' +
+                        DateFormat.yMMMd().add_jm().format(data.recordEnd)),
+                SizedBox(height: 10),
                 Text('Duration: $durationHour h $durationMinute m'),
                 SizedBox(height: 10),
                 Text('Notes: ' + _showNotes(data.notes)),
