@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suncircle/screens/loginpage/login.dart';
-import 'package:suncircle/screens/landingpage/landingpage.dart';
+import 'package:suncircle/loadingdialog.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -25,7 +25,9 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                 ),
               ),
-              Image(image: ExactAssetImage('assets/apple-pie.png'), height: 300.0),
+              Image(
+                  image: ExactAssetImage('assets/apple-pie.png'),
+                  height: 300.0),
               SizedBox(height: 50),
               _signInButton(),
             ],
@@ -39,15 +41,11 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.white,
       onPressed: () {
+        LoadingDialog.show(context);
         signInWithGoogle().whenComplete(() {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return LandingPage();
-              },
-            ),
-          );
+          Navigator.popUntil(context, ModalRoute.withName('/'));
         });
+        LoadingDialog.show(context);
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
@@ -58,7 +56,8 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(image: ExactAssetImage("assets/google_logo.png"), height: 35.0),
+            Image(
+                image: ExactAssetImage("assets/google_logo.png"), height: 35.0),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
@@ -75,5 +74,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-
