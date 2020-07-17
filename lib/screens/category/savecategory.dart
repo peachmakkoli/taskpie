@@ -22,11 +22,14 @@ Future<String> checkUnique(name, originalName, user, action) async {
     return ''; // allows users to update existing category colors
 
   final CollectionReference usersRef = Firestore.instance.collection('users');
-  final snapShot = await usersRef
-      .document(user.uid)
-      .collection('categories')
-      .document(name.toLowerCase())
-      .get();
+  final snapShot =
+      await usersRef.document(user.uid).collection('categories').getDocuments();
 
-  if (snapShot.exists) return snapShot.documentID;
+  bool found = false;
+  snapShot.documents.forEach((doc) {
+    if (doc.documentID == name) found = true;
+  });
+
+  if (found) return name;
+  return '';
 }

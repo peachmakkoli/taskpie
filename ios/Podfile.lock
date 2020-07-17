@@ -267,6 +267,8 @@ PODS:
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
     - Flutter
+  - Firebase (6.28.1):
+    - Firebase/Core (= 6.28.1)
   - Firebase/Auth (6.28.1):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.7.0)
@@ -429,6 +431,7 @@ DEPENDENCIES:
   - custom_horizontal_calendar (from `.symlinks/plugins/custom_horizontal_calendar/ios`)
   - file_chooser (from `.symlinks/plugins/file_chooser/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
+  - Firebase
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_auth_web (from `.symlinks/plugins/firebase_auth_web/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -552,6 +555,6 @@ SPEC CHECKSUMS:
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
 
-PODFILE CHECKSUM: 4ab6190fe11d04cef536647dc8663ede8cd81584
+PODFILE CHECKSUM: 47953f4e771f16a42db8bf1cdb30a151b11e750f
 
 COCOAPODS: 1.9.3
