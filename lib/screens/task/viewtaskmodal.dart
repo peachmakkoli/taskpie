@@ -5,11 +5,28 @@ import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/screens/task/deletetask.dart';
 import 'package:suncircle/screens/task/recordtimepage.dart';
 
-Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
+Widget viewTaskModal(
+    context, FirebaseUser user, dynamic data, bool showRecordedTime) {
   if (data.id.isEmpty) return null; // prevents placeholders from being tapped
 
   int durationHour = data.duration.floor();
   int durationMinute = ((data.duration - data.duration.floor()) * 60).floor();
+
+  Text _showStartTime() {
+    if (!showRecordedTime)
+      return Text(
+          'Start: ' + DateFormat.yMMMd().add_jm().format(data.timeStart));
+    else
+      return Text(
+          'Start: ' + DateFormat.yMMMd().add_jm().format(data.recordStart));
+  }
+
+  Text _showEndTime() {
+    if (!showRecordedTime)
+      return Text('End: ' + DateFormat.yMMMd().add_jm().format(data.timeEnd));
+    else
+      return Text('End: ' + DateFormat.yMMMd().add_jm().format(data.recordEnd));
+  }
 
   showModalBottomSheet(
       context: context,
@@ -45,25 +62,13 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                 ),
                 Text('Category: ${data.category}'),
                 SizedBox(height: 10),
-                Text('Start: ' +
-                    DateFormat.yMMMd().add_jm().format(data.timeStart)),
+                _showStartTime(),
                 SizedBox(height: 10),
-                Text(
-                    'End: ' + DateFormat.yMMMd().add_jm().format(data.timeEnd)),
-                SizedBox(height: 10),
-                Text(data.recordStart == null
-                    ? 'Recorded Start: '
-                    : 'Recorded Start: ' +
-                        DateFormat.yMMMd().add_jm().format(data.recordStart)),
-                SizedBox(height: 10),
-                Text(data.recordStart == null
-                    ? 'Recorded End: '
-                    : 'Recorded End: ' +
-                        DateFormat.yMMMd().add_jm().format(data.recordEnd)),
+                _showEndTime(),
                 SizedBox(height: 10),
                 Text('Duration: $durationHour h $durationMinute m'),
                 SizedBox(height: 10),
-                Text('Notes: ' + _showNotes(data.notes)),
+                Text(data.notes == null ? 'Notes: ' : 'Notes: ${data.notes}'),
                 Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -109,6 +114,7 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                                     data.timeEnd,
                                     data.notes,
                                     data.id),
+                                showRecordedTime: showRecordedTime,
                               );
                             },
                           ),
@@ -133,11 +139,4 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
           ),
         );
       });
-}
-
-String _showNotes(notes) {
-  if (notes != null)
-    return notes;
-  else
-    return '';
 }

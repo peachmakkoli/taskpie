@@ -32,6 +32,8 @@ class _HomePageState extends State<HomePage> {
   DateTime selectedDate;
   DateTime nextDay;
 
+  bool showRecordedTime = false;
+
   @override
   void initState() {
     super.initState();
@@ -85,8 +87,27 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Stack(
         children: <Widget>[
-          circleCalendar(widget.user, selectedDate, nextDay),
+          circleCalendar(widget.user, selectedDate, nextDay, showRecordedTime),
           _dayPicker(),
+          Align(
+            alignment: Alignment(0.0, 0.7),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Recorded Tasks'),
+                Switch(
+                  value: showRecordedTime,
+                  onChanged: (value) {
+                    setState(() {
+                      showRecordedTime = value;
+                    });
+                  },
+                  activeTrackColor: Colors.lightGreenAccent,
+                  activeColor: Colors.green,
+                ),
+              ],
+            ),
+          ),
           DraggableScrollableSheet(
             minChildSize: 0.14,
             maxChildSize: 1.0,
@@ -150,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                     user: widget.user,
                     task: TaskModel(
                         'uncategorized', '', selectedDate, selectedDate),
+                    showRecordedTime: false,
                   );
                 },
               ),
