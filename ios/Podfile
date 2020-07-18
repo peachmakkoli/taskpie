@@ -36,10 +36,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  # Flutter Pod
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
+  pod 'Firebase'
 
   copied_flutter_dir = File.join(__dir__, 'Flutter')
   copied_framework_path = File.join(copied_flutter_dir, 'Flutter.framework')

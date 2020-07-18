@@ -43,9 +43,9 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         LoadingDialog.show(context);
         signInWithGoogle().whenComplete(() {
+          LoadingDialog.hide(context);
           Navigator.popUntil(context, ModalRoute.withName('/'));
         });
-        LoadingDialog.show(context);
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,

@@ -58,16 +58,16 @@ Future<void> showDeleteCategoryAlert(context, category, user) async {
         ),
         actions: <Widget>[
           FlatButton(
+            child: Text('No'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
             child: Text('Yes'),
             onPressed: () {
               Navigator.of(context).pop();
               _deleteCategory(category, user);
-            },
-          ),
-          FlatButton(
-            child: Text('No'),
-            onPressed: () {
-              Navigator.of(context).pop();
             },
           ),
         ],
