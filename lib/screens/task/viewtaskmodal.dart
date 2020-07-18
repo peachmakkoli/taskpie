@@ -71,7 +71,7 @@ Widget viewTaskModal(context, FirebaseUser user, dynamic data) {
                     IconButton(
                       tooltip: 'Record time',
                       icon: Icon(
-                        Icons.alarm_add,
+                        Icons.timer,
                         size: 40,
                         color: Colors.indigo,
                       ),

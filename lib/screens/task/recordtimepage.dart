@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:suncircle/screens/task/savetask.dart';
 import 'package:suncircle/screens/task/taskform.dart';
+import 'package:suncircle/loadingdialog.dart';
 
 class RecordTimePage extends StatefulWidget {
   RecordTimePage({Key key, this.user, this.task}) : super(key: key);
@@ -35,6 +37,27 @@ class _RecordTimePageState extends State<RecordTimePage> {
     }
   }
 
+  Future savePressed() async {
+    LoadingDialog.show(context);
+
+    saveTask(
+            TaskModel(
+              widget.task.category,
+              widget.task.name,
+              widget.task.timeStart,
+              widget.task.timeEnd,
+              widget.task.notes,
+              widget.task.id,
+              recordStart,
+              recordEnd,
+            ),
+            widget.user)
+        .whenComplete(() {
+      LoadingDialog.hide(context);
+      Navigator.of(context).pop();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (timer == null) {
@@ -50,13 +73,23 @@ class _RecordTimePageState extends State<RecordTimePage> {
       appBar: AppBar(
         title: Text('TaskPie'),
       ),
+      floatingActionButton: _submitFormButton(),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text('Clocked in: $recordStart'),
-            Text('Clocked out: $recordEnd'),
-            SizedBox(height: 60),
+            Text(
+              recordStart != null
+                  ? 'Start: ${DateFormat.yMMMd().add_jm().format(recordStart)}'
+                  : 'Start: ',
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+                recordEnd != null
+                    ? 'End: ${DateFormat.yMMMd().add_jm().format(recordEnd)}'
+                    : 'End: ',
+                style: TextStyle(fontSize: 20)),
+            SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -74,64 +107,58 @@ class _RecordTimePageState extends State<RecordTimePage> {
                 ),
               ],
             ),
-            SizedBox(height: 60),
-            Container(
-              width: 200,
-              height: 47,
-              margin: EdgeInsets.only(top: 30),
-              child: RaisedButton(
-                color: isActive ? Colors.yellow[400] : Colors.green[400],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 60,
+                  height: 60,
+                  margin: EdgeInsets.only(top: 30),
+                  child: RaisedButton(
+                    color: isActive ? Colors.yellow[400] : Colors.green[400],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Icon(isActive ? Icons.pause : Icons.play_arrow,
+                        size: 30),
+                    onPressed: () {
+                      setState(() {
+                        isActive = !isActive;
+                        if (newRecording) {
+                          recordStart = DateTime.now();
+                        }
+                        newRecording = false;
+                      });
+                    },
+                  ),
                 ),
-                child: Text(isActive ? 'PAUSE' : 'CLOCK IN'),
-                onPressed: () {
-                  setState(() {
-                    isActive = !isActive;
-                    if (newRecording) {
-                      recordStart = DateTime.now();
-                    }
-                    newRecording = false;
-                  });
-                },
-              ),
+                SizedBox(width: 30),
+                Container(
+                  width: 60,
+                  height: 60,
+                  margin: EdgeInsets.only(top: 30),
+                  child: RaisedButton(
+                    color: Colors.red[400],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Icon(Icons.stop, size: 30),
+                    onPressed: () {
+                      setState(() {
+                        isActive = false;
+                        recordEnd =
+                            recordStart.add(Duration(seconds: secondsPassed));
+                        secondsPassed = 0;
+                        newRecording = true;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             Container(
-              width: 200,
-              height: 47,
-              margin: EdgeInsets.only(top: 30),
-              child: RaisedButton(
-                color: Colors.red[400],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Text('CLOCK OUT'),
-                onPressed: () {
-                  setState(() {
-                    isActive = false;
-                    recordEnd =
-                        recordStart.add(Duration(seconds: secondsPassed));
-                    secondsPassed = 0;
-                    newRecording = true;
-                    saveTask(
-                        TaskModel(
-                          widget.task.category,
-                          widget.task.name,
-                          widget.task.timeStart,
-                          widget.task.timeEnd,
-                          widget.task.notes,
-                          widget.task.id,
-                          recordStart,
-                          recordEnd,
-                        ),
-                        widget.user);
-                  });
-                },
-              ),
-            ),
-            Container(
-              width: 200,
-              height: 47,
+              width: 150,
+              height: 60,
               margin: EdgeInsets.only(top: 30),
               child: RaisedButton(
                 color: Colors.grey,
@@ -150,9 +177,27 @@ class _RecordTimePageState extends State<RecordTimePage> {
                 },
               ),
             ),
+            SizedBox(height: 60),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _submitFormButton() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        FloatingActionButton(
+          onPressed: () {
+            savePressed();
+          },
+          tooltip: 'Submit',
+          child: Icon(Icons.send, size: 30.0),
+        ),
+      ],
     );
   }
 }
@@ -167,7 +212,7 @@ class LabelText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 5),
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
         color: Colors.indigo,
@@ -178,7 +223,7 @@ class LabelText extends StatelessWidget {
           Text('$value',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 55,
+                fontSize: 48,
                 fontWeight: FontWeight.bold,
               )),
           Text('$label',
