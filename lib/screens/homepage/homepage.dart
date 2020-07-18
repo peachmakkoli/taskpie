@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Stack(
         children: <Widget>[
-          circleCalendar(widget.user, selectedDate, nextDay),
+          circleCalendar(widget.user, selectedDate, nextDay, showRecordedTime),
           _dayPicker(),
           Align(
             alignment: Alignment(0.0, 0.7),
