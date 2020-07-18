@@ -171,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                     user: widget.user,
                     task: TaskModel(
                         'uncategorized', '', selectedDate, selectedDate),
+                    showRecordedTime: false,
                   );
                 },
               ),

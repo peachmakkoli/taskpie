@@ -28,7 +28,6 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
 
   List<ChartData> _getChartData(categories, tasks) {
     List<ChartData> _chartData = List<ChartData>();
-    print(tasks.length);
     // add white space between start of day and start of first task
     _chartData.add(ChartData(
       '',

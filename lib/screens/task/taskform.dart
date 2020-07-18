@@ -6,27 +6,34 @@ import 'package:suncircle/screens/task/savetask.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
 import 'package:suncircle/loadingdialog.dart';
 
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
 class TaskForm extends StatefulWidget {
-  TaskForm({Key key, this.title, this.subtitle, this.user, this.task})
+  TaskForm(
+      {Key key,
+      this.title,
+      this.subtitle,
+      this.user,
+      this.task,
+      this.showRecordedTime})
       : super(key: key);
 
   final String title;
   final String subtitle;
   final FirebaseUser user;
   final TaskModel task;
+  final bool showRecordedTime;
 
   @override
   TaskFormState createState() => TaskFormState();
 }
 
 class TaskFormState extends State<TaskForm> {
-  TaskModel _task;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  TaskModel _task;
   DateTime selectedDate;
   DateTime nextDay;
-
+  DateTime _fieldStart;
+  DateTime _fieldEnd;
   bool _autoValidate = false;
 
   @override
@@ -34,6 +41,7 @@ class TaskFormState extends State<TaskForm> {
     super.initState();
     initModel();
     _resetSelectedDate();
+    _toggleTime();
   }
 
   void initModel() {
@@ -44,6 +52,16 @@ class TaskFormState extends State<TaskForm> {
     selectedDate = DateTime(
         _task.timeStart.year, _task.timeStart.month, _task.timeStart.day);
     nextDay = selectedDate.add(Duration(days: 1));
+  }
+
+  void _toggleTime() {
+    if (widget.showRecordedTime) {
+      _fieldStart = _task.recordStart;
+      _fieldEnd = _task.recordEnd;
+    } else {
+      _fieldStart = _fieldStart;
+      _fieldEnd = _fieldEnd;
+    }
   }
 
   List<String> getCategoryList(categories) {
@@ -101,32 +119,32 @@ class TaskFormState extends State<TaskForm> {
                           children: <CardSettingsWidget>[
                             CardSettingsDateTimePicker(
                               label: 'Start',
-                              initialValue: _task.timeStart,
+                              initialValue: _fieldStart,
                               requiredIndicator: Text('*',
                                   style: TextStyle(color: Colors.red)),
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                               onChanged: (value) {
                                 setState(() {
-                                  _task.timeStart = value;
+                                  _fieldStart = value;
                                   _resetSelectedDate();
                                 });
                               },
                             ),
                             CardSettingsDateTimePicker(
                               label: 'End',
-                              initialValue: _task.timeEnd,
+                              initialValue: _fieldEnd,
                               requiredIndicator: Text('*',
                                   style: TextStyle(color: Colors.red)),
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                               validator: (value) {
-                                if (value.isBefore(_task.timeStart))
+                                if (value.isBefore(_fieldStart))
                                   return 'End time cannot be before start time.';
                               },
                               onChanged: (value) {
                                 setState(() {
-                                  _task.timeEnd = value;
+                                  _fieldEnd = value;
                                 });
                               },
                             ),

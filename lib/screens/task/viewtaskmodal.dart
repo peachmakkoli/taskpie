@@ -114,6 +114,7 @@ Widget viewTaskModal(
                                     data.timeEnd,
                                     data.notes,
                                     data.id),
+                                showRecordedTime: showRecordedTime,
                               );
                             },
                           ),
