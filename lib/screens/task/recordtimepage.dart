@@ -70,25 +70,28 @@ class _RecordTimePageState extends State<RecordTimePage> {
     int hours = secondsPassed ~/ (60 * 60);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('TaskPie'),
-      ),
+      appBar: AppBar(title: Text('TaskPie: Record Time')),
       floatingActionButton: _submitFormButton(),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              recordStart != null
-                  ? 'Start: ${DateFormat.yMMMd().add_jm().format(recordStart)}'
-                  : 'Start: ',
+              'Task: ${widget.task.name}',
               style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 10),
+            Text(
+              recordStart != null
+                  ? 'Clock In: ${DateFormat.yMMMd().add_jm().format(recordStart)}'
+                  : 'Clock In: ',
+              style: TextStyle(fontSize: 15),
             ),
             Text(
                 recordEnd != null
-                    ? 'End: ${DateFormat.yMMMd().add_jm().format(recordEnd)}'
-                    : 'End: ',
-                style: TextStyle(fontSize: 20)),
+                    ? 'Clock Out: ${DateFormat.yMMMd().add_jm().format(recordEnd)}'
+                    : 'Clock Out: ',
+                style: TextStyle(fontSize: 15)),
             SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -148,7 +151,6 @@ class _RecordTimePageState extends State<RecordTimePage> {
                         isActive = false;
                         recordEnd =
                             recordStart.add(Duration(seconds: secondsPassed));
-                        secondsPassed = 0;
                         newRecording = true;
                       });
                     },
