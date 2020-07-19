@@ -333,6 +333,8 @@ PODS:
     - PromisesObjC (~> 1.2)
   - FLAnimatedImage (1.0.12)
   - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - flutter_plugin_android_lifecycle (0.0.1):
     - Flutter
   - google_sign_in (0.0.1):
@@ -437,6 +439,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - google_sign_in_web (from `.symlinks/plugins/google_sign_in_web/ios`)
@@ -495,6 +498,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core_web/ios"
   Flutter:
     :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_plugin_android_lifecycle:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
   google_sign_in:
@@ -534,6 +539,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 3c520c951305cbf9ca54eb891ff9e6d1fd384881
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_local_notifications: 9e4738ce2471c5af910d961a6b7eadcf57c50186
   flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   google_sign_in_web: 52deb24929ac0992baff65c57956031c44ed44c3

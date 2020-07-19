@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
 import 'package:custom_horizontal_calendar/date_row.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:suncircle/screens/loginpage/loginpage.dart';
 import 'package:unicorndial/unicorndial.dart';
@@ -21,13 +23,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<void> signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (error) {
-      print(error); // TODO: show dialog with error
-    }
-  }
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  AndroidInitializationSettings androidInitializationSettings;
+  IOSInitializationSettings iosInitializationSettings;
+  InitializationSettings initializationSettings;
 
   DateTime selectedDate;
   DateTime nextDay;
@@ -39,12 +39,76 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _resetSelectedDate();
     initializeDateFormatting();
+    initializePushNotifications();
+  }
+
+  void initializePushNotifications() async {
+    androidInitializationSettings = AndroidInitializationSettings('app_icon');
+    iosInitializationSettings = IOSInitializationSettings(
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    initializationSettings = InitializationSettings(
+        androidInitializationSettings, iosInitializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+  }
+
+  void _showNotifications() async {
+    await notification();
+  }
+
+  Future<void> notification() async {
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+            'channelId', 'channelName', 'channelDescription',
+            priority: Priority.High,
+            importance: Importance.Max,
+            ticker: 'test');
+
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+
+    NotificationDetails notificationDetails =
+        NotificationDetails(androidNotificationDetails, iosNotificationDetails);
+    await flutterLocalNotificationsPlugin.show(
+        0, 'Hello there', 'please subscribe', notificationDetails);
+  }
+
+  Future onSelectNotification(String payload) {
+    if (payload != null) {
+      print(payload);
+    }
+
+    // set navigator to go to another screen
+  }
+
+  Future onDidReceiveLocalNotification(
+      int id, String title, String body, String payload) async {
+    return CupertinoAlertDialog(
+      title: Text(title),
+      content: Text(body),
+      actions: <Widget>[
+        CupertinoDialogAction(
+          isDefaultAction: true,
+          onPressed: () {
+            print('');
+          },
+          child: Text('Okay'),
+        )
+      ],
+    );
   }
 
   void _resetSelectedDate() {
     DateTime today = new DateTime.now();
     selectedDate = DateTime(today.year, today.month, today.day);
     nextDay = selectedDate.add(Duration(days: 1));
+  }
+
+  Future<void> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (error) {
+      print(error); // TODO: show dialog with error
+    }
   }
 
   @override
@@ -63,17 +127,18 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
               ),
             ),
-            onPressed: () {
-              signOut().whenComplete(() {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return LoginPage();
-                    },
-                  ),
-                );
-              });
-            },
+            onPressed: _showNotifications,
+            // () {
+            //   signOut().whenComplete(() {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) {
+            //           return LoginPage();
+            //         },
+            //       ),
+            //     );
+            //   });
+            // },
           ),
         ],
       ),
