@@ -58,7 +58,7 @@ void viewTaskModal(context, FirebaseUser user, dynamic data,
                 SizedBox(height: 10),
                 showRecordedTime
                     ? _showTime('Start', data.recordStart)
-                    : _showTime('Start', data.timeEnd),
+                    : _showTime('Start', data.timeStart),
                 SizedBox(height: 10),
                 showRecordedTime
                     ? _showTime('End', data.recordEnd)
@@ -74,7 +74,7 @@ void viewTaskModal(context, FirebaseUser user, dynamic data,
                     StatefulBuilder(builder:
                         (BuildContext context, StateSetter setButtonState) {
                       return IconButton(
-                        tooltip: data.alertSet ? 'Alert set' : 'Add alert',
+                        tooltip: data.alertSet ? 'Alert is set' : 'Add alert',
                         icon: Icon(
                           Icons.add_alert,
                           color: data.alertSet ? Colors.grey : Colors.indigo,
@@ -85,8 +85,8 @@ void viewTaskModal(context, FirebaseUser user, dynamic data,
                             : () {
                                 setButtonState(() {
                                   data.alertSet = true;
-                                  saveTask(data, user);
                                 });
+                                saveTask(data, user);
                                 _scheduleNotification();
                               },
                       );

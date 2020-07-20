@@ -126,7 +126,9 @@ class TaskFormState extends State<TaskForm> {
                               lastDate: DateTime(2100),
                               onChanged: (value) {
                                 setState(() {
-                                  _fieldStart = value;
+                                  widget.showRecordedTime
+                                      ? _task.recordStart = value
+                                      : _task.timeStart = value;
                                   _resetSelectedDate();
                                 });
                               },
@@ -139,12 +141,16 @@ class TaskFormState extends State<TaskForm> {
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                               validator: (value) {
-                                if (value.isBefore(_fieldStart))
-                                  return 'End time cannot be before start time.';
+                                if (widget.showRecordedTime
+                                    ? value.isBefore(_task.recordStart)
+                                    : value.isBefore(_task.timeStart))
+                                  return 'End cannot be before start.';
                               },
                               onChanged: (value) {
                                 setState(() {
-                                  _fieldEnd = value;
+                                  widget.showRecordedTime
+                                      ? _task.recordEnd = value
+                                      : _task.timeEnd = value;
                                 });
                               },
                             ),
@@ -271,4 +277,5 @@ class TaskModel {
   String id;
   DateTime recordStart;
   DateTime recordEnd;
+  bool alertSet;
 }
