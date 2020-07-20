@@ -7,7 +7,7 @@ import 'package:suncircle/screens/task/recordtimepage.dart';
 import 'package:suncircle/screens/task/savetask.dart';
 
 void viewTaskModal(context, FirebaseUser user, dynamic data,
-    bool showRecordedTime, Function(dynamic) notification) {
+    bool showRecordedTime, Function(String, String) notification) {
   if (data.id.isEmpty) return null; // prevents placeholders from being tapped
 
   int durationHour = data.duration.floor();
@@ -18,7 +18,7 @@ void viewTaskModal(context, FirebaseUser user, dynamic data,
   }
 
   void _scheduleNotification() async {
-    await notification(data);
+    await notification(data.name, data.id);
   }
 
   showModalBottomSheet(

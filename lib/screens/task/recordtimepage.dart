@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:suncircle/screens/task/savetask.dart';
-import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/loadingdialog.dart';
 
 class RecordTimePage extends StatefulWidget {
@@ -40,19 +39,12 @@ class _RecordTimePageState extends State<RecordTimePage> {
   Future savePressed() async {
     LoadingDialog.show(context);
 
-    saveTask(
-            TaskModel(
-              widget.task.category,
-              widget.task.name,
-              widget.task.timeStart,
-              widget.task.timeEnd,
-              widget.task.notes,
-              widget.task.id,
-              recordStart,
-              recordEnd,
-            ),
-            widget.user)
-        .whenComplete(() {
+    saveRecording(
+      widget.task.id,
+      recordStart,
+      recordEnd,
+      widget.user,
+    ).whenComplete(() {
       LoadingDialog.hide(context);
       Navigator.of(context).pop();
     });

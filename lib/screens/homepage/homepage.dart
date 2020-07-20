@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/screens/category/categoryform.dart';
 import 'package:suncircle/screens/homepage/circlecalendar.dart';
 import 'package:suncircle/screens/category/categoryListSheet.dart';
+import 'package:suncircle/screens/task/recordtimepage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);
@@ -52,7 +55,7 @@ class _HomePageState extends State<HomePage> {
         onSelectNotification: onSelectNotification);
   }
 
-  Future<void> notification(task) async {
+  Future<void> notification(String taskName, String taskID) async {
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
             'channelId', 'channelName', 'channelDescription',
@@ -64,19 +67,41 @@ class _HomePageState extends State<HomePage> {
 
     NotificationDetails notificationDetails =
         NotificationDetails(androidNotificationDetails, iosNotificationDetails);
+
     await flutterLocalNotificationsPlugin.show(
-        0,
-        'Your task ${task.name} is starting soon!',
-        'Tap to view time recorder',
-        notificationDetails);
+      0,
+      'Your task \"$taskName\" is starting soon!',
+      'Tap to view time recorder',
+      notificationDetails,
+      payload: taskID,
+    );
   }
 
-  Future onSelectNotification(String payload) {
-    if (payload != null) {
-      print(payload);
-    }
+  Future onSelectNotification(String payload) async {
+    final CollectionReference usersRef = Firestore.instance.collection('users');
+    final _taskDoc = await usersRef
+        .document(widget.user.uid)
+        .collection('tasks')
+        .document(payload)
+        .get();
 
-    // set navigator to go to another screen
+    ChartData data = ChartData(
+      _taskDoc.documentID,
+      'category', // this will not be passed to the database
+      _taskDoc['name'],
+      _taskDoc['time_start'].toDate(),
+      _taskDoc['time_end'].toDate(),
+      _taskDoc['notes'],
+      0.0, // this will not be passed to the database
+    );
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return RecordTimePage(user: widget.user, task: data);
+        },
+      ),
+    );
   }
 
   Future<CupertinoAlertDialog> onDidReceiveLocalNotification(

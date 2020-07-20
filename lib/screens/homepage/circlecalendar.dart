@@ -6,7 +6,7 @@ import 'package:suncircle/screens/task/viewtaskmodal.dart';
 
 Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
     DateTime nextDay, bool showRecordedTime,
-    [Function(dynamic) notification]) {
+    [Function(String, String) notification]) {
   String _fieldStart;
   String _fieldEnd;
 
