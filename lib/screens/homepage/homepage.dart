@@ -52,11 +52,7 @@ class _HomePageState extends State<HomePage> {
         onSelectNotification: onSelectNotification);
   }
 
-  void _showNotifications() async {
-    await notification();
-  }
-
-  Future<void> notification() async {
+  Future<void> notification(task) async {
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
             'channelId', 'channelName', 'channelDescription',
@@ -69,7 +65,10 @@ class _HomePageState extends State<HomePage> {
     NotificationDetails notificationDetails =
         NotificationDetails(androidNotificationDetails, iosNotificationDetails);
     await flutterLocalNotificationsPlugin.show(
-        0, 'Hello there', 'please subscribe', notificationDetails);
+        0,
+        'Your task ${task.name} is starting soon!',
+        'Tap to view time recorder',
+        notificationDetails);
   }
 
   Future onSelectNotification(String payload) {
@@ -80,7 +79,7 @@ class _HomePageState extends State<HomePage> {
     // set navigator to go to another screen
   }
 
-  Future onDidReceiveLocalNotification(
+  Future<CupertinoAlertDialog> onDidReceiveLocalNotification(
       int id, String title, String body, String payload) async {
     return CupertinoAlertDialog(
       title: Text(title),
@@ -127,18 +126,17 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
               ),
             ),
-            onPressed: _showNotifications,
-            // () {
-            //   signOut().whenComplete(() {
-            //     Navigator.of(context).push(
-            //       MaterialPageRoute(
-            //         builder: (context) {
-            //           return LoginPage();
-            //         },
-            //       ),
-            //     );
-            //   });
-            // },
+            onPressed: () {
+              signOut().whenComplete(() {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return LoginPage();
+                    },
+                  ),
+                );
+              });
+            },
           ),
         ],
       ),
@@ -152,7 +150,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Stack(
         children: <Widget>[
-          circleCalendar(widget.user, selectedDate, nextDay, showRecordedTime),
+          circleCalendar(widget.user, selectedDate, nextDay, showRecordedTime,
+              notification),
           _dayPicker(),
           Align(
             alignment: Alignment(0.0, 0.7),

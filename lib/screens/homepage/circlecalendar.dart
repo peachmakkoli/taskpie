@@ -5,7 +5,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:suncircle/screens/task/viewtaskmodal.dart';
 
 Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
-    DateTime nextDay, bool showRecordedTime) {
+    DateTime nextDay, bool showRecordedTime,
+    [Function(dynamic) notification]) {
   String _fieldStart;
   String _fieldEnd;
 
@@ -138,7 +139,7 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
                     builder: (dynamic data, dynamic point, dynamic series,
                         int pointIndex, int seriesIndex) {
                       return viewTaskModal(
-                          context, user, data, showRecordedTime);
+                          context, user, data, showRecordedTime, notification);
                     }),
                 series: <CircularSeries>[
                   PieSeries<ChartData, String>(

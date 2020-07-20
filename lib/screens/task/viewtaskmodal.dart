@@ -5,32 +5,24 @@ import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/screens/task/deletetask.dart';
 import 'package:suncircle/screens/task/recordtimepage.dart';
 
-Widget viewTaskModal(
-    context, FirebaseUser user, dynamic data, bool showRecordedTime) {
+void viewTaskModal(context, FirebaseUser user, dynamic data,
+    bool showRecordedTime, Function(dynamic) notification) {
   if (data.id.isEmpty) return null; // prevents placeholders from being tapped
 
   int durationHour = data.duration.floor();
   int durationMinute = ((data.duration - data.duration.floor()) * 60).floor();
 
-  Text _showStartTime() {
-    if (!showRecordedTime)
-      return Text(
-          'Start: ' + DateFormat.yMMMd().add_jm().format(data.timeStart));
-    else
-      return Text(
-          'Start: ' + DateFormat.yMMMd().add_jm().format(data.recordStart));
+  Text _showTime(String label, DateTime time) {
+    return Text('$label: ' + DateFormat.yMMMd().add_jm().format(time));
   }
 
-  Text _showEndTime() {
-    if (!showRecordedTime)
-      return Text('End: ' + DateFormat.yMMMd().add_jm().format(data.timeEnd));
-    else
-      return Text('End: ' + DateFormat.yMMMd().add_jm().format(data.recordEnd));
+  void _showNotifications() async {
+    await notification(data);
   }
 
   showModalBottomSheet(
       context: context,
-      builder: (BuildContext bc) {
+      builder: (BuildContext context) {
         return Container(
           height: MediaQuery.of(context).size.height * .50,
           child: Padding(
@@ -49,6 +41,7 @@ Widget viewTaskModal(
                     ),
                     Spacer(),
                     IconButton(
+                      tooltip: 'Close',
                       icon: Icon(
                         Icons.close,
                         color: Colors.red,
@@ -62,9 +55,13 @@ Widget viewTaskModal(
                 ),
                 Text('Category: ${data.category}'),
                 SizedBox(height: 10),
-                _showStartTime(),
+                showRecordedTime
+                    ? _showTime('Start', data.recordStart)
+                    : _showTime('Start', data.timeEnd),
                 SizedBox(height: 10),
-                _showEndTime(),
+                showRecordedTime
+                    ? _showTime('End', data.recordEnd)
+                    : _showTime('End', data.timeEnd),
                 SizedBox(height: 10),
                 Text('Duration: $durationHour h $durationMinute m'),
                 SizedBox(height: 10),
@@ -73,6 +70,15 @@ Widget viewTaskModal(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
+                    IconButton(
+                      tooltip: 'Add alert',
+                      icon: Icon(
+                        Icons.add_alert,
+                        color: Colors.indigo,
+                        size: 40,
+                      ),
+                      onPressed: _showNotifications,
+                    ),
                     IconButton(
                       tooltip: 'Record time',
                       icon: Icon(
@@ -129,7 +135,7 @@ Widget viewTaskModal(
                         color: Colors.red,
                       ),
                       onPressed: () {
-                        showDeleteTaskAlert(bc, data, user);
+                        showDeleteTaskAlert(context, data, user);
                       },
                     ),
                   ],
