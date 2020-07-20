@@ -37,6 +37,8 @@ class _HomePageState extends State<HomePage> {
 
   bool showRecordedTime = false;
 
+  int notificationID;
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +48,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void initializePushNotifications() async {
+    notificationID = 0;
     androidInitializationSettings = AndroidInitializationSettings('app_icon');
     iosInitializationSettings = IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
@@ -55,7 +58,10 @@ class _HomePageState extends State<HomePage> {
         onSelectNotification: onSelectNotification);
   }
 
-  Future<void> notification(String taskName, String taskID) async {
+  Future<void> notification(String taskName, String taskID, DateTime timeStart,
+      DateTime timeEnd) async {
+    DateTime scheduledStart = timeStart.subtract(Duration(minutes: 1));
+
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
             'channelId', 'channelName', 'channelDescription',
@@ -68,16 +74,30 @@ class _HomePageState extends State<HomePage> {
     NotificationDetails notificationDetails =
         NotificationDetails(androidNotificationDetails, iosNotificationDetails);
 
-    await flutterLocalNotificationsPlugin.show(
-      0,
+    await flutterLocalNotificationsPlugin.schedule(
+      notificationID,
       'Your task \"$taskName\" is starting soon!',
       'Tap to view time recorder',
+      scheduledStart,
       notificationDetails,
       payload: taskID,
     );
+
+    await flutterLocalNotificationsPlugin.schedule(
+      notificationID + 1,
+      'Your task \"$taskName\" is ending now!',
+      'Tap to open',
+      timeEnd,
+      notificationDetails,
+    );
+
+    setState(() {
+      notificationID += 2;
+    });
   }
 
   Future onSelectNotification(String payload) async {
+    if (payload == null) return;
     final CollectionReference usersRef = Firestore.instance.collection('users');
     final _taskDoc = await usersRef
         .document(widget.user.uid)
