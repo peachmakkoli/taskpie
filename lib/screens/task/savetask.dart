@@ -21,6 +21,7 @@ Future<void> saveTask(task, user) async {
         'name': task.name,
         'notes': task.notes,
         'category': categoryRef,
+        'alert_set': task.alertSet,
       };
 
       var taskData2 = {
@@ -32,6 +33,7 @@ Future<void> saveTask(task, user) async {
         'name': task.name,
         'notes': task.notes,
         'category': categoryRef,
+        'alert_set': task.alertSet,
       };
 
       await usersRef
@@ -53,6 +55,7 @@ Future<void> saveTask(task, user) async {
         'name': task.name,
         'notes': task.notes,
         'category': categoryRef,
+        'alert_set': task.alertSet,
       };
 
       await usersRef

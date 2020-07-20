@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:suncircle/screens/task/taskform.dart';
 import 'package:suncircle/screens/task/deletetask.dart';
 import 'package:suncircle/screens/task/recordtimepage.dart';
+import 'package:suncircle/screens/task/savetask.dart';
 
 void viewTaskModal(context, FirebaseUser user, dynamic data,
     bool showRecordedTime, Function(dynamic) notification) {
@@ -84,6 +85,7 @@ void viewTaskModal(context, FirebaseUser user, dynamic data,
                             : () {
                                 setButtonState(() {
                                   data.alertSet = true;
+                                  saveTask(data, user);
                                 });
                                 _scheduleNotification();
                               },

@@ -55,6 +55,7 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
         tasks[i]['notes'],
         _getDuration(tasks[i][_fieldEnd], tasks[i][_fieldStart]),
         _getColor(category),
+        tasks[i]['alert_set'] != null ? true : false,
       );
 
       if (tasks[i]['record_start'] != null) {
@@ -168,7 +169,7 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
 class ChartData {
   ChartData(this.id, this.category, this.name, this.timeStart, this.timeEnd,
       this.notes, this.duration,
-      [this.color, this.recordStart, this.recordEnd]);
+      [this.color, this.alertSet, this.recordStart, this.recordEnd]);
   final String id;
   final String category;
   final String name;
@@ -177,7 +178,7 @@ class ChartData {
   final double duration;
   final String notes;
   final Color color;
+  bool alertSet;
   DateTime recordStart;
   DateTime recordEnd;
-  bool alertSet = false;
 }
