@@ -179,4 +179,5 @@ class ChartData {
   final Color color;
   DateTime recordStart;
   DateTime recordEnd;
+  bool alertSet = false;
 }

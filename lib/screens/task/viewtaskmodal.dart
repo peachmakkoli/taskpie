@@ -12,8 +12,6 @@ void viewTaskModal(context, FirebaseUser user, dynamic data,
   int durationHour = data.duration.floor();
   int durationMinute = ((data.duration - data.duration.floor()) * 60).floor();
 
-  bool _alertSet = false;
-
   Text _showTime(String label, DateTime time) {
     return Text('$label: ' + DateFormat.yMMMd().add_jm().format(time));
   }
@@ -75,17 +73,17 @@ void viewTaskModal(context, FirebaseUser user, dynamic data,
                     StatefulBuilder(builder:
                         (BuildContext context, StateSetter setButtonState) {
                       return IconButton(
-                        tooltip: _alertSet ? 'Alert set' : 'Add alert',
+                        tooltip: data.alertSet ? 'Alert set' : 'Add alert',
                         icon: Icon(
                           Icons.add_alert,
-                          color: _alertSet ? Colors.grey : Colors.indigo,
+                          color: data.alertSet ? Colors.grey : Colors.indigo,
                           size: 40,
                         ),
-                        onPressed: _alertSet
+                        onPressed: data.alertSet
                             ? null
                             : () {
                                 setButtonState(() {
-                                  _alertSet = true;
+                                  data.alertSet = true;
                                 });
                                 _scheduleNotification();
                               },
