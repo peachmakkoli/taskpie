@@ -138,7 +138,7 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
                     activationMode: ActivationMode.longPress,
                     builder: (dynamic data, dynamic point, dynamic series,
                         int pointIndex, int seriesIndex) {
-                      return viewTaskModal(
+                      viewTaskModal(
                           context, user, data, showRecordedTime, notification);
                     }),
                 series: <CircularSeries>[
