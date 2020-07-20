@@ -59,8 +59,8 @@ class TaskFormState extends State<TaskForm> {
       _fieldStart = _task.recordStart;
       _fieldEnd = _task.recordEnd;
     } else {
-      _fieldStart = _fieldStart;
-      _fieldEnd = _fieldEnd;
+      _fieldStart = _task.timeStart;
+      _fieldEnd = _task.timeEnd;
     }
   }
 
