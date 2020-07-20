@@ -189,7 +189,7 @@ class _RecordTimePageState extends State<RecordTimePage> {
             savePressed();
           },
           tooltip: 'Submit',
-          child: Icon(Icons.send, size: 30.0),
+          child: Icon(Icons.save, size: 30.0),
         ),
       ],
     );
