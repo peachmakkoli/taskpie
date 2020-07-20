@@ -11,7 +11,7 @@ void viewTaskModal(
     FirebaseUser user,
     dynamic data,
     bool showRecordedTime,
-    Function(String, String, DateTime, DateTime) notification) {
+    Function(String, String, DateTime, DateTime, [bool]) notification) {
   if (data.id.isEmpty) return null; // prevents placeholders from being tapped
 
   int durationHour = data.duration.floor();
@@ -23,6 +23,10 @@ void viewTaskModal(
 
   void _scheduleNotification() async {
     await notification(data.name, data.id, data.timeStart, data.timeEnd);
+  }
+
+  void _cancelNotification() async {
+    await notification(data.name, data.id, data.timeStart, data.timeEnd, true);
   }
 
   showModalBottomSheet(
@@ -78,20 +82,32 @@ void viewTaskModal(
                     StatefulBuilder(builder:
                         (BuildContext context, StateSetter setButtonState) {
                       return IconButton(
-                        tooltip: data.alertSet ? 'Alert is set' : 'Add alert',
+                        tooltip: (data.alertSet != true)
+                            ? 'Add alert'
+                            : 'Alert is set',
                         icon: Icon(
-                          Icons.add_alert,
-                          color: data.alertSet ? Colors.grey : Colors.indigo,
+                          (data.alertSet != true)
+                              ? Icons.add_alert
+                              : Icons.notifications_off,
+                          color: (data.alertSet != true)
+                              ? Colors.indigo
+                              : Colors.red,
                           size: 40,
                         ),
-                        onPressed: data.alertSet
-                            ? null
-                            : () {
+                        onPressed: (data.alertSet != true)
+                            ? () {
                                 setButtonState(() {
                                   data.alertSet = true;
                                 });
                                 saveTask(data, user);
                                 _scheduleNotification();
+                              }
+                            : () {
+                                setButtonState(() {
+                                  data.alertSet = false;
+                                });
+                                saveTask(data, user);
+                                _cancelNotification();
                               },
                       );
                     }),

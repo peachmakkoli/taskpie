@@ -6,7 +6,7 @@ import 'package:suncircle/screens/task/viewtaskmodal.dart';
 
 Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
     DateTime nextDay, bool showRecordedTime,
-    [Function(String, String, DateTime, DateTime) notification]) {
+    [Function(String, String, DateTime, DateTime, [bool]) notification]) {
   String _fieldStart;
   String _fieldEnd;
 
@@ -55,7 +55,7 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
         tasks[i]['notes'],
         _getDuration(tasks[i][_fieldEnd], tasks[i][_fieldStart]),
         _getColor(category),
-        tasks[i]['alert_set'] != null ? true : false,
+        tasks[i]['alert_set'] ?? false,
       );
 
       if (tasks[i]['record_start'] != null) {

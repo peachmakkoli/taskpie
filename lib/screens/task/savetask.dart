@@ -85,6 +85,21 @@ Future<void> saveRecording(taskID, recordStart, recordEnd, user) async {
   }
 }
 
+Future<void> saveAlertBool(taskID, user, alertSet) async {
+  final CollectionReference usersRef = Firestore.instance.collection('users');
+  final snapShot = await usersRef.document(user.uid).get();
+
+  if (snapShot.exists) {
+    var taskData = {'alert_set': alertSet};
+
+    await usersRef
+        .document(user.uid)
+        .collection('tasks')
+        .document(taskID)
+        .setData(taskData, merge: true);
+  }
+}
+
 Future<List<dynamic>> getCategories(user) async {
   final CollectionReference usersRef = Firestore.instance.collection('users');
   final snapShot = await usersRef.document(user.uid).get();

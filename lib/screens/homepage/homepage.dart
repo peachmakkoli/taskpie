@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +36,6 @@ class _HomePageState extends State<HomePage> {
 
   bool showRecordedTime = false;
 
-  int notificationID;
-
   @override
   void initState() {
     super.initState();
@@ -48,7 +45,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void initializePushNotifications() async {
-    notificationID = 0;
     androidInitializationSettings = AndroidInitializationSettings('app_icon');
     iosInitializationSettings = IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
@@ -58,42 +54,48 @@ class _HomePageState extends State<HomePage> {
         onSelectNotification: onSelectNotification);
   }
 
-  Future<void> notification(String taskName, String taskID, DateTime timeStart,
-      DateTime timeEnd) async {
-    DateTime scheduledStart = timeStart.subtract(Duration(minutes: 1));
+  Future<void> notification(
+      String taskName, String taskID, DateTime timeStart, DateTime timeEnd,
+      [bool cancel]) async {
+    int _startNotificationID = Timestamp.fromDate(timeStart).seconds;
+    int _endNotificationID = Timestamp.fromDate(timeEnd).seconds;
 
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
-            'channelId', 'channelName', 'channelDescription',
-            priority: Priority.High,
-            importance: Importance.Max,
-            ticker: 'test');
+    if (cancel == true) {
+      await flutterLocalNotificationsPlugin.cancel(_startNotificationID);
+      await flutterLocalNotificationsPlugin.cancel(_endNotificationID);
+      return;
+    } else {
+      DateTime _scheduledStart = timeStart.subtract(Duration(minutes: 1));
 
-    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+      AndroidNotificationDetails androidNotificationDetails =
+          AndroidNotificationDetails(
+              taskID, taskName, 'Start: $timeStart, End: $timeEnd',
+              priority: Priority.High,
+              importance: Importance.Max,
+              ticker: 'task alert');
 
-    NotificationDetails notificationDetails =
-        NotificationDetails(androidNotificationDetails, iosNotificationDetails);
+      IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
 
-    await flutterLocalNotificationsPlugin.schedule(
-      notificationID,
-      'Your task \"$taskName\" is starting soon!',
-      'Tap to view time recorder',
-      scheduledStart,
-      notificationDetails,
-      payload: taskID,
-    );
+      NotificationDetails notificationDetails = NotificationDetails(
+          androidNotificationDetails, iosNotificationDetails);
 
-    await flutterLocalNotificationsPlugin.schedule(
-      notificationID + 1,
-      'Your task \"$taskName\" is ending now!',
-      'Tap to open',
-      timeEnd,
-      notificationDetails,
-    );
+      await flutterLocalNotificationsPlugin.schedule(
+        _startNotificationID,
+        'Your task \"$taskName\" is starting soon!',
+        'Tap to view time recorder',
+        _scheduledStart,
+        notificationDetails,
+        payload: taskID,
+      );
 
-    setState(() {
-      notificationID += 2;
-    });
+      await flutterLocalNotificationsPlugin.schedule(
+        _endNotificationID,
+        'Your task \"$taskName\" is ending now!',
+        'Tap to open',
+        timeEnd,
+        notificationDetails,
+      );
+    }
   }
 
   Future onSelectNotification(String payload) async {
