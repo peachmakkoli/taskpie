@@ -37,8 +37,6 @@ class TaskFormState extends State<TaskForm> {
   TaskModel _task;
   DateTime selectedDate;
   DateTime nextDay;
-  DateTime _fieldStart;
-  DateTime _fieldEnd;
   bool _autoValidate = false;
 
   @override
@@ -46,7 +44,6 @@ class TaskFormState extends State<TaskForm> {
     super.initState();
     initModel();
     resetSelectedDate();
-    _toggleTime();
   }
 
   void initModel() {
@@ -57,16 +54,6 @@ class TaskFormState extends State<TaskForm> {
     selectedDate = DateTime(
         _task.timeStart.year, _task.timeStart.month, _task.timeStart.day);
     nextDay = selectedDate.add(Duration(days: 1));
-  }
-
-  void _toggleTime() {
-    if (widget.showRecordedTime) {
-      _fieldStart = _task.recordStart;
-      _fieldEnd = _task.recordEnd;
-    } else {
-      _fieldStart = _task.timeStart;
-      _fieldEnd = _task.timeEnd;
-    }
   }
 
   List<String> getCategoryList(categories) {
@@ -124,7 +111,9 @@ class TaskFormState extends State<TaskForm> {
                       children: <CardSettingsWidget>[
                         CardSettingsDateTimePicker(
                           label: 'Start',
-                          initialValue: _fieldStart,
+                          initialValue: widget.showRecordedTime
+                              ? _task.recordStart
+                              : _task.timeStart,
                           requiredIndicator:
                               Text('*', style: TextStyle(color: Colors.red)),
                           firstDate: DateTime(1900),
@@ -140,7 +129,9 @@ class TaskFormState extends State<TaskForm> {
                         ),
                         CardSettingsDateTimePicker(
                           label: 'End',
-                          initialValue: _fieldEnd,
+                          initialValue: widget.showRecordedTime
+                              ? _task.recordEnd
+                              : _task.timeEnd,
                           requiredIndicator:
                               Text('*', style: TextStyle(color: Colors.red)),
                           firstDate: DateTime(1900),

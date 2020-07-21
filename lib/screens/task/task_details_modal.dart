@@ -162,14 +162,7 @@ class TaskDetailsModal extends StatelessWidget {
                             title: 'TaskPie',
                             subtitle: 'Update Task',
                             user: user,
-                            task: TaskModel(
-                              task.category,
-                              task.name,
-                              task.timeStart,
-                              task.timeEnd,
-                              task.notes,
-                              task.id,
-                            ),
+                            task: task,
                             showRecordedTime: showRecordedTime,
                           );
                         },
