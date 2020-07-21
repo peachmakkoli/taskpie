@@ -225,7 +225,10 @@ class _HomePageState extends State<HomePage> {
             maxChildSize: 1.0,
             initialChildSize: 0.14,
             builder: (BuildContext context, ScrollController scrollController) {
-              return categoryListSheet(widget.user, scrollController);
+              return CategoryListSheet(
+                user: widget.user,
+                scrollController: scrollController,
+              );
             },
           ),
         ],

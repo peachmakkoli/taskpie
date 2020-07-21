@@ -208,7 +208,7 @@ class TaskFormState extends State<TaskForm> {
               ),
               DraggableScrollableSheet(
                 minChildSize: 0.14,
-                maxChildSize: 0.9,
+                maxChildSize: 0.75,
                 initialChildSize: 0.14,
                 builder:
                     (BuildContext context, ScrollController scrollController) {
@@ -232,9 +232,9 @@ class TaskFormState extends State<TaskForm> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
+                            padding: EdgeInsets.fromLTRB(48, 32, 48, 64),
                             child: Text(
-                              'Task Chart',
+                              'Scheduled Tasks',
                               style: Theme.of(context).textTheme.headline6,
                             ),
                           ),

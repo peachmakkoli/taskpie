@@ -123,7 +123,7 @@ class CircleCalendar extends StatelessWidget {
                 return Container(
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment(0.0, 0.0),
-                    child: Text('Loading data...'));
+                    child: Text('Loading...'));
               if (tasksSnapshot.data.documents.isEmpty)
                 return Container(
                     height: MediaQuery.of(context).size.height,
