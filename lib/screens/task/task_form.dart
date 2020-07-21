@@ -38,6 +38,9 @@ class TaskFormState extends State<TaskForm> {
   DateTime selectedDate;
   DateTime nextDay;
   bool _autoValidate = false;
+  bool _isOverlapStartPartial;
+  bool _isOverlapEndPartial;
+  bool _isOverlapComplete;
 
   @override
   void initState() {
@@ -48,6 +51,27 @@ class TaskFormState extends State<TaskForm> {
 
   void initModel() {
     _task = widget.task;
+  }
+
+  void initCheckOverlap() async {
+    _isOverlapStartPartial = await isOverlapPartial(
+      widget.user,
+      'time_start',
+      widget.showRecordedTime ? _task.recordStart : _task.timeStart,
+      widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
+    );
+    _isOverlapEndPartial = await isOverlapPartial(
+      widget.user,
+      'time_end',
+      widget.showRecordedTime ? _task.recordStart : _task.timeStart,
+      widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
+    );
+    _isOverlapStartPartial = await isOverlapPartial(
+      widget.user,
+      'time_start',
+      widget.showRecordedTime ? _task.recordStart : _task.timeStart,
+      widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
+    );
   }
 
   void resetSelectedDate() {
@@ -87,7 +111,6 @@ class TaskFormState extends State<TaskForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.title}: ${widget.subtitle}'),
-        // backgroundColor: Color(0xFFFF737D),
       ),
       backgroundColor: Colors.white,
       floatingActionButton: submitFormButton(context, submitForm),
@@ -95,156 +118,217 @@ class TaskFormState extends State<TaskForm> {
         future: getCategories(widget.user),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (!snapshot.hasData) return Center(child: Text('Loading...'));
-          return Stack(
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: CardSettings.sectioned(
-                  showMaterialonIOS: false,
-                  labelWidth: 150,
-                  contentAlign: TextAlign.right,
-                  children: <CardSettingsSection>[
-                    CardSettingsSection(
-                      header: CardSettingsHeader(
-                        label: 'Date and Time',
-                      ),
-                      children: <CardSettingsWidget>[
-                        CardSettingsDateTimePicker(
-                          label: 'Start',
-                          initialValue: widget.showRecordedTime
-                              ? _task.recordStart
-                              : _task.timeStart,
-                          requiredIndicator:
-                              Text('*', style: TextStyle(color: Colors.red)),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime(2100),
-                          onChanged: (value) {
-                            setState(() {
-                              widget.showRecordedTime
-                                  ? _task.recordStart = value
-                                  : _task.timeStart = value;
-                              resetSelectedDate();
-                            });
-                          },
-                        ),
-                        CardSettingsDateTimePicker(
-                          label: 'End',
-                          initialValue: widget.showRecordedTime
-                              ? _task.recordEnd
-                              : _task.timeEnd,
-                          requiredIndicator:
-                              Text('*', style: TextStyle(color: Colors.red)),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime(2100),
-                          validator: (value) {
-                            if (widget.showRecordedTime
-                                ? value.isBefore(_task.recordStart)
-                                : value.isBefore(_task.timeStart))
-                              return 'End cannot be before start.';
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              widget.showRecordedTime
-                                  ? _task.recordEnd = value
-                                  : _task.timeEnd = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    CardSettingsSection(
-                      header: CardSettingsHeader(
-                        label: 'Info',
-                      ),
-                      children: <CardSettingsWidget>[
-                        CardSettingsText(
-                          label: 'Name',
-                          initialValue: _task.name,
-                          requiredIndicator:
-                              Text('*', style: TextStyle(color: Colors.red)),
-                          validator: (value) {
-                            if (value.isEmpty) return 'Name is required.';
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              _task.name = value;
-                            });
-                          },
-                        ),
-                        CardSettingsSelectionPicker(
-                          label: 'Category',
-                          initialValue: _task.category,
-                          requiredIndicator:
-                              Text('*', style: TextStyle(color: Colors.red)),
-                          options: getCategoryList(snapshot.data),
-                          onChanged: (value) {
-                            setState(() {
-                              _task.category = value;
-                            });
-                          },
-                        ),
-                        CardSettingsParagraph(
-                          label: 'Notes',
-                          initialValue: _task.notes,
-                          onChanged: (value) {
-                            setState(() {
-                              _task.notes = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          return FutureBuilder<bool>(
+              future: isOverlapPartial(
+                widget.user,
+                'time_start',
+                widget.showRecordedTime ? _task.recordStart : _task.timeStart,
+                widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
               ),
-              DraggableScrollableSheet(
-                minChildSize: 0.14,
-                maxChildSize: 0.75,
-                initialChildSize: 0.14,
-                builder:
-                    (BuildContext context, ScrollController scrollController) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(30),
-                          topLeft: Radius.circular(30)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(1.0, -2.0),
-                            blurRadius: 4.0,
-                            spreadRadius: 2.0)
-                      ],
-                      color: Colors.white,
+              builder: (context, snapshotEndOverlapPartial) {
+                return FutureBuilder<bool>(
+                    future: isOverlapPartial(
+                      widget.user,
+                      'time_end',
+                      widget.showRecordedTime
+                          ? _task.recordStart
+                          : _task.timeStart,
+                      widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
                     ),
-                    child: ListView(
-                      controller: scrollController,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(48, 32, 48, 64),
-                            child: Text(
-                              'Scheduled Tasks',
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
+                    builder: (context, snapshotStartOverlapPartial) {
+                      return FutureBuilder<bool>(
+                          future: isOverlapComplete(
+                            widget.user,
+                            widget.showRecordedTime
+                                ? _task.recordStart
+                                : _task.timeStart,
+                            widget.showRecordedTime
+                                ? _task.recordEnd
+                                : _task.timeEnd,
                           ),
-                        ),
-                        Center(
-                          child: CircleCalendar(
-                            user: widget.user,
-                            selectedDate: selectedDate,
-                            nextDay: nextDay,
-                            showRecordedTime: false,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          );
+                          builder: (context, snapshotOverlapComplete) {
+                            return Stack(
+                              children: <Widget>[
+                                Form(
+                                  key: _formKey,
+                                  child: CardSettings.sectioned(
+                                    showMaterialonIOS: false,
+                                    labelWidth: 150,
+                                    contentAlign: TextAlign.right,
+                                    children: <CardSettingsSection>[
+                                      CardSettingsSection(
+                                        header: CardSettingsHeader(
+                                          label: 'Date and Time',
+                                        ),
+                                        children: <CardSettingsWidget>[
+                                          CardSettingsDateTimePicker(
+                                            label: 'Start',
+                                            initialValue:
+                                                widget.showRecordedTime
+                                                    ? _task.recordStart
+                                                    : _task.timeStart,
+                                            requiredIndicator: Text('*',
+                                                style: TextStyle(
+                                                    color: Colors.red)),
+                                            firstDate: DateTime(1900),
+                                            lastDate: DateTime(2100),
+                                            validator: (value) {
+                                              if (snapshotStartOverlapPartial
+                                                          .data ==
+                                                      true ||
+                                                  snapshotOverlapComplete
+                                                          .data ==
+                                                      true)
+                                                return 'Start time overlaps another task.';
+                                            },
+                                            onChanged: (value) {
+                                              setState(() {
+                                                widget.showRecordedTime
+                                                    ? _task.recordStart = value
+                                                    : _task.timeStart = value;
+                                                resetSelectedDate();
+                                              });
+                                            },
+                                          ),
+                                          CardSettingsDateTimePicker(
+                                            label: 'End',
+                                            initialValue:
+                                                widget.showRecordedTime
+                                                    ? _task.recordEnd
+                                                    : _task.timeEnd,
+                                            requiredIndicator: Text('*',
+                                                style: TextStyle(
+                                                    color: Colors.red)),
+                                            firstDate: DateTime(1900),
+                                            lastDate: DateTime(2100),
+                                            validator: (value) {
+                                              if (widget.showRecordedTime
+                                                  ? value.isBefore(
+                                                      _task.recordStart)
+                                                  : value.isBefore(
+                                                      _task.timeStart))
+                                                return 'End cannot be before start.';
+                                              if (snapshotEndOverlapPartial
+                                                          .data ==
+                                                      true ||
+                                                  snapshotOverlapComplete
+                                                          .data ==
+                                                      true)
+                                                return 'End time overlaps another task.';
+                                            },
+                                            onChanged: (value) {
+                                              setState(() {
+                                                widget.showRecordedTime
+                                                    ? _task.recordEnd = value
+                                                    : _task.timeEnd = value;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      CardSettingsSection(
+                                        header: CardSettingsHeader(
+                                          label: 'Info',
+                                        ),
+                                        children: <CardSettingsWidget>[
+                                          CardSettingsText(
+                                            label: 'Name',
+                                            initialValue: _task.name,
+                                            requiredIndicator: Text('*',
+                                                style: TextStyle(
+                                                    color: Colors.red)),
+                                            validator: (value) {
+                                              if (value.isEmpty)
+                                                return 'Name is required.';
+                                            },
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _task.name = value;
+                                              });
+                                            },
+                                          ),
+                                          CardSettingsSelectionPicker(
+                                            label: 'Category',
+                                            initialValue: _task.category,
+                                            requiredIndicator: Text('*',
+                                                style: TextStyle(
+                                                    color: Colors.red)),
+                                            options:
+                                                getCategoryList(snapshot.data),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _task.category = value;
+                                              });
+                                            },
+                                          ),
+                                          CardSettingsParagraph(
+                                            label: 'Notes',
+                                            initialValue: _task.notes,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _task.notes = value;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                DraggableScrollableSheet(
+                                  minChildSize: 0.14,
+                                  maxChildSize: 0.75,
+                                  initialChildSize: 0.14,
+                                  builder: (BuildContext context,
+                                      ScrollController scrollController) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(30),
+                                            topLeft: Radius.circular(30)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.grey,
+                                              offset: Offset(1.0, -2.0),
+                                              blurRadius: 4.0,
+                                              spreadRadius: 2.0)
+                                        ],
+                                        color: Colors.white,
+                                      ),
+                                      child: ListView(
+                                        controller: scrollController,
+                                        children: <Widget>[
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  48, 32, 48, 64),
+                                              child: Text(
+                                                'Scheduled Tasks',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6,
+                                              ),
+                                            ),
+                                          ),
+                                          Center(
+                                            child: CircleCalendar(
+                                              user: widget.user,
+                                              selectedDate: selectedDate,
+                                              nextDay: nextDay,
+                                              showRecordedTime: false,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    });
+              });
         },
       ),
     );

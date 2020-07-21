@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 Future<void> saveTask(task, user) async {
   final CollectionReference usersRef = Firestore.instance.collection('users');
@@ -114,4 +115,40 @@ Future<List<dynamic>> getCategories(user) async {
   }
 
   return [];
+}
+
+Future<bool> isOverlapPartial(user, timeField, timeStart, timeEnd) async {
+  final CollectionReference usersRef = Firestore.instance.collection('users');
+  final snapShot = await usersRef.document(user.uid).get();
+
+  if (snapShot.exists) {
+    final QuerySnapshot result = await usersRef
+        .document(user.uid)
+        .collection('tasks')
+        .where(timeField, isGreaterThan: timeStart)
+        .where(timeField, isLessThan: timeEnd)
+        .getDocuments();
+
+    return result.documents.iterator.moveNext();
+  }
+
+  return false;
+}
+
+Future<bool> isOverlapComplete(user, timeStart, timeEnd) async {
+  final CollectionReference usersRef = Firestore.instance.collection('users');
+  final snapShot = await usersRef.document(user.uid).get();
+
+  if (snapShot.exists) {
+    final QuerySnapshot result = await usersRef
+        .document(user.uid)
+        .collection('tasks')
+        .where('time_end', isGreaterThan: timeEnd)
+        .getDocuments();
+
+    return result.documents
+        .contains((document) => document['time_start'] < timeStart);
+  }
+
+  return false;
 }
