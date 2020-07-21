@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -36,16 +36,14 @@ Future<FirebaseUser> signInWithGoogle() async {
       'email': user.email,
     };
 
-    var categoryData = {
-      'color': 'ff9e9e9e'
-    };
+    var categoryData = {'color': 'ff9e9e9e'};
 
     await usersRef.document(user.uid).setData(userData);
     await usersRef
-      .document(user.uid)
-      .collection('categories')
-      .document('uncategorized')
-      .setData(categoryData); // create a default category
+        .document(user.uid)
+        .collection('categories')
+        .document('uncategorized')
+        .setData(categoryData); // create a default category
   }
 
   return user;

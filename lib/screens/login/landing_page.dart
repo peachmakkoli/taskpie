@@ -1,7 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:suncircle/screens/loginpage/loginpage.dart';
-import 'package:suncircle/screens/homepage/homepage.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:suncircle/screens/login/login_page.dart';
+import 'package:suncircle/screens/homepage/home_page.dart';
 
 class LandingPage extends StatelessWidget {
   @override

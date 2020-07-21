@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:suncircle/screens/task/taskform.dart';
-import 'package:suncircle/screens/task/deletetask.dart';
-import 'package:suncircle/screens/task/recordtimepage.dart';
-import 'package:suncircle/screens/task/savetask.dart';
 
-void viewTaskModal(
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:suncircle/screens/task/task_form.dart';
+import 'package:suncircle/screens/task/record_time_page.dart';
+import 'package:suncircle/services/task/save_task.dart';
+import 'package:suncircle/services/task/delete_task.dart';
+
+void viewTaskSheet(
     context,
     FirebaseUser user,
     dynamic data,

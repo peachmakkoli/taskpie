@@ -1,18 +1,21 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
 import 'package:custom_horizontal_calendar/date_row.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:suncircle/screens/loginpage/loginpage.dart';
 import 'package:unicorndial/unicorndial.dart';
-import 'package:suncircle/screens/task/taskform.dart';
-import 'package:suncircle/screens/category/categoryform.dart';
-import 'package:suncircle/screens/homepage/circlecalendar.dart';
-import 'package:suncircle/screens/category/categoryListSheet.dart';
-import 'package:suncircle/screens/task/recordtimepage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+// import 'package:suncircle/screens/login/login_page.dart';
+import 'package:suncircle/screens/task/task_form.dart';
+import 'package:suncircle/screens/category/category_form.dart';
+import 'package:suncircle/components/circle_calendar.dart';
+import 'package:suncircle/screens/category/category_list_sheet.dart';
+import 'package:suncircle/screens/task/record_time_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);
@@ -175,13 +178,14 @@ class _HomePageState extends State<HomePage> {
             ),
             onPressed: () {
               signOut().whenComplete(() {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return LoginPage();
-                    },
-                  ),
-                );
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (context) {
+                //       return LoginPage();
+                //     },
+                //   ),
+                // );
               });
             },
           ),

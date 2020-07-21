@@ -1,7 +1,9 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:syncfusion_flutter_core/core.dart';
-import 'package:suncircle/screens/landingpage/landingpage.dart';
+
+import 'package:suncircle/screens/login/landing_page.dart';
 
 Future<void> main() async {
   await DotEnv().load('.env');

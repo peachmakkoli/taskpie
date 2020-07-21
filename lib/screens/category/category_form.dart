@@ -1,9 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:card_settings/card_settings.dart';
-import 'package:suncircle/screens/category/savecategory.dart';
-import 'package:suncircle/loadingdialog.dart';
+
+import 'package:suncircle/services/category/save_category.dart';
+import 'package:suncircle/models/loading_dialog.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

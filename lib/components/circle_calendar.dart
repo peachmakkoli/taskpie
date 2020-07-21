@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:suncircle/screens/task/viewtaskmodal.dart';
+
+import 'package:suncircle/screens/task/view_task_sheet.dart';
 
 Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
     DateTime nextDay, bool showRecordedTime,
@@ -139,7 +142,7 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
                     activationMode: ActivationMode.longPress,
                     builder: (dynamic data, dynamic point, dynamic series,
                         int pointIndex, int seriesIndex) {
-                      viewTaskModal(
+                      viewTaskSheet(
                           context, user, data, showRecordedTime, notification);
                     }),
                 series: <CircularSeries>[

@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:suncircle/screens/task/savetask.dart';
-import 'package:suncircle/loadingdialog.dart';
+
+import 'package:suncircle/services/task/save_task.dart';
+import 'package:suncircle/models/loading_dialog.dart';
 
 class RecordTimePage extends StatefulWidget {
   RecordTimePage({Key key, this.user, this.task}) : super(key: key);
