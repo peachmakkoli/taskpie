@@ -30,22 +30,27 @@ class _LoginPageState extends State<LoginPage> {
                   image: ExactAssetImage('assets/apple-pie.png'),
                   height: 300.0),
               SizedBox(height: 50),
-              _signInButton(),
+              SignInButton(),
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  Widget _signInButton() {
+class SignInButton extends StatelessWidget {
+  const SignInButton({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return OutlineButton(
       splashColor: Colors.white,
       onPressed: () {
         LoadingDialog.show(context);
         signInWithGoogle().whenComplete(() {
           LoadingDialog.hide(context);
-          Navigator.popUntil(context, ModalRoute.withName('/'));
+          Navigator.of(context).popUntil((route) => route.isFirst);
         });
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),

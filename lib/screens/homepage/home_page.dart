@@ -43,9 +43,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _resetSelectedDate();
     initializeDateFormatting();
+    resetSelectedDate();
     initializePushNotifications();
+  }
+
+  void resetSelectedDate() {
+    DateTime today = new DateTime.now();
+    selectedDate = DateTime(today.year, today.month, today.day);
+    nextDay = selectedDate.add(Duration(days: 1));
   }
 
   void initializePushNotifications() async {
@@ -146,12 +152,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _resetSelectedDate() {
-    DateTime today = new DateTime.now();
-    selectedDate = DateTime(today.year, today.month, today.day);
-    nextDay = selectedDate.add(Duration(days: 1));
-  }
-
   Future<void> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
             ),
             onPressed: () {
               signOut().whenComplete(() {
-                Navigator.popUntil(context, ModalRoute.withName('/'));
+                Navigator.of(context).popUntil((route) => route.isFirst);
               });
             },
           ),

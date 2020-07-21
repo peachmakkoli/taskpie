@@ -45,7 +45,7 @@ class TaskFormState extends State<TaskForm> {
   void initState() {
     super.initState();
     initModel();
-    _resetSelectedDate();
+    resetSelectedDate();
     _toggleTime();
   }
 
@@ -53,7 +53,7 @@ class TaskFormState extends State<TaskForm> {
     _task = widget.task;
   }
 
-  void _resetSelectedDate() {
+  void resetSelectedDate() {
     selectedDate = DateTime(
         _task.timeStart.year, _task.timeStart.month, _task.timeStart.day);
     nextDay = selectedDate.add(Duration(days: 1));
@@ -134,7 +134,7 @@ class TaskFormState extends State<TaskForm> {
                               widget.showRecordedTime
                                   ? _task.recordStart = value
                                   : _task.timeStart = value;
-                              _resetSelectedDate();
+                              resetSelectedDate();
                             });
                           },
                         ),
