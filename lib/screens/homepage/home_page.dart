@@ -10,12 +10,12 @@ import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
 import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:unicorndial/unicorndial.dart';
 
-// import 'package:suncircle/screens/login/login_page.dart';
-import 'package:suncircle/screens/task/task_form.dart';
-import 'package:suncircle/screens/category/category_form.dart';
 import 'package:suncircle/components/circle_calendar.dart';
+import 'package:suncircle/models/task_model.dart';
+import 'package:suncircle/screens/category/category_form.dart';
 import 'package:suncircle/screens/category/category_list_sheet.dart';
 import 'package:suncircle/screens/task/record_time_page.dart';
+import 'package:suncircle/screens/task/task_form.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);
@@ -110,14 +110,13 @@ class _HomePageState extends State<HomePage> {
         .document(payload)
         .get();
 
-    ChartData data = ChartData(
-      _taskDoc.documentID,
+    TaskModel data = TaskModel(
       'category', // this will not be passed to the database
       _taskDoc['name'],
       _taskDoc['time_start'].toDate(),
       _taskDoc['time_end'].toDate(),
       _taskDoc['notes'],
-      0.0, // this will not be passed to the database
+      _taskDoc.documentID,
     );
 
     Navigator.of(context).push(
@@ -165,7 +164,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        // backgroundColor: Color(0xFFFF737D),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           FlatButton(
@@ -179,13 +177,6 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               signOut().whenComplete(() {
                 Navigator.popUntil(context, ModalRoute.withName('/'));
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) {
-                //       return LoginPage();
-                //     },
-                //   ),
-                // );
               });
             },
           ),
@@ -285,7 +276,12 @@ class _HomePageState extends State<HomePage> {
                     subtitle: 'Create Task',
                     user: widget.user,
                     task: TaskModel(
-                        'uncategorized', '', selectedDate, selectedDate),
+                      'uncategorized',
+                      '',
+                      selectedDate,
+                      selectedDate,
+                      '',
+                    ),
                     showRecordedTime: false,
                   );
                 },

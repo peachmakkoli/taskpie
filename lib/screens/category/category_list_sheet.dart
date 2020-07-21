@@ -7,6 +7,10 @@ import 'package:suncircle/screens/category/category_form.dart';
 import 'package:suncircle/services/category/delete_category.dart';
 
 Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
+  Color _getColor(category) {
+    return Color(int.parse('0x${category['color']}'));
+  }
+
   return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
           .collection('users')
@@ -110,8 +114,4 @@ Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
           ),
         );
       });
-}
-
-Color _getColor(category) {
-  return Color(int.parse('0x${category['color']}'));
 }

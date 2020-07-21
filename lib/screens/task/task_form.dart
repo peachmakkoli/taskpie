@@ -5,9 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:card_settings/card_settings.dart';
 
-import 'package:suncircle/services/task/save_task.dart';
 import 'package:suncircle/components/circle_calendar.dart';
 import 'package:suncircle/models/loading_dialog.dart';
+import 'package:suncircle/models/task_model.dart';
+import 'package:suncircle/services/task/save_task.dart';
 
 class TaskForm extends StatefulWidget {
   TaskForm(
@@ -267,18 +268,4 @@ class TaskFormState extends State<TaskForm> {
       ],
     );
   }
-}
-
-class TaskModel {
-  TaskModel(this.category, this.name, this.timeStart, this.timeEnd,
-      [this.notes, this.id, this.recordStart, this.recordEnd]);
-  String category;
-  String name;
-  DateTime timeStart;
-  DateTime timeEnd;
-  String notes;
-  String id;
-  DateTime recordStart;
-  DateTime recordEnd;
-  bool alertSet;
 }

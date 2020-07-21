@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'package:suncircle/models/task_model.dart';
 import 'package:suncircle/screens/task/view_task_sheet.dart';
 
 Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
@@ -30,15 +31,15 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
     return Color(int.parse('0x${category['color']}'));
   }
 
-  List<ChartData> _getChartData(categories, tasks) {
-    List<ChartData> _chartData = List<ChartData>();
+  List<TaskModel> _getChartData(categories, tasks) {
+    List<TaskModel> _chartData = List<TaskModel>();
     // add white space between start of day and start of first task
-    _chartData.add(ChartData(
-      '',
+    _chartData.add(TaskModel(
       'free time',
       '',
       DateTime.now(),
       DateTime.now(),
+      '',
       '',
       _getDuration(tasks[0][_fieldStart], Timestamp.fromDate(selectedDate)),
       Colors.white,
@@ -49,36 +50,34 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
         (category) => category.reference.path == tasks[i]['category'].path,
       );
 
-      var _task = ChartData(
-        tasks[i].documentID,
+      var _task = TaskModel(
         category.documentID,
         tasks[i]['name'],
         tasks[i]['time_start'].toDate(),
         tasks[i]['time_end'].toDate(),
         tasks[i]['notes'],
+        tasks[i].documentID,
         _getDuration(tasks[i][_fieldEnd], tasks[i][_fieldStart]),
         _getColor(category),
-        tasks[i]['alert_set'] ?? false,
       );
 
-      if (tasks[i]['record_start'] != null) {
+      _task.alertSet =
+          tasks[i]['alert_set'] != null ? tasks[i]['alert_set'] : false;
+      if (tasks[i]['record_start'] != null)
         _task.recordStart = tasks[i]['record_start'].toDate();
-      }
-
-      if (tasks[i]['record_end'] != null) {
+      if (tasks[i]['record_end'] != null)
         _task.recordEnd = tasks[i]['record_end'].toDate();
-      }
 
       _chartData.add(_task);
 
       // add white space between tasks
       if (i < tasks.length - 1) {
-        _chartData.add(ChartData(
-            '',
+        _chartData.add(TaskModel(
             'free time',
             '',
             DateTime.now(),
             DateTime.now(),
+            '',
             '',
             _getDuration(tasks[i + 1][_fieldStart], tasks[i][_fieldEnd]),
             Colors.white));
@@ -86,12 +85,12 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
     }
 
     // add white space between end of last task and end of day
-    _chartData.add(ChartData(
-        '',
+    _chartData.add(TaskModel(
         'free time',
         '',
         DateTime.now(),
         DateTime.now(),
+        '',
         '',
         _getDuration(Timestamp.fromDate(selectedDate.add(Duration(days: 1))),
             tasks[tasks.length - 1][_fieldEnd]),
@@ -146,16 +145,16 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
                           context, user, data, showRecordedTime, notification);
                     }),
                 series: <CircularSeries>[
-                  PieSeries<ChartData, String>(
+                  PieSeries<TaskModel, String>(
                     enableSmartLabels: true,
                     dataSource: _getChartData(categoriesSnapshot.data.documents,
                         tasksSnapshot.data.documents),
-                    pointColorMapper: (ChartData data, _) => data.color,
-                    xValueMapper: (ChartData data, _) => data.id,
-                    yValueMapper: (ChartData data, _) => data.duration,
+                    pointColorMapper: (TaskModel data, _) => data.color,
+                    xValueMapper: (TaskModel data, _) => data.id,
+                    yValueMapper: (TaskModel data, _) => data.duration,
                     radius: '80%',
                     // explode: true,
-                    dataLabelMapper: (ChartData data, _) => data.name,
+                    dataLabelMapper: (TaskModel data, _) => data.name,
                     dataLabelSettings: DataLabelSettings(
                       isVisible: true,
                       useSeriesColor: true,
@@ -167,21 +166,4 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
           },
         );
       });
-}
-
-class ChartData {
-  ChartData(this.id, this.category, this.name, this.timeStart, this.timeEnd,
-      this.notes, this.duration,
-      [this.color, this.alertSet, this.recordStart, this.recordEnd]);
-  final String id;
-  final String category;
-  final String name;
-  final DateTime timeStart;
-  final DateTime timeEnd;
-  final double duration;
-  final String notes;
-  final Color color;
-  bool alertSet;
-  DateTime recordStart;
-  DateTime recordEnd;
 }

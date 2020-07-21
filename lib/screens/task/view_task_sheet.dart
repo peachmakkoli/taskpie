@@ -3,10 +3,11 @@ import 'package:intl/intl.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:suncircle/screens/task/task_form.dart';
+import 'package:suncircle/models/task_model.dart';
 import 'package:suncircle/screens/task/record_time_page.dart';
-import 'package:suncircle/services/task/save_task.dart';
+import 'package:suncircle/screens/task/task_form.dart';
 import 'package:suncircle/services/task/delete_task.dart';
+import 'package:suncircle/services/task/save_task.dart';
 
 void viewTaskSheet(
     context,
@@ -148,12 +149,13 @@ void viewTaskSheet(
                                 subtitle: 'Update Task',
                                 user: user,
                                 task: TaskModel(
-                                    data.category,
-                                    data.name,
-                                    data.timeStart,
-                                    data.timeEnd,
-                                    data.notes,
-                                    data.id),
+                                  data.category,
+                                  data.name,
+                                  data.timeStart,
+                                  data.timeEnd,
+                                  data.notes,
+                                  data.id,
+                                ),
                                 showRecordedTime: showRecordedTime,
                               );
                             },
