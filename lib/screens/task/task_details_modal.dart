@@ -98,36 +98,40 @@ class TaskDetailsModal extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                StatefulBuilder(builder:
-                    (BuildContext context, StateSetter setButtonState) {
-                  return IconButton(
-                    tooltip:
-                        (task.alertSet != true) ? 'Add alert' : 'Alert is set',
-                    icon: Icon(
-                      (task.alertSet != true)
-                          ? Icons.add_alert
-                          : Icons.notifications_off,
-                      color:
-                          (task.alertSet != true) ? Colors.indigo : Colors.red,
-                      size: 40,
-                    ),
-                    onPressed: (task.alertSet != true)
-                        ? () {
-                            setButtonState(() {
-                              task.alertSet = true;
-                            });
-                            saveTask(task, user);
-                            _scheduleNotification();
-                          }
-                        : () {
-                            setButtonState(() {
-                              task.alertSet = false;
-                            });
-                            saveTask(task, user);
-                            _cancelNotification();
-                          },
-                  );
-                }),
+                showRecordedTime
+                    ? SizedBox(width: 40)
+                    : StatefulBuilder(builder:
+                        (BuildContext context, StateSetter setButtonState) {
+                        return IconButton(
+                          tooltip: (task.alertSet != true)
+                              ? 'Add alert'
+                              : 'Alert is set',
+                          icon: Icon(
+                            (task.alertSet != true)
+                                ? Icons.add_alert
+                                : Icons.notifications_off,
+                            color: (task.alertSet != true)
+                                ? Colors.indigo
+                                : Colors.red,
+                            size: 40,
+                          ),
+                          onPressed: (task.alertSet != true)
+                              ? () {
+                                  setButtonState(() {
+                                    task.alertSet = true;
+                                  });
+                                  saveTask(task, user);
+                                  _scheduleNotification();
+                                }
+                              : () {
+                                  setButtonState(() {
+                                    task.alertSet = false;
+                                  });
+                                  saveTask(task, user);
+                                  _cancelNotification();
+                                },
+                        );
+                      }),
                 IconButton(
                   tooltip: 'Record time',
                   icon: Icon(
@@ -170,17 +174,19 @@ class TaskDetailsModal extends StatelessWidget {
                     );
                   },
                 ),
-                IconButton(
-                  tooltip: 'Delete task',
-                  icon: Icon(
-                    Icons.delete_outline,
-                    size: 40,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    showDeleteTaskAlert(context, task, user);
-                  },
-                ),
+                showRecordedTime
+                    ? SizedBox(width: 40)
+                    : IconButton(
+                        tooltip: 'Delete task',
+                        icon: Icon(
+                          Icons.delete_outline,
+                          size: 40,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          showDeleteTaskAlert(context, task, user);
+                        },
+                      ),
               ],
             ),
           ],

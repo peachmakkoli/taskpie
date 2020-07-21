@@ -21,13 +21,12 @@ Future<void> showDeleteTaskAlert(context, task, user) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Warning!'),
+        title: Text('${task.name}'),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text('Are you sure you want to delete this task?'),
-              SizedBox(height: 20),
-              Text(task.name),
+              Text(
+                  'Are you sure you want to delete this task? This action is not reversible.'),
             ],
           ),
         ),

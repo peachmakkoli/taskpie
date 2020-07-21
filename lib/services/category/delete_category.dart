@@ -13,7 +13,7 @@ Future<void> deleteCategory(oldCategoryName, newCategoryName, user) async {
         .collection('categories')
         .document(oldCategoryName);
 
-    // get document reference for uncategorized
+    // get document reference for new category
     final DocumentReference newCategoryRef = usersRef
         .document(user.uid)
         .collection('categories')
@@ -26,14 +26,14 @@ Future<void> deleteCategory(oldCategoryName, newCategoryName, user) async {
         .where('category', isEqualTo: oldCategoryRef)
         .getDocuments();
 
-    // update category to uncategorized for each task
+    // update category for each task
     tasksSnapShot.documents.forEach((snapshot) async {
       await snapshot.reference.updateData({
         'category': newCategoryRef,
       });
     });
 
-    // delete the category
+    // delete the old category
     await usersRef
         .document(user.uid)
         .collection('categories')
@@ -48,14 +48,12 @@ Future<void> showDeleteCategoryAlert(context, categoryName, user) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Warning!'),
+        title: Text('$categoryName'),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
               Text(
-                  'Are you sure you want to delete this category? (This will mark all tasks in this category as uncategorized)'),
-              SizedBox(height: 20),
-              Text(categoryName),
+                  'Are you sure you want to delete this category? This will set all tasks in this category to \'uncategorized\'.'),
             ],
           ),
         ),
