@@ -8,6 +8,7 @@ import 'package:card_settings/card_settings.dart';
 import 'package:suncircle/components/loading_dialog.dart';
 import 'package:suncircle/components/submit_form_button.dart';
 import 'package:suncircle/models/category_model.dart';
+import 'package:suncircle/services/category/delete_category.dart';
 import 'package:suncircle/services/category/save_category.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -52,10 +53,16 @@ class CategoryFormState extends State<CategoryForm> {
     LoadingDialog.show(context);
 
     if (form.validate()) {
-      saveCategory(_category, widget.user).whenComplete(() {
-        LoadingDialog.hide(context);
-        Navigator.of(context).pop();
-      });
+      await saveCategory(_category, widget.user);
+
+      // if the category name is updated, a new category document will be created, so the app reassigns all tasks to the new category reference
+      if (widget.subtitle == 'Update Category' &&
+          _category.name != _originalCategoryName)
+        await deleteCategory(
+            _originalCategoryName, _category.name, widget.user);
+
+      LoadingDialog.hide(context);
+      Navigator.of(context).pop();
     } else {
       LoadingDialog.hide(context);
       setState(() => _autoValidate = true);
@@ -72,60 +79,60 @@ class CategoryFormState extends State<CategoryForm> {
       backgroundColor: Colors.white,
       floatingActionButton: submitFormButton(context, submitForm),
       body: FutureBuilder<String>(
-          future: checkUnique(_category.name, _originalCategoryName,
-              widget.user, widget.subtitle),
-          builder: (context, snapshot) {
-            return Stack(
-              children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: CardSettings(
-                    showMaterialonIOS: false,
-                    labelWidth: 150,
-                    contentAlign: TextAlign.right,
-                    children: <CardSettingsSection>[
-                      CardSettingsSection(
-                        header: CardSettingsHeader(
-                          label: 'Category',
-                        ),
-                        children: <CardSettingsWidget>[
-                          CardSettingsText(
-                            label: 'Name',
-                            initialValue: _category.name,
-                            requiredIndicator:
-                                Text('*', style: TextStyle(color: Colors.red)),
-                            validator: (value) {
-                              if (value.isEmpty) return 'Name is required.';
-                              if (value == snapshot.data)
-                                return 'Category already exists.';
-                              return null;
-                            },
-                            onChanged: (value) {
-                              setState(() {
-                                _category.name = value;
-                              });
-                            },
-                          ),
-                          CardSettingsColorPicker(
-                            label: 'Color',
-                            initialValue:
-                                intelligentCast<Color>(_category.color),
-                            autovalidate: _autoValidate,
-                            pickerType: CardSettingsColorPickerType.block,
-                            onChanged: (value) {
-                              setState(() {
-                                _category.color = colorToString(value);
-                              });
-                            },
-                          ),
-                        ],
+        future: checkUnique(_category.name, _originalCategoryName, widget.user,
+            widget.subtitle),
+        builder: (context, snapshot) {
+          return Stack(
+            children: <Widget>[
+              Form(
+                key: _formKey,
+                child: CardSettings(
+                  showMaterialonIOS: false,
+                  labelWidth: 150,
+                  contentAlign: TextAlign.right,
+                  children: <CardSettingsSection>[
+                    CardSettingsSection(
+                      header: CardSettingsHeader(
+                        label: 'Category',
                       ),
-                    ],
-                  ),
+                      children: <CardSettingsWidget>[
+                        CardSettingsText(
+                          label: 'Name',
+                          initialValue: _category.name,
+                          requiredIndicator:
+                              Text('*', style: TextStyle(color: Colors.red)),
+                          validator: (value) {
+                            if (value.isEmpty) return 'Name is required.';
+                            if (value == snapshot.data)
+                              return 'Category already exists.';
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _category.name = value;
+                            });
+                          },
+                        ),
+                        CardSettingsColorPicker(
+                          label: 'Color',
+                          initialValue: intelligentCast<Color>(_category.color),
+                          autovalidate: _autoValidate,
+                          pickerType: CardSettingsColorPickerType.block,
+                          onChanged: (value) {
+                            setState(() {
+                              _category.color = colorToString(value);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            );
-          }),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

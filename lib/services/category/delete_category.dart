@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future<void> _deleteCategory(category, user) async {
+Future<void> deleteCategory(oldCategoryName, newCategoryName, user) async {
   final CollectionReference usersRef = Firestore.instance.collection('users');
   final snapShot = await usersRef.document(user.uid).get();
 
   if (snapShot.exists) {
     // get document reference for old category
-    final DocumentReference oldCategoryRef =
-        usersRef.document(user.uid).collection('categories').document(category);
+    final DocumentReference oldCategoryRef = usersRef
+        .document(user.uid)
+        .collection('categories')
+        .document(oldCategoryName);
 
     // get document reference for uncategorized
     final DocumentReference newCategoryRef = usersRef
         .document(user.uid)
         .collection('categories')
-        .document('uncategorized');
+        .document(newCategoryName);
 
     // get all tasks under the old category
     final QuerySnapshot tasksSnapShot = await usersRef
@@ -35,12 +37,12 @@ Future<void> _deleteCategory(category, user) async {
     await usersRef
         .document(user.uid)
         .collection('categories')
-        .document(category)
+        .document(oldCategoryName)
         .delete();
   }
 }
 
-Future<void> showDeleteCategoryAlert(context, category, user) async {
+Future<void> showDeleteCategoryAlert(context, categoryName, user) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
@@ -53,7 +55,7 @@ Future<void> showDeleteCategoryAlert(context, category, user) async {
               Text(
                   'Are you sure you want to delete this category? (This will mark all tasks in this category as uncategorized)'),
               SizedBox(height: 20),
-              Text(category),
+              Text(categoryName),
             ],
           ),
         ),
@@ -68,7 +70,7 @@ Future<void> showDeleteCategoryAlert(context, category, user) async {
             child: Text('Yes'),
             onPressed: () {
               Navigator.of(context).pop();
-              _deleteCategory(category, user);
+              deleteCategory(categoryName, 'uncategorized', user);
             },
           ),
         ],

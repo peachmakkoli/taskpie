@@ -82,7 +82,7 @@ Widget categoryListSheet(FirebaseUser user, ScrollController scrollController) {
                                   builder: (context) {
                                     return CategoryForm(
                                       title: 'TaskPie',
-                                      subtitle: 'Update Task',
+                                      subtitle: 'Update Category',
                                       user: user,
                                       category: CategoryModel(
                                           _categories[index].documentID,
