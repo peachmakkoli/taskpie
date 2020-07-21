@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:suncircle/models/task_model.dart';
-import 'package:suncircle/screens/task/view_task_sheet.dart';
+import 'package:suncircle/screens/task/task_details_modal.dart';
 
 class CircleCalendar extends StatelessWidget {
   CircleCalendar(
@@ -15,7 +15,7 @@ class CircleCalendar extends StatelessWidget {
       this.selectedDate,
       this.nextDay,
       this.showRecordedTime,
-      this.notification})
+      this.notificationCallback})
       : _fieldStart = showRecordedTime ? 'record_start' : 'time_start',
         _fieldEnd = showRecordedTime ? 'record_end' : 'time_end',
         super(key: key);
@@ -24,7 +24,8 @@ class CircleCalendar extends StatelessWidget {
   final DateTime selectedDate;
   final DateTime nextDay;
   final bool showRecordedTime;
-  final Function(String, String, DateTime, DateTime, [bool]) notification;
+  final Function(String, String, DateTime, DateTime, [bool])
+      notificationCallback;
   final String _fieldStart;
   final String _fieldEnd;
 
@@ -143,8 +144,18 @@ class CircleCalendar extends StatelessWidget {
                       activationMode: ActivationMode.longPress,
                       builder: (dynamic data, dynamic point, dynamic series,
                           int pointIndex, int seriesIndex) {
-                        viewTaskSheet(context, user, data, showRecordedTime,
-                            notification);
+                        if (data.id.isEmpty)
+                          return null; // prevents placeholders from being tapped
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return TaskDetailsModal(
+                                user: user,
+                                task: data,
+                                showRecordedTime: showRecordedTime,
+                                notificationCallback: notificationCallback,
+                              );
+                            });
                       }),
                   series: <CircularSeries>[
                     PieSeries<TaskModel, String>(

@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> {
             selectedDate: selectedDate,
             nextDay: nextDay,
             showRecordedTime: showRecordedTime,
-            notification: notification,
+            notificationCallback: notification,
           ),
           _dayPicker(),
           Align(
