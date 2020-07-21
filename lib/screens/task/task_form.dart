@@ -239,8 +239,12 @@ class TaskFormState extends State<TaskForm> {
                               ),
                             ),
                             Center(
-                              child: circleCalendar(
-                                  widget.user, selectedDate, nextDay, false),
+                              child: CircleCalendar(
+                                user: widget.user,
+                                selectedDate: selectedDate,
+                                nextDay: nextDay,
+                                showRecordedTime: false,
+                              ),
                             ),
                           ],
                         ),

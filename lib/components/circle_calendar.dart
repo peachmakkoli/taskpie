@@ -8,28 +8,25 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:suncircle/models/task_model.dart';
 import 'package:suncircle/screens/task/view_task_sheet.dart';
 
-Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
-    DateTime nextDay, bool showRecordedTime,
-    [Function(String, String, DateTime, DateTime, [bool]) notification]) {
-  String _fieldStart;
-  String _fieldEnd;
+class CircleCalendar extends StatelessWidget {
+  CircleCalendar(
+      {Key key,
+      this.user,
+      this.selectedDate,
+      this.nextDay,
+      this.showRecordedTime,
+      this.notification})
+      : _fieldStart = showRecordedTime ? 'record_start' : 'time_start',
+        _fieldEnd = showRecordedTime ? 'record_end' : 'time_end',
+        super(key: key);
 
-  if (showRecordedTime) {
-    _fieldStart = 'record_start';
-    _fieldEnd = 'record_end';
-  } else {
-    _fieldStart = 'time_start';
-    _fieldEnd = 'time_end';
-  }
-
-  double _getDuration(Timestamp timeEnd, Timestamp timeStart) {
-    if (timeEnd == null || timeStart == null) return 0.0;
-    return (timeEnd.seconds - timeStart.seconds) / 3600;
-  }
-
-  Color _getColor(category) {
-    return Color(int.parse('0x${category['color']}'));
-  }
+  final FirebaseUser user;
+  final DateTime selectedDate;
+  final DateTime nextDay;
+  final bool showRecordedTime;
+  final Function(String, String, DateTime, DateTime, [bool]) notification;
+  final String _fieldStart;
+  final String _fieldEnd;
 
   List<TaskModel> _getChartData(categories, tasks) {
     List<TaskModel> _chartData = List<TaskModel>();
@@ -41,7 +38,8 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
       DateTime.now(),
       '',
       '',
-      _getDuration(tasks[0][_fieldStart], Timestamp.fromDate(selectedDate)),
+      TaskModel.getDuration(
+          tasks[0][_fieldStart], Timestamp.fromDate(selectedDate)),
       Colors.white,
     ));
 
@@ -57,8 +55,8 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
         tasks[i]['time_end'].toDate(),
         tasks[i]['notes'],
         tasks[i].documentID,
-        _getDuration(tasks[i][_fieldEnd], tasks[i][_fieldStart]),
-        _getColor(category),
+        TaskModel.getDuration(tasks[i][_fieldEnd], tasks[i][_fieldStart]),
+        TaskModel.getColor(category),
       );
 
       _task.alertSet =
@@ -79,7 +77,8 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
             DateTime.now(),
             '',
             '',
-            _getDuration(tasks[i + 1][_fieldStart], tasks[i][_fieldEnd]),
+            TaskModel.getDuration(
+                tasks[i + 1][_fieldStart], tasks[i][_fieldEnd]),
             Colors.white));
       }
     }
@@ -92,78 +91,82 @@ Widget circleCalendar(FirebaseUser user, DateTime selectedDate,
         DateTime.now(),
         '',
         '',
-        _getDuration(Timestamp.fromDate(selectedDate.add(Duration(days: 1))),
+        TaskModel.getDuration(
+            Timestamp.fromDate(selectedDate.add(Duration(days: 1))),
             tasks[tasks.length - 1][_fieldEnd]),
         Colors.white));
 
     return _chartData;
   }
 
-  return StreamBuilder(
-      stream: Firestore.instance
-          .collection('users')
-          .document(user.uid)
-          .collection('categories')
-          .snapshots(),
-      builder: (context, categoriesSnapshot) {
-        return StreamBuilder(
-          stream: Firestore.instance
-              .collection('users')
-              .document(user.uid)
-              .collection('tasks')
-              .orderBy(_fieldStart)
-              .where(_fieldStart, isGreaterThanOrEqualTo: selectedDate)
-              .where(_fieldStart, isLessThan: nextDay)
-              .snapshots(),
-          builder: (context, tasksSnapshot) {
-            if (!categoriesSnapshot.hasData || !tasksSnapshot.hasData)
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: Firestore.instance
+            .collection('users')
+            .document(user.uid)
+            .collection('categories')
+            .snapshots(),
+        builder: (context, categoriesSnapshot) {
+          return StreamBuilder(
+            stream: Firestore.instance
+                .collection('users')
+                .document(user.uid)
+                .collection('tasks')
+                .orderBy(_fieldStart)
+                .where(_fieldStart, isGreaterThanOrEqualTo: selectedDate)
+                .where(_fieldStart, isLessThan: nextDay)
+                .snapshots(),
+            builder: (context, tasksSnapshot) {
+              if (!categoriesSnapshot.hasData || !tasksSnapshot.hasData)
+                return Container(
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment(0.0, 0.0),
+                    child: Text('Loading data...'));
+              if (tasksSnapshot.data.documents.isEmpty)
+                return Container(
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment(0.0, 0.0),
+                    child: Text('No tasks found for selected day.'));
               return Container(
-                  height: MediaQuery.of(context).size.height,
-                  alignment: Alignment(0.0, 0.0),
-                  child: Text('Loading data...'));
-            if (tasksSnapshot.data.documents.isEmpty)
-              return Container(
-                  height: MediaQuery.of(context).size.height,
-                  alignment: Alignment(0.0, 0.0),
-                  child: Text('No tasks found for selected day.'));
-            return Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: ExactAssetImage("assets/clock-face.png"),
-                  fit: BoxFit.contain,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: ExactAssetImage("assets/clock-face.png"),
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
-              height: MediaQuery.of(context).size.height / 1.2,
-              alignment: Alignment(0.0, 0.0),
-              child: SfCircularChart(
-                tooltipBehavior: TooltipBehavior(
-                    enable: true,
-                    activationMode: ActivationMode.longPress,
-                    builder: (dynamic data, dynamic point, dynamic series,
-                        int pointIndex, int seriesIndex) {
-                      viewTaskSheet(
-                          context, user, data, showRecordedTime, notification);
-                    }),
-                series: <CircularSeries>[
-                  PieSeries<TaskModel, String>(
-                    enableSmartLabels: true,
-                    dataSource: _getChartData(categoriesSnapshot.data.documents,
-                        tasksSnapshot.data.documents),
-                    pointColorMapper: (TaskModel data, _) => data.color,
-                    xValueMapper: (TaskModel data, _) => data.id,
-                    yValueMapper: (TaskModel data, _) => data.duration,
-                    radius: '80%',
-                    // explode: true,
-                    dataLabelMapper: (TaskModel data, _) => data.name,
-                    dataLabelSettings: DataLabelSettings(
-                      isVisible: true,
-                      useSeriesColor: true,
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
-        );
-      });
+                height: MediaQuery.of(context).size.height / 1.2,
+                alignment: Alignment(0.0, 0.0),
+                child: SfCircularChart(
+                  tooltipBehavior: TooltipBehavior(
+                      enable: true,
+                      activationMode: ActivationMode.longPress,
+                      builder: (dynamic data, dynamic point, dynamic series,
+                          int pointIndex, int seriesIndex) {
+                        viewTaskSheet(context, user, data, showRecordedTime,
+                            notification);
+                      }),
+                  series: <CircularSeries>[
+                    PieSeries<TaskModel, String>(
+                      enableSmartLabels: true,
+                      dataSource: _getChartData(
+                          categoriesSnapshot.data.documents,
+                          tasksSnapshot.data.documents),
+                      pointColorMapper: (TaskModel data, _) => data.color,
+                      xValueMapper: (TaskModel data, _) => data.id,
+                      yValueMapper: (TaskModel data, _) => data.duration,
+                      radius: '80%',
+                      dataLabelMapper: (TaskModel data, _) => data.name,
+                      dataLabelSettings: DataLabelSettings(
+                        isVisible: true,
+                        useSeriesColor: true,
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          );
+        });
+  }
 }

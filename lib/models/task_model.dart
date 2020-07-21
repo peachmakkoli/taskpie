@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TaskModel {
   TaskModel(
@@ -14,6 +15,7 @@ class TaskModel {
     this.recordStart,
     this.recordEnd,
   ]);
+
   final String id;
   String category;
   String name;
@@ -25,4 +27,13 @@ class TaskModel {
   bool alertSet;
   DateTime recordStart;
   DateTime recordEnd;
+
+  static double getDuration(Timestamp timeEnd, Timestamp timeStart) {
+    if (timeEnd == null || timeStart == null) return 0.0;
+    return (timeEnd.seconds - timeStart.seconds) / 3600;
+  }
+
+  static Color getColor(DocumentSnapshot category) {
+    return Color(int.parse('0x${category['color']}'));
+  }
 }
