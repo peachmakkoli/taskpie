@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:card_settings/card_settings.dart';
 
 import 'package:suncircle/components/circle_calendar.dart';
+import 'package:suncircle/components/loading_dialog.dart';
 import 'package:suncircle/components/submit_form_button.dart';
-import 'package:suncircle/models/loading_dialog.dart';
 import 'package:suncircle/models/task_model.dart';
 import 'package:suncircle/services/task/save_task.dart';
 

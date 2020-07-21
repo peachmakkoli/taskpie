@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:suncircle/components/loading_dialog.dart';
 import 'package:suncircle/services/login/login.dart';
-import 'package:suncircle/models/loading_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   @override

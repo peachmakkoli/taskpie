@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:suncircle/models/category_model.dart';
 import 'package:suncircle/screens/category/category_form.dart';
 import 'package:suncircle/services/category/delete_category.dart';
 

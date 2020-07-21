@@ -11,6 +11,7 @@ import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:unicorndial/unicorndial.dart';
 
 import 'package:suncircle/components/circle_calendar.dart';
+import 'package:suncircle/models/category_model.dart';
 import 'package:suncircle/models/task_model.dart';
 import 'package:suncircle/screens/category/category_form.dart';
 import 'package:suncircle/screens/category/category_list_sheet.dart';

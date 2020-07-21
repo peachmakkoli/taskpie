@@ -5,9 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:card_settings/card_settings.dart';
 
+import 'package:suncircle/components/loading_dialog.dart';
 import 'package:suncircle/components/submit_form_button.dart';
+import 'package:suncircle/models/category_model.dart';
 import 'package:suncircle/services/category/save_category.dart';
-import 'package:suncircle/models/loading_dialog.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -127,10 +128,4 @@ class CategoryFormState extends State<CategoryForm> {
           }),
     );
   }
-}
-
-class CategoryModel {
-  CategoryModel(this.name, this.color);
-  String name;
-  String color;
 }
