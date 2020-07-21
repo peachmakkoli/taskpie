@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:card_settings/card_settings.dart';
 
+import 'package:suncircle/components/submit_form_button.dart';
 import 'package:suncircle/services/category/save_category.dart';
 import 'package:suncircle/models/loading_dialog.dart';
 
@@ -44,7 +45,7 @@ class CategoryFormState extends State<CategoryForm> {
     _originalCategoryName = widget.category.name;
   }
 
-  Future savePressed() async {
+  Future submitForm() async {
     final form = _formKey.currentState;
 
     LoadingDialog.show(context);
@@ -68,7 +69,7 @@ class CategoryFormState extends State<CategoryForm> {
         // backgroundColor: Color(0xFFFF737D),
       ),
       backgroundColor: Colors.white,
-      floatingActionButton: _submitFormButton(),
+      floatingActionButton: submitFormButton(context, submitForm),
       body: FutureBuilder<String>(
           future: checkUnique(_category.name, _originalCategoryName,
               widget.user, widget.subtitle),
@@ -124,23 +125,6 @@ class CategoryFormState extends State<CategoryForm> {
               ],
             );
           }),
-    );
-  }
-
-  Widget _submitFormButton() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        FloatingActionButton(
-          onPressed: () {
-            savePressed();
-          },
-          tooltip: 'Submit',
-          child: Icon(Icons.send, size: 30.0),
-        ),
-      ],
     );
   }
 }

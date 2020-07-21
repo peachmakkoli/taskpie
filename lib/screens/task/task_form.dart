@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:card_settings/card_settings.dart';
 
 import 'package:suncircle/components/circle_calendar.dart';
+import 'package:suncircle/components/submit_form_button.dart';
 import 'package:suncircle/models/loading_dialog.dart';
 import 'package:suncircle/models/task_model.dart';
 import 'package:suncircle/services/task/save_task.dart';
@@ -78,7 +79,7 @@ class TaskFormState extends State<TaskForm> {
     return _categoryNames;
   }
 
-  Future savePressed() async {
+  Future submitForm() async {
     final form = _formKey.currentState;
 
     LoadingDialog.show(context);
@@ -97,179 +98,164 @@ class TaskFormState extends State<TaskForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('${widget.title}: ${widget.subtitle}'),
-          // backgroundColor: Color(0xFFFF737D),
-        ),
-        backgroundColor: Colors.white,
-        floatingActionButton: _submitFormButton(),
-        body: FutureBuilder(
-            future: getCategories(widget.user),
-            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-              if (!snapshot.hasData) return Center(child: Text('Loading...'));
-              return Stack(
-                children: <Widget>[
-                  Form(
-                    key: _formKey,
-                    child: CardSettings.sectioned(
-                      showMaterialonIOS: false,
-                      labelWidth: 150,
-                      contentAlign: TextAlign.right,
-                      children: <CardSettingsSection>[
-                        CardSettingsSection(
-                          header: CardSettingsHeader(
-                            label: 'Date and Time',
-                          ),
-                          children: <CardSettingsWidget>[
-                            CardSettingsDateTimePicker(
-                              label: 'Start',
-                              initialValue: _fieldStart,
-                              requiredIndicator: Text('*',
-                                  style: TextStyle(color: Colors.red)),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100),
-                              onChanged: (value) {
-                                setState(() {
-                                  widget.showRecordedTime
-                                      ? _task.recordStart = value
-                                      : _task.timeStart = value;
-                                  _resetSelectedDate();
-                                });
-                              },
-                            ),
-                            CardSettingsDateTimePicker(
-                              label: 'End',
-                              initialValue: _fieldEnd,
-                              requiredIndicator: Text('*',
-                                  style: TextStyle(color: Colors.red)),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100),
-                              validator: (value) {
-                                if (widget.showRecordedTime
-                                    ? value.isBefore(_task.recordStart)
-                                    : value.isBefore(_task.timeStart))
-                                  return 'End cannot be before start.';
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  widget.showRecordedTime
-                                      ? _task.recordEnd = value
-                                      : _task.timeEnd = value;
-                                });
-                              },
-                            ),
-                          ],
+      appBar: AppBar(
+        title: Text('${widget.title}: ${widget.subtitle}'),
+        // backgroundColor: Color(0xFFFF737D),
+      ),
+      backgroundColor: Colors.white,
+      floatingActionButton: submitFormButton(context, submitForm),
+      body: FutureBuilder(
+        future: getCategories(widget.user),
+        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (!snapshot.hasData) return Center(child: Text('Loading...'));
+          return Stack(
+            children: <Widget>[
+              Form(
+                key: _formKey,
+                child: CardSettings.sectioned(
+                  showMaterialonIOS: false,
+                  labelWidth: 150,
+                  contentAlign: TextAlign.right,
+                  children: <CardSettingsSection>[
+                    CardSettingsSection(
+                      header: CardSettingsHeader(
+                        label: 'Date and Time',
+                      ),
+                      children: <CardSettingsWidget>[
+                        CardSettingsDateTimePicker(
+                          label: 'Start',
+                          initialValue: _fieldStart,
+                          requiredIndicator:
+                              Text('*', style: TextStyle(color: Colors.red)),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime(2100),
+                          onChanged: (value) {
+                            setState(() {
+                              widget.showRecordedTime
+                                  ? _task.recordStart = value
+                                  : _task.timeStart = value;
+                              _resetSelectedDate();
+                            });
+                          },
                         ),
-                        CardSettingsSection(
-                          header: CardSettingsHeader(
-                            label: 'Info',
-                          ),
-                          children: <CardSettingsWidget>[
-                            CardSettingsText(
-                              label: 'Name',
-                              initialValue: _task.name,
-                              requiredIndicator: Text('*',
-                                  style: TextStyle(color: Colors.red)),
-                              validator: (value) {
-                                if (value.isEmpty) return 'Name is required.';
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _task.name = value;
-                                });
-                              },
-                            ),
-                            CardSettingsSelectionPicker(
-                              label: 'Category',
-                              initialValue: _task.category,
-                              requiredIndicator: Text('*',
-                                  style: TextStyle(color: Colors.red)),
-                              options: getCategoryList(snapshot.data),
-                              onChanged: (value) {
-                                setState(() {
-                                  _task.category = value;
-                                });
-                              },
-                            ),
-                            CardSettingsParagraph(
-                              label: 'Notes',
-                              initialValue: _task.notes,
-                              onChanged: (value) {
-                                setState(() {
-                                  _task.notes = value;
-                                });
-                              },
-                            ),
-                          ],
+                        CardSettingsDateTimePicker(
+                          label: 'End',
+                          initialValue: _fieldEnd,
+                          requiredIndicator:
+                              Text('*', style: TextStyle(color: Colors.red)),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime(2100),
+                          validator: (value) {
+                            if (widget.showRecordedTime
+                                ? value.isBefore(_task.recordStart)
+                                : value.isBefore(_task.timeStart))
+                              return 'End cannot be before start.';
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              widget.showRecordedTime
+                                  ? _task.recordEnd = value
+                                  : _task.timeEnd = value;
+                            });
+                          },
                         ),
                       ],
                     ),
-                  ),
-                  DraggableScrollableSheet(
-                    minChildSize: 0.14,
-                    maxChildSize: 0.9,
-                    initialChildSize: 0.14,
-                    builder: (BuildContext context,
-                        ScrollController scrollController) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              topLeft: Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(1.0, -2.0),
-                                blurRadius: 4.0,
-                                spreadRadius: 2.0)
-                          ],
-                          color: Colors.white,
+                    CardSettingsSection(
+                      header: CardSettingsHeader(
+                        label: 'Info',
+                      ),
+                      children: <CardSettingsWidget>[
+                        CardSettingsText(
+                          label: 'Name',
+                          initialValue: _task.name,
+                          requiredIndicator:
+                              Text('*', style: TextStyle(color: Colors.red)),
+                          validator: (value) {
+                            if (value.isEmpty) return 'Name is required.';
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _task.name = value;
+                            });
+                          },
                         ),
-                        child: ListView(
-                          controller: scrollController,
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
-                                child: Text(
-                                  'Task Chart',
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: CircleCalendar(
-                                user: widget.user,
-                                selectedDate: selectedDate,
-                                nextDay: nextDay,
-                                showRecordedTime: false,
-                              ),
-                            ),
-                          ],
+                        CardSettingsSelectionPicker(
+                          label: 'Category',
+                          initialValue: _task.category,
+                          requiredIndicator:
+                              Text('*', style: TextStyle(color: Colors.red)),
+                          options: getCategoryList(snapshot.data),
+                          onChanged: (value) {
+                            setState(() {
+                              _task.category = value;
+                            });
+                          },
                         ),
-                      );
-                    },
-                  ),
-                ],
-              );
-            }));
-  }
-
-  Widget _submitFormButton() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        FloatingActionButton(
-          onPressed: () {
-            savePressed();
-          },
-          tooltip: 'Submit',
-          child: Icon(Icons.send, size: 30.0),
-        ),
-      ],
+                        CardSettingsParagraph(
+                          label: 'Notes',
+                          initialValue: _task.notes,
+                          onChanged: (value) {
+                            setState(() {
+                              _task.notes = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              DraggableScrollableSheet(
+                minChildSize: 0.14,
+                maxChildSize: 0.9,
+                initialChildSize: 0.14,
+                builder:
+                    (BuildContext context, ScrollController scrollController) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(1.0, -2.0),
+                            blurRadius: 4.0,
+                            spreadRadius: 2.0)
+                      ],
+                      color: Colors.white,
+                    ),
+                    child: ListView(
+                      controller: scrollController,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
+                            child: Text(
+                              'Task Chart',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: CircleCalendar(
+                            user: widget.user,
+                            selectedDate: selectedDate,
+                            nextDay: nextDay,
+                            showRecordedTime: false,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

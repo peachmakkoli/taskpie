@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:suncircle/components/submit_form_button.dart';
 import 'package:suncircle/services/task/save_task.dart';
 import 'package:suncircle/models/loading_dialog.dart';
 
@@ -37,7 +38,7 @@ class _RecordTimePageState extends State<RecordTimePage> {
     }
   }
 
-  Future savePressed() async {
+  Future submitForm() async {
     LoadingDialog.show(context);
 
     saveRecording(
@@ -64,7 +65,7 @@ class _RecordTimePageState extends State<RecordTimePage> {
 
     return Scaffold(
       appBar: AppBar(title: Text('TaskPie: Record Time')),
-      floatingActionButton: _submitFormButton(),
+      floatingActionButton: submitFormButton(context, submitForm),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -176,23 +177,6 @@ class _RecordTimePageState extends State<RecordTimePage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _submitFormButton() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        FloatingActionButton(
-          onPressed: () {
-            savePressed();
-          },
-          tooltip: 'Submit',
-          child: Icon(Icons.save, size: 30.0),
-        ),
-      ],
     );
   }
 }
