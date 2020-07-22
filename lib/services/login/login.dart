@@ -96,3 +96,12 @@ Future<String> signIn(String email, String password) async {
   }
   return 'success';
 }
+
+Future<String> sendPasswordResetEmail(String email) async {
+  try {
+    await _auth.sendPasswordResetEmail(email: email);
+  } catch (error) {
+    return error.message;
+  }
+  return 'success';
+}

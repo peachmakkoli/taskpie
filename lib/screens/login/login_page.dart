@@ -86,7 +86,6 @@ class EmailSignIn extends StatelessWidget {
   Future<String> _authUserSignIn(LoginData data) {
     return Future.delayed(loginTime).then((_) async {
       var result = await signIn(data.name, data.password);
-      print(result);
       if (result != 'success') return result;
       return null;
     });
@@ -95,22 +94,17 @@ class EmailSignIn extends StatelessWidget {
   Future<String> _authUserSignUp(LoginData data) {
     return Future.delayed(loginTime).then((_) async {
       var result = await signUp(data.name, data.password);
-      print(result);
       if (result != 'success') return result;
       return null;
     });
   }
 
   Future<String> _recoverPassword(String name) {
-    // List<String> _userEmails = List<String>();
-    // _users.forEach((user) => _userEmails.add(user['email']));
-    // print('Name: $name');
-    // return Future.delayed(loginTime).then((_) {
-    //   if (!_userEmails.contains(name)) {
-    //     return 'User does not exist';
-    //   }
-    //   return null;
-    // });
+    return Future.delayed(loginTime).then((_) async {
+      var result = await sendPasswordResetEmail(name);
+      if (result != 'success') return result;
+      return null;
+    });
   }
 
   @override
