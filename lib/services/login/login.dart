@@ -33,7 +33,6 @@ Future<FirebaseUser> signInWithGoogle() async {
     var userData = {
       'name': user.displayName,
       'email': user.email,
-      'provider': 'google',
     };
 
     var categoryData = {'color': 'ff9e9e9e'};
@@ -64,7 +63,6 @@ Future<String> signUp(email, password) async {
     var userData = {
       'email': email,
       'password': password,
-      'provider': 'email',
     };
 
     var categoryData = {'color': 'ff9e9e9e'};
@@ -82,7 +80,7 @@ Future<String> signUp(email, password) async {
   return 'success';
 }
 
-Future<FirebaseUser> signIn(String email, String password) async {
+Future<String> signIn(String email, String password) async {
   try {
     final AuthResult authResult = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
@@ -93,16 +91,8 @@ Future<FirebaseUser> signIn(String email, String password) async {
 
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
-
-    return user;
   } catch (error) {
-    print(error); // TODO: show dialog with error
+    return error.message;
   }
-}
-
-Future<List<dynamic>> getUsers() async {
-  final QuerySnapshot results =
-      await Firestore.instance.collection('users').getDocuments();
-
-  return results.documents;
+  return 'success';
 }

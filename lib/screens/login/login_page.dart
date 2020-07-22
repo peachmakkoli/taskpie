@@ -81,15 +81,15 @@ class _LoginPageState extends State<LoginPage> {
 
 class EmailSignIn extends StatelessWidget {
   const EmailSignIn({Key key}) : super(key: key);
-  Duration get loginTime => Duration(milliseconds: 1250);
+  Duration get loginTime => Duration(milliseconds: 1000);
 
   Future<String> _authUserSignIn(LoginData data) {
-    // return Future.delayed(loginTime).then((_) async {
-    //   var result = await signUp(data.name, data.password);
-    //   print(result);
-    //   if (result != 'success') return result;
-    //   return null;
-    // });
+    return Future.delayed(loginTime).then((_) async {
+      var result = await signIn(data.name, data.password);
+      print(result);
+      if (result != 'success') return result;
+      return null;
+    });
   }
 
   Future<String> _authUserSignUp(LoginData data) {
