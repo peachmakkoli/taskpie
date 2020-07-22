@@ -49,7 +49,7 @@ Future<FirebaseUser> signInWithGoogle() async {
   return user;
 }
 
-Future<FirebaseUser> signUp(email, password) async {
+Future<String> signUp(email, password) async {
   try {
     final AuthResult authResult = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
@@ -76,10 +76,10 @@ Future<FirebaseUser> signUp(email, password) async {
         .document('uncategorized')
         .setData(categoryData); // create a default category
 
-    return user;
   } catch (error) {
-    print(error); // TODO: show dialog with error
+    return error.message;
   }
+  return 'success';
 }
 
 Future<FirebaseUser> signIn(String email, String password) async {

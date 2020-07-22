@@ -17,6 +17,7 @@ import 'package:taskpie/screens/category/category_form.dart';
 import 'package:taskpie/screens/category/category_list_sheet.dart';
 import 'package:taskpie/screens/task/record_time_page.dart';
 import 'package:taskpie/screens/task/task_form.dart';
+import 'package:taskpie/services/login/login.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);
@@ -155,6 +156,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
+      await googleSignIn.signOut();
     } catch (error) {
       print(error); // TODO: show dialog with error
     }
