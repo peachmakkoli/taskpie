@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:suncircle/components/loading_dialog.dart';
-import 'package:suncircle/components/submit_form_button.dart';
-import 'package:suncircle/services/task/save_task.dart';
+import 'package:taskpie/components/loading_dialog.dart';
+import 'package:taskpie/components/submit_form_button.dart';
+import 'package:taskpie/services/task/save_task.dart';
 
 class RecordTimePage extends StatefulWidget {
   RecordTimePage({Key key, this.user, this.task}) : super(key: key);

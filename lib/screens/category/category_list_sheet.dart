@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:suncircle/models/category_model.dart';
-import 'package:suncircle/screens/category/category_form.dart';
-import 'package:suncircle/services/category/delete_category.dart';
+import 'package:taskpie/models/category_model.dart';
+import 'package:taskpie/screens/category/category_form.dart';
+import 'package:taskpie/services/category/delete_category.dart';
 
 class CategoryListSheet extends StatelessWidget {
   const CategoryListSheet({Key key, this.user, this.scrollController})

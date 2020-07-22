@@ -1,4 +1,4 @@
-package dev.leehiggins.suncircle
+package dev.leehiggins.taskpie
 
 import io.flutter.embedding.android.FlutterActivity
 

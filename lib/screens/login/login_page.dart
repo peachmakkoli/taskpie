@@ -6,9 +6,9 @@ import 'package:nice_button/nice_button.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutter_login/flutter_login.dart';
 
-import 'package:suncircle/components/loading_dialog.dart';
-import 'package:suncircle/services/login/login.dart';
-import 'package:suncircle/screens/login/landing_page.dart';
+import 'package:taskpie/components/loading_dialog.dart';
+import 'package:taskpie/services/login/login.dart';
+import 'package:taskpie/screens/login/landing_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -128,9 +128,7 @@ class EmailSignIn extends StatelessWidget {
             onLogin: _authUser,
             onSignup: _authUser,
             onSubmitAnimationCompleted: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => LandingPage(),
-              ));
+              Navigator.of(context).popUntil((route) => route.isFirst);
               print('successful login');
             },
             onRecoverPassword: _recoverPassword,

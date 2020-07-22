@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 
-import 'package:suncircle/screens/login/landing_page.dart';
+import 'package:taskpie/screens/login/landing_page.dart';
 
 Future<void> main() async {
   await DotEnv().load('.env');

@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:card_settings/card_settings.dart';
 
-import 'package:suncircle/components/loading_dialog.dart';
-import 'package:suncircle/components/submit_form_button.dart';
-import 'package:suncircle/models/category_model.dart';
-import 'package:suncircle/services/category/delete_category.dart';
-import 'package:suncircle/services/category/save_category.dart';
+import 'package:taskpie/components/loading_dialog.dart';
+import 'package:taskpie/components/submit_form_button.dart';
+import 'package:taskpie/models/category_model.dart';
+import 'package:taskpie/services/category/delete_category.dart';
+import 'package:taskpie/services/category/save_category.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
