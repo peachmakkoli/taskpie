@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:suncircle/components/loading_dialog.dart';
-import 'package:suncircle/services/login/login.dart';
+import 'package:taskpie/components/loading_dialog.dart';
+import 'package:taskpie/services/login/login.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -47,9 +47,9 @@ class SignInButton extends StatelessWidget {
     return OutlineButton(
       splashColor: Colors.white,
       onPressed: () {
-        LoadingDialog.show(context);
+        // LoadingDialog.show(context);
         signInWithGoogle().whenComplete(() {
-          LoadingDialog.hide(context);
+          // LoadingDialog.hide(context);
           Navigator.of(context).popUntil((route) => route.isFirst);
         });
       },

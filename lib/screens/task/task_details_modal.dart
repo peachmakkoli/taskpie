@@ -3,11 +3,11 @@ import 'package:intl/intl.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:suncircle/models/task_model.dart';
-import 'package:suncircle/screens/task/record_time_page.dart';
-import 'package:suncircle/screens/task/task_form.dart';
-import 'package:suncircle/services/task/delete_task.dart';
-import 'package:suncircle/services/task/save_task.dart';
+import 'package:taskpie/models/task_model.dart';
+import 'package:taskpie/screens/task/record_time_page.dart';
+import 'package:taskpie/screens/task/task_form.dart';
+import 'package:taskpie/services/task/delete_task.dart';
+import 'package:taskpie/services/task/save_task.dart';
 
 class TaskDetailsModal extends StatelessWidget {
   TaskDetailsModal(

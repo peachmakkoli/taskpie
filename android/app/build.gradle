@@ -38,7 +38,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "dev.leehiggins.suncircle"
+        applicationId "dev.leehiggins.taskpie"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()

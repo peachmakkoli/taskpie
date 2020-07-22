@@ -10,13 +10,13 @@ import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
 import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:unicorndial/unicorndial.dart';
 
-import 'package:suncircle/components/circle_calendar.dart';
-import 'package:suncircle/models/category_model.dart';
-import 'package:suncircle/models/task_model.dart';
-import 'package:suncircle/screens/category/category_form.dart';
-import 'package:suncircle/screens/category/category_list_sheet.dart';
-import 'package:suncircle/screens/task/record_time_page.dart';
-import 'package:suncircle/screens/task/task_form.dart';
+import 'package:taskpie/components/circle_calendar.dart';
+import 'package:taskpie/models/category_model.dart';
+import 'package:taskpie/models/task_model.dart';
+import 'package:taskpie/screens/category/category_form.dart';
+import 'package:taskpie/screens/category/category_list_sheet.dart';
+import 'package:taskpie/screens/task/record_time_page.dart';
+import 'package:taskpie/screens/task/task_form.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.user}) : super(key: key);

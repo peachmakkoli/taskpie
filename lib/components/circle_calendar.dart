@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'package:suncircle/models/task_model.dart';
-import 'package:suncircle/screens/task/task_details_modal.dart';
+import 'package:taskpie/models/task_model.dart';
+import 'package:taskpie/screens/task/task_details_modal.dart';
 
 class CircleCalendar extends StatelessWidget {
   CircleCalendar(
