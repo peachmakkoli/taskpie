@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
+final CollectionReference usersRef = Firestore.instance.collection('users');
 
 Future<FirebaseUser> signInWithGoogle() async {
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
@@ -26,14 +27,13 @@ Future<FirebaseUser> signInWithGoogle() async {
   final FirebaseUser currentUser = await _auth.currentUser();
   assert(user.uid == currentUser.uid);
 
-  final CollectionReference usersRef = Firestore.instance.collection('users');
   final snapShot = await usersRef.document(user.uid).get();
 
   if (snapShot == null || !snapShot.exists) {
     var userData = {
-      'uid': user.uid,
       'name': user.displayName,
       'email': user.email,
+      'provider': 'google',
     };
 
     var categoryData = {'color': 'ff9e9e9e'};
@@ -47,4 +47,62 @@ Future<FirebaseUser> signInWithGoogle() async {
   }
 
   return user;
+}
+
+Future<FirebaseUser> signUp(email, password) async {
+  try {
+    final AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    final FirebaseUser user = authResult.user;
+
+    assert(user != null);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+
+    var userData = {
+      'email': email,
+      'password': password,
+      'provider': 'email',
+    };
+
+    var categoryData = {'color': 'ff9e9e9e'};
+
+    await usersRef.document(user.uid).setData(userData);
+    await usersRef
+        .document(user.uid)
+        .collection('categories')
+        .document('uncategorized')
+        .setData(categoryData); // create a default category
+
+    return user;
+  } catch (error) {
+    print(error); // TODO: show dialog with error
+  }
+}
+
+Future<FirebaseUser> signIn(String email, String password) async {
+  try {
+    final AuthResult authResult = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+    final FirebaseUser user = authResult.user;
+
+    assert(user != null);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+
+    return user;
+  } catch (error) {
+    print(error); // TODO: show dialog with error
+  }
+}
+
+Future<List<dynamic>> getUsers() async {
+  final QuerySnapshot results =
+      await Firestore.instance.collection('users').getDocuments();
+
+  return results.documents;
 }

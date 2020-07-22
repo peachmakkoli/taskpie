@@ -229,6 +229,7 @@ PODS:
     - Flutter
   - cloud_firestore_web (0.1.0):
     - Flutter
+  - CryptoKit (0.4.0)
   - custom_horizontal_calendar (0.0.1):
     - Flutter
   - DKImagePickerController/Core (4.2.2):
@@ -283,6 +284,12 @@ PODS:
   - firebase_auth (0.0.1):
     - Firebase/Auth (~> 6.3)
     - Firebase/Core
+    - Flutter
+  - firebase_auth_oauth (0.0.1):
+    - CryptoKit (~> 0.4)
+    - firebase_auth
+    - Flutter
+  - firebase_auth_oauth_web (0.0.1):
     - Flutter
   - firebase_auth_web (0.1.0):
     - Flutter
@@ -435,6 +442,8 @@ DEPENDENCIES:
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Firebase
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
+  - firebase_auth_oauth (from `.symlinks/plugins/firebase_auth_oauth/ios`)
+  - firebase_auth_oauth_web (from `.symlinks/plugins/firebase_auth_oauth_web/ios`)
   - firebase_auth_web (from `.symlinks/plugins/firebase_auth_web/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
@@ -453,6 +462,7 @@ SPEC REPOS:
     - abseil
     - AppAuth
     - BoringSSL-GRPC
+    - CryptoKit
     - DKImagePickerController
     - DKPhotoGallery
     - Firebase
@@ -490,6 +500,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/file_picker/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
+  firebase_auth_oauth:
+    :path: ".symlinks/plugins/firebase_auth_oauth/ios"
+  firebase_auth_oauth_web:
+    :path: ".symlinks/plugins/firebase_auth_oauth_web/ios"
   firebase_auth_web:
     :path: ".symlinks/plugins/firebase_auth_web/ios"
   firebase_core:
@@ -521,6 +535,7 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: 2a4f8f802fb0b701cf809b283b6bec7477ebaa6f
   cloud_firestore_web: 9ec3dc7f5f98de5129339802d491c1204462bfec
+  CryptoKit: 778b0eb14434535f70fd1037b297841dd83e3c37
   custom_horizontal_calendar: 9a0f736178289f4cfc43e3cd5cde49fdf2a095f6
   DKImagePickerController: 4a3e7948a848c4348e600b3fe5ce41478835fa10
   DKPhotoGallery: 0290d32343574f06eaa4c26f8f2f8a1035e916be
@@ -528,6 +543,8 @@ SPEC CHECKSUMS:
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: ed042590caa0029392257529a8003c25ee82bc18
   firebase_auth: af8784c4d8d87c36f730a305f97bfbcb24db024b
+  firebase_auth_oauth: e8041e29e7004b8656784c64b367e94ea97c1010
+  firebase_auth_oauth_web: 9247a375ad778192b12f6685e4254b477e048867
   firebase_auth_web: 0955c07bcc06e84af76b9d4e32e6f31518f2d7de
   firebase_core: 335c02abd48672b7c83c683df833d0488a72e73e
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
@@ -561,6 +578,6 @@ SPEC CHECKSUMS:
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
 
-PODFILE CHECKSUM: 47953f4e771f16a42db8bf1cdb30a151b11e750f
+PODFILE CHECKSUM: c7ccd67abb7950635d2ffd4af27a6148f25aa570
 
 COCOAPODS: 1.9.3

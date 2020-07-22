@@ -14,7 +14,7 @@ class LandingPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           FirebaseUser user = snapshot.data;
           if (user == null) {
-            return LoginPage();
+            return EmailSignIn();
           }
           return HomePage(title: 'TaskPie', user: user);
         } else {
