@@ -153,15 +153,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      await googleSignIn.signOut();
-    } catch (error) {
-      print(error); // TODO: show dialog with error
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

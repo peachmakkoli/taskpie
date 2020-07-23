@@ -105,3 +105,12 @@ Future<String> sendPasswordResetEmail(String email) async {
   }
   return 'success';
 }
+
+Future<void> signOut() async {
+  try {
+    await FirebaseAuth.instance.signOut();
+    await googleSignIn.signOut();
+  } catch (error) {
+    print(error); // TODO: show dialog with error
+  }
+}
