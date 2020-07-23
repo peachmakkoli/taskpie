@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_login/flutter_login.dart';
 
-import 'package:taskpie/components/loading_dialog.dart';
 import 'package:taskpie/services/login/login.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,10 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   final Color secondColor = Color(0xff36d1dc);
 
   void signInWithGoogleCallback() {
-    LoadingDialog.show(context);
     signInWithGoogle().whenComplete(() {
-      Navigator.of(context).pop();
-      LoadingDialog.hide(context);
       Navigator.of(context).popUntil((route) => route.isFirst);
     });
   }

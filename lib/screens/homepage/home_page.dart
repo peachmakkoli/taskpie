@@ -9,6 +9,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:custom_horizontal_calendar/custom_horizontal_calendar.dart';
 import 'package:custom_horizontal_calendar/date_row.dart';
 import 'package:unicorndial/unicorndial.dart';
+import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 
 import 'package:taskpie/components/circle_calendar.dart';
 import 'package:taskpie/models/category_model.dart';
@@ -184,47 +185,66 @@ class _HomePageState extends State<HomePage> {
         parentButton: Icon(Icons.add),
         childButtons: _getChildButtons(),
       ),
-      body: Stack(
-        children: <Widget>[
-          CircleCalendar(
-            user: widget.user,
-            selectedDate: selectedDate,
-            nextDay: nextDay,
-            showRecordedTime: showRecordedTime,
-            notificationCallback: notification,
+      body: ExpandableBottomSheet(
+        background: Stack(
+          children: <Widget>[
+            CircleCalendar(
+              user: widget.user,
+              selectedDate: selectedDate,
+              nextDay: nextDay,
+              showRecordedTime: showRecordedTime,
+              notificationCallback: notification,
+            ),
+            _dayPicker(),
+            Align(
+              alignment: Alignment(0.0, 0.7),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Recorded Tasks'),
+                  Switch(
+                    value: showRecordedTime,
+                    onChanged: (value) {
+                      setState(() {
+                        showRecordedTime = value;
+                      });
+                    },
+                    activeTrackColor: Colors.lightGreenAccent,
+                    activeColor: Colors.green,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        persistentHeader: Container(
+          height: 60,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(60), topLeft: Radius.circular(60)),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.blueGrey[100],
+                  offset: Offset(1.0, -2.0),
+                  blurRadius: 4.0,
+                  spreadRadius: 2.0)
+            ],
+            color: Color(0xFFFF737D),
           ),
-          _dayPicker(),
-          Align(
-            alignment: Alignment(0.0, 0.7),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Recorded Tasks'),
-                Switch(
-                  value: showRecordedTime,
-                  onChanged: (value) {
-                    setState(() {
-                      showRecordedTime = value;
-                    });
-                  },
-                  activeTrackColor: Colors.lightGreenAccent,
-                  activeColor: Colors.green,
-                ),
-              ],
+          child: Center(
+            child: Text(
+              'Categories',
+              style: TextStyle(fontSize: 18.0),
             ),
           ),
-          DraggableScrollableSheet(
-            minChildSize: 0.14,
-            maxChildSize: 1.0,
-            initialChildSize: 0.14,
-            builder: (BuildContext context, ScrollController scrollController) {
-              return CategoryListSheet(
-                user: widget.user,
-                scrollController: scrollController,
-              );
-            },
+        ),
+        expandableContent: Container(
+          height: MediaQuery.of(context).size.height / 3,
+          color: Colors.white,
+          child: Center(
+            child: CategoryListSheet(user: widget.user),
           ),
-        ],
+        ),
       ),
     );
   }

@@ -48,6 +48,7 @@ dependencies:
   card_settings: ^1.11.0
   unicorndial: ^1.1.5
   one_context: ^0.4.0
+  expandable_bottom_sheet: ^0.2.1+1
 
 dev_dependencies:
   flutter_test:

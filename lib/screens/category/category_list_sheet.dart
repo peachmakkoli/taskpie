@@ -8,11 +8,9 @@ import 'package:taskpie/screens/category/category_form.dart';
 import 'package:taskpie/services/category/delete_category.dart';
 
 class CategoryListSheet extends StatelessWidget {
-  const CategoryListSheet({Key key, this.user, this.scrollController})
-      : super(key: key);
+  const CategoryListSheet({Key key, this.user}) : super(key: key);
 
   final FirebaseUser user;
-  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -25,98 +23,70 @@ class CategoryListSheet extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) return Text('Loading...');
           List<DocumentSnapshot> _categories = snapshot.data.documents;
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(1.0, -2.0),
-                    blurRadius: 4.0,
-                    spreadRadius: 2.0)
-              ],
-              color: Colors.white,
-            ),
-            child: ListView.builder(
-              padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
-              controller: scrollController,
-              itemCount: _categories.length + 1,
-              itemBuilder: (BuildContext context, int index) {
-                if (index == 0) {
-                  return Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(24, 16, 24, 48),
-                      child: Text(
-                        'Categories',
-                        style: Theme.of(context).textTheme.headline6,
+          return ListView.builder(
+            padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
+            itemCount: _categories.length,
+            itemBuilder: (BuildContext context, int index) {
+              var _categoryColor = CategoryModel.getColor(_categories[index]);
+              var _adaptiveColor = _categoryColor.computeLuminance() > 0.3
+                  ? Colors.black
+                  : Colors.white;
+              return Card(
+                color: _categoryColor,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        _categories[index].documentID,
+                        style: TextStyle(color: _adaptiveColor),
                       ),
-                    ),
-                  );
-                }
-                index -= 1;
-                var _categoryColor = CategoryModel.getColor(_categories[index]);
-                var _adaptiveColor = _categoryColor.computeLuminance() > 0.3
-                    ? Colors.black
-                    : Colors.white;
-                return Card(
-                  color: _categoryColor,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          _categories[index].documentID,
-                          style: TextStyle(color: _adaptiveColor),
-                        ),
-                        Spacer(),
-                        ButtonBar(
-                          children: <Widget>[
-                            IconButton(
-                              tooltip: 'Edit category',
-                              icon: Icon(
-                                Icons.create,
-                                size: 30,
-                                color: _adaptiveColor,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return CategoryForm(
-                                        title: 'TaskPie',
-                                        subtitle: 'Update Category',
-                                        user: user,
-                                        category: CategoryModel(
-                                            _categories[index].documentID,
-                                            _categories[index]['color']),
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
+                      Spacer(),
+                      ButtonBar(
+                        children: <Widget>[
+                          IconButton(
+                            tooltip: 'Edit category',
+                            icon: Icon(
+                              Icons.create,
+                              size: 30,
+                              color: _adaptiveColor,
                             ),
-                            IconButton(
-                              tooltip: 'Delete category',
-                              icon: Icon(
-                                Icons.delete_outline,
-                                size: 30,
-                                color: _adaptiveColor,
-                              ),
-                              onPressed: () {
-                                showDeleteCategoryAlert(context,
-                                    _categories[index].documentID, user);
-                              },
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return CategoryForm(
+                                      title: 'TaskPie',
+                                      subtitle: 'Update Category',
+                                      user: user,
+                                      category: CategoryModel(
+                                          _categories[index].documentID,
+                                          _categories[index]['color']),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          IconButton(
+                            tooltip: 'Delete category',
+                            icon: Icon(
+                              Icons.delete_outline,
+                              size: 30,
+                              color: _adaptiveColor,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                            onPressed: () {
+                              showDeleteCategoryAlert(
+                                  context, _categories[index].documentID, user);
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           );
         });
   }
