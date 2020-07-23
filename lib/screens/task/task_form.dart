@@ -38,9 +38,6 @@ class TaskFormState extends State<TaskForm> {
   DateTime selectedDate;
   DateTime nextDay;
   bool _autoValidate = false;
-  bool _isOverlapStartPartial;
-  bool _isOverlapEndPartial;
-  bool _isOverlapComplete;
 
   @override
   void initState() {
@@ -51,27 +48,6 @@ class TaskFormState extends State<TaskForm> {
 
   void initModel() {
     _task = widget.task;
-  }
-
-  void initCheckOverlap() async {
-    _isOverlapStartPartial = await isOverlapPartial(
-      widget.user,
-      'time_start',
-      widget.showRecordedTime ? _task.recordStart : _task.timeStart,
-      widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
-    );
-    _isOverlapEndPartial = await isOverlapPartial(
-      widget.user,
-      'time_end',
-      widget.showRecordedTime ? _task.recordStart : _task.timeStart,
-      widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
-    );
-    _isOverlapStartPartial = await isOverlapPartial(
-      widget.user,
-      'time_start',
-      widget.showRecordedTime ? _task.recordStart : _task.timeStart,
-      widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
-    );
   }
 
   void resetSelectedDate() {

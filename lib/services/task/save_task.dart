@@ -146,8 +146,9 @@ Future<bool> isOverlapComplete(user, timeStart, timeEnd) async {
         .where('time_end', isGreaterThan: timeEnd)
         .getDocuments();
 
-    return result.documents
-        .contains((document) => document['time_start'] < timeStart);
+    DocumentSnapshot overlappingDocument = result.documents.singleWhere(
+        (document) => document['time_start'].toDate().isBefore(timeStart));
+    return overlappingDocument.exists;
   }
 
   return false;
