@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         expandableContent: Container(
-          height: MediaQuery.of(context).size.height * .7,
+          height: MediaQuery.of(context).size.height * .81,
           color: Colors.white,
           child: CategoryListSheet(user: widget.user),
         ),
