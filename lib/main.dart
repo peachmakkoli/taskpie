@@ -1,3 +1,4 @@
+// Image Credit: App logo by Freepik: http://www.freepik.com/
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';

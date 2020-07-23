@@ -209,8 +209,8 @@ class _HomePageState extends State<HomePage> {
                         showRecordedTime = value;
                       });
                     },
-                    activeTrackColor: Colors.lightGreenAccent,
-                    activeColor: Colors.green,
+                    activeTrackColor: Color(0xFFA7CCFF),
+                    activeColor: Color(0xFF3F88C5),
                   ),
                 ],
               ),
@@ -224,12 +224,12 @@ class _HomePageState extends State<HomePage> {
                 topRight: Radius.circular(20), topLeft: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
-                  color: Colors.blueGrey[100],
+                  color: Colors.black38,
                   offset: Offset(1.0, -2.0),
                   blurRadius: 4.0,
                   spreadRadius: 2.0)
             ],
-            color: Color(0xFFFF737D),
+            color: Color(0xFFF46262),
           ),
           child: Align(
             alignment: Alignment.centerLeft,
@@ -237,11 +237,18 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(left: 30.0),
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.drag_handle, size: 40.0),
+                  Icon(
+                    Icons.drag_handle,
+                    size: 40.0,
+                    color: Colors.white,
+                  ),
                   SizedBox(width: 20),
                   Text(
                     'Categories',
-                    style: TextStyle(fontSize: 18.0),
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -249,7 +256,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         expandableContent: Container(
-          height: MediaQuery.of(context).size.height * .6,
+          height: MediaQuery.of(context).size.height * .7,
           color: Colors.white,
           child: CategoryListSheet(user: widget.user),
         ),

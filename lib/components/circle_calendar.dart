@@ -143,7 +143,7 @@ class CircleCalendar extends StatelessWidget {
                 child: SfCircularChart(
                   tooltipBehavior: TooltipBehavior(
                       enable: true,
-                      activationMode: ActivationMode.longPress,
+                      activationMode: ActivationMode.singleTap,
                       builder: (dynamic data, dynamic point, dynamic series,
                           int pointIndex, int seriesIndex) {
                         if (data.id.isEmpty)

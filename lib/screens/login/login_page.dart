@@ -10,8 +10,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final Color firstColor = Color(0xff5b86e5);
-  final Color secondColor = Color(0xff36d1dc);
+  final Color firstColor = Color(0xFFF46262);
+  final Color secondColor = Color(0xFF3175B8);
 
   void signInWithGoogleCallback() {
     signInWithGoogle().whenComplete(() {
@@ -59,14 +59,16 @@ class _LoginPageState extends State<LoginPage> {
                 signInCallback: signInWithEmailCallback,
                 gradientColors: [firstColor, secondColor],
                 borderColor: Color(0xFF3F88C5),
+                textColor: Colors.white,
               ),
               SizedBox(height: 30),
               SignInButton(
                 label: 'Sign in with Google',
                 icon: googleLogo,
                 signInCallback: signInWithGoogleCallback,
-                gradientColors: [Color(0xFF3F88C5), Color(0xFF3F88C5)],
-                borderColor: Colors.white,
+                gradientColors: [Colors.white, Colors.white],
+                borderColor: Color(0xFF3F88C5),
+                textColor: Color(0xFF3F88C5),
               ),
             ],
           ),
@@ -106,15 +108,20 @@ class EmailSignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlutterLogin(
-      title: '',
-      logo: 'assets/apple-pie.png',
-      onLogin: _authUserSignIn,
-      onSignup: _authUserSignUp,
-      onSubmitAnimationCompleted: () {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      },
-      onRecoverPassword: _recoverPassword,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('TaskPie'),
+      ),
+      body: FlutterLogin(
+        title: null,
+        logo: 'assets/apple-pie.png',
+        onLogin: _authUserSignIn,
+        onSignup: _authUserSignUp,
+        onSubmitAnimationCompleted: () {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        },
+        onRecoverPassword: _recoverPassword,
+      ),
     );
   }
 }
@@ -126,7 +133,8 @@ class SignInButton extends StatelessWidget {
       this.icon,
       this.signInCallback,
       this.gradientColors,
-      this.borderColor})
+      this.borderColor,
+      this.textColor})
       : super(key: key);
 
   final String label;
@@ -134,6 +142,7 @@ class SignInButton extends StatelessWidget {
   final Function signInCallback;
   final List<Color> gradientColors;
   final Color borderColor;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +175,7 @@ class SignInButton extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.white,
+                    color: textColor,
                   ),
                 ),
               )
