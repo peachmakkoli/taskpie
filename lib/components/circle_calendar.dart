@@ -41,7 +41,7 @@ class CircleCalendar extends StatelessWidget {
       '',
       TaskModel.getDuration(
           tasks[0][_fieldStart], Timestamp.fromDate(selectedDate)),
-      Colors.white,
+      Color(0x00000000),
     ));
 
     for (var i = 0; i < tasks.length; i++) {
@@ -80,7 +80,7 @@ class CircleCalendar extends StatelessWidget {
             '',
             TaskModel.getDuration(
                 tasks[i + 1][_fieldStart], tasks[i][_fieldEnd]),
-            Colors.white));
+            Color(0x00000000)));
       }
     }
 
@@ -95,7 +95,7 @@ class CircleCalendar extends StatelessWidget {
         TaskModel.getDuration(
             Timestamp.fromDate(selectedDate.add(Duration(days: 1))),
             tasks[tasks.length - 1][_fieldEnd]),
-        Colors.white));
+        Color(0x00000000)));
 
     return _chartData;
   }
@@ -134,7 +134,7 @@ class CircleCalendar extends StatelessWidget {
               return Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: ExactAssetImage("assets/clock-face.png"),
+                    image: ExactAssetImage("assets/pie-clock.png"),
                     fit: BoxFit.contain,
                   ),
                 ),
