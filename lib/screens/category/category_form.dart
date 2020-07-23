@@ -100,8 +100,8 @@ class CategoryFormState extends State<CategoryForm> {
                         CardSettingsText(
                           label: 'Name',
                           initialValue: _category.name,
-                          requiredIndicator:
-                              Text('*', style: TextStyle(color: Colors.red)),
+                          requiredIndicator: Text('*',
+                              style: TextStyle(color: Color(0xFFF46262))),
                           validator: (value) {
                             if (value.isEmpty) return 'Name is required.';
                             if (value == snapshot.data)

@@ -149,8 +149,8 @@ class TaskFormState extends State<TaskForm> {
                                               ? _task.recordStart
                                               : _task.timeStart,
                                           requiredIndicator: Text('*',
-                                              style:
-                                                  TextStyle(color: Colors.red)),
+                                              style: TextStyle(
+                                                  color: Color(0xFFF46262))),
                                           firstDate: DateTime(1900),
                                           lastDate: DateTime(2100),
                                           validator: (value) {
@@ -176,8 +176,8 @@ class TaskFormState extends State<TaskForm> {
                                               ? _task.recordEnd
                                               : _task.timeEnd,
                                           requiredIndicator: Text('*',
-                                              style:
-                                                  TextStyle(color: Colors.red)),
+                                              style: TextStyle(
+                                                  color: Color(0xFFF46262))),
                                           firstDate: DateTime(1900),
                                           lastDate: DateTime(2100),
                                           validator: (value) {
@@ -213,8 +213,8 @@ class TaskFormState extends State<TaskForm> {
                                           label: 'Name',
                                           initialValue: _task.name,
                                           requiredIndicator: Text('*',
-                                              style:
-                                                  TextStyle(color: Colors.red)),
+                                              style: TextStyle(
+                                                  color: Color(0xFFF46262))),
                                           validator: (value) {
                                             if (value.isEmpty)
                                               return 'Name is required.';
@@ -229,8 +229,8 @@ class TaskFormState extends State<TaskForm> {
                                           label: 'Category',
                                           initialValue: _task.category,
                                           requiredIndicator: Text('*',
-                                              style:
-                                                  TextStyle(color: Colors.red)),
+                                              style: TextStyle(
+                                                  color: Color(0xFFF46262))),
                                           options:
                                               getCategoryList(snapshot.data),
                                           onChanged: (value) {

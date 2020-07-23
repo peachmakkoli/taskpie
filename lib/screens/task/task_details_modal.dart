@@ -30,12 +30,8 @@ class TaskDetailsModal extends StatelessWidget {
   final int _durationHour;
   final int _durationMinute;
 
-  Text _showTime(String label, DateTime time) {
-    return Text('$label: ' + DateFormat.yMMMd().add_jm().format(time));
-  }
-
-  Text _showDuration(String label) {
-    return Text('$label: $_durationHour h $_durationMinute m');
+  Text _showTime(DateTime time) {
+    return Text(DateFormat.yMMMd().add_jm().format(time));
   }
 
   void _scheduleNotification() async {
@@ -51,7 +47,7 @@ class TaskDetailsModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * .50,
+      height: MediaQuery.of(context).size.height * .60,
       child: Padding(
         padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 24.0),
         child: Column(
@@ -62,7 +58,8 @@ class TaskDetailsModal extends StatelessWidget {
                 Text(
                   task.name,
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
                     color: Color(0xFF3F88C5),
                   ),
                 ),
@@ -71,7 +68,7 @@ class TaskDetailsModal extends StatelessWidget {
                   tooltip: 'Close',
                   icon: Icon(
                     Icons.close,
-                    color: Colors.red,
+                    color: Color(0xFFF46262),
                     size: 25,
                   ),
                   onPressed: () {
@@ -80,21 +77,111 @@ class TaskDetailsModal extends StatelessWidget {
                 ),
               ],
             ),
-            Text('Category: ${task.category}'),
+            SizedBox(width: 10),
+            Row(
+              children: <Widget>[
+                Container(
+                  constraints: BoxConstraints(minWidth: 85),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Color(0xFFF46262),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                  child: Text('Category',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                SizedBox(width: 10),
+                Text(task.category),
+              ],
+            ),
             SizedBox(height: 10),
-            showRecordedTime
-                ? _showTime('Recorded Start', task.recordStart)
-                : _showTime('Start', task.timeStart),
+            Row(
+              children: <Widget>[
+                Container(
+                  constraints: BoxConstraints(minWidth: 85),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Color(0xFFF46262),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                  child: Text(showRecordedTime ? 'Recorded Start' : 'Start',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                SizedBox(width: 10),
+                showRecordedTime
+                    ? _showTime(task.recordStart)
+                    : _showTime(task.timeStart),
+              ],
+            ),
             SizedBox(height: 10),
-            showRecordedTime
-                ? _showTime('Recorded End', task.recordEnd)
-                : _showTime('End', task.timeEnd),
+            Row(
+              children: <Widget>[
+                Container(
+                  constraints: BoxConstraints(minWidth: 85),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Color(0xFFF46262),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                  child: Text(showRecordedTime ? 'Recorded End' : 'End',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                SizedBox(width: 10),
+                showRecordedTime
+                    ? _showTime(task.recordEnd)
+                    : _showTime(task.timeEnd),
+              ],
+            ),
             SizedBox(height: 10),
-            showRecordedTime
-                ? _showDuration('Recorded Duration')
-                : _showDuration('Duration'),
+            Row(
+              children: <Widget>[
+                Container(
+                  constraints: BoxConstraints(minWidth: 85),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Color(0xFFF46262),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                  child:
+                      Text(showRecordedTime ? 'Recorded Duration' : 'Duration',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          )),
+                ),
+                SizedBox(width: 10),
+                Text('$_durationHour h $_durationMinute m'),
+              ],
+            ),
             SizedBox(height: 10),
-            Text(task.notes == null ? 'Notes: ' : 'Notes: ${task.notes}'),
+            Wrap(
+              children: <Widget>[
+                Container(
+                  constraints: BoxConstraints(minWidth: 85),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Color(0xFFF46262),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                  child: Text('Notes',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                SizedBox(width: 10),
+                Text(task.notes == null ? '' : task.notes),
+              ],
+            ),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -104,6 +191,7 @@ class TaskDetailsModal extends StatelessWidget {
                     : StatefulBuilder(builder:
                         (BuildContext context, StateSetter setButtonState) {
                         return IconButton(
+                          color: Colors.black,
                           tooltip: (task.alertSet != true)
                               ? 'Add alert'
                               : 'Alert is set',
@@ -113,7 +201,7 @@ class TaskDetailsModal extends StatelessWidget {
                                 : Icons.notifications_off,
                             color: (task.alertSet != true)
                                 ? Color(0xFF3F88C5)
-                                : Colors.red,
+                                : Color(0xFFF46262),
                             size: 40,
                           ),
                           onPressed: (task.alertSet != true)
@@ -190,7 +278,7 @@ class TaskDetailsModal extends StatelessWidget {
                         icon: Icon(
                           Icons.delete_outline,
                           size: 40,
-                          color: Colors.red,
+                          color: Color(0xFFF46262),
                         ),
                         onPressed: () {
                           Navigator.of(context).pop();
