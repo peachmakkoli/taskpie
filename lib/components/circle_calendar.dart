@@ -123,12 +123,14 @@ class CircleCalendar extends StatelessWidget {
                 return Container(
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment(0.0, 0.0),
-                    child: Text('Loading...'));
+                    child: Text('Baking...'));
               if (tasksSnapshot.data.documents.isEmpty)
                 return Container(
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment(0.0, 0.0),
-                    child: Text('No tasks found for selected day.'));
+                    child: Text(showRecordedTime
+                        ? 'No recorded tasks found for selected day.'
+                        : 'No tasks found for selected day.'));
               return Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(

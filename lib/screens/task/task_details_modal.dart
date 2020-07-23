@@ -91,8 +91,8 @@ class TaskDetailsModal extends StatelessWidget {
                 : _showTime('End', task.timeEnd),
             SizedBox(height: 10),
             showRecordedTime
-                ? _showDuration('Duration')
-                : _showDuration('Recorded Duration'),
+                ? _showDuration('Recorded Duration')
+                : _showDuration('Duration'),
             SizedBox(height: 10),
             Text(task.notes == null ? 'Notes: ' : 'Notes: ${task.notes}'),
             Spacer(),
@@ -193,6 +193,7 @@ class TaskDetailsModal extends StatelessWidget {
                           color: Colors.red,
                         ),
                         onPressed: () {
+                          Navigator.of(context).pop();
                           showDeleteTaskAlert(context, task, user);
                         },
                       ),

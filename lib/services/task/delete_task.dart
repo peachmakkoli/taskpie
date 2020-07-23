@@ -40,9 +40,8 @@ Future<void> showDeleteTaskAlert(context, task, user) async {
           FlatButton(
             child: Text('Yes'),
             onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-              _deleteTask(task, user);
+              _deleteTask(task, user)
+                  .whenComplete(() => Navigator.of(context).pop());
             },
           ),
         ],

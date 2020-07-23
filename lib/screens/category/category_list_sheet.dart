@@ -21,7 +21,11 @@ class CategoryListSheet extends StatelessWidget {
             .collection('categories')
             .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Text('Loading...');
+          if (!snapshot.hasData)
+            return Container(
+                height: MediaQuery.of(context).size.height,
+                alignment: Alignment(0.0, 0.0),
+                child: Text('Baking...'));
           List<DocumentSnapshot> _categories = snapshot.data.documents;
           return ListView.builder(
             padding: EdgeInsets.fromLTRB(24, 16, 24, 16),

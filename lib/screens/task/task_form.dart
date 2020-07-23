@@ -94,7 +94,11 @@ class TaskFormState extends State<TaskForm> {
       body: FutureBuilder(
         future: getCategories(widget.user),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-          if (!snapshot.hasData) return Center(child: Text('Loading...'));
+          if (!snapshot.hasData)
+            return Container(
+                height: MediaQuery.of(context).size.height,
+                alignment: Alignment(0.0, 0.0),
+                child: Text('Baking...'));
           return FutureBuilder<bool>(
               future: isOverlapPartial(
                 widget.user,
