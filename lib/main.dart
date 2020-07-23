@@ -13,53 +13,29 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static const MaterialColor carolinablue =
-      MaterialColor(_carolinabluePrimaryValue, <int, Color>{
-    50: Color(0xFFE0F4FD),
-    100: Color(0xFFB3E4FA),
-    200: Color(0xFF80D3F6),
-    300: Color(0xFF4DC1F2),
-    400: Color(0xFF26B3F0),
-    500: Color(_carolinabluePrimaryValue),
-    600: Color(0xFF009EEB),
-    700: Color(0xFF0095E8),
-    800: Color(0xFF008BE5),
-    900: Color(0xFF007BE0),
+  static const MaterialColor slateblue =
+      MaterialColor(_slatebluePrimaryValue, <int, Color>{
+    50: Color(0xFFE8F1F8),
+    100: Color(0xFFC5DBEE),
+    200: Color(0xFF9FC4E2),
+    300: Color(0xFF79ACD6),
+    400: Color(0xFF5C9ACE),
+    500: Color(_slatebluePrimaryValue),
+    600: Color(0xFF3980BF),
+    700: Color(0xFF3175B8),
+    800: Color(0xFF296BB0),
+    900: Color(0xFF1B58A3),
   });
-  static const int _carolinabluePrimaryValue = 0xFF00A6ED;
+  static const int _slatebluePrimaryValue = 0xFF3F88C5;
 
-  static const MaterialColor carolinablueAccent =
-      MaterialColor(_carolinablueAccentValue, <int, Color>{
-    100: Color(0xFFFFFFFF),
-    200: Color(_carolinablueAccentValue),
-    400: Color(0xFFA1CFFF),
-    700: Color(0xFF88C2FF),
+  static const MaterialColor slateblueAccent =
+      MaterialColor(_slateblueAccentValue, <int, Color>{
+    100: Color(0xFFDAEAFF),
+    200: Color(_slateblueAccentValue),
+    400: Color(0xFF74AEFF),
+    700: Color(0xFF5B9FFF),
   });
-  static const int _carolinablueAccentValue = 0xFFD4E9FF;
-
-  static const MaterialColor coral =
-      MaterialColor(_coralPrimaryValue, <int, Color>{
-    50: Color(0xFFFFEEEF),
-    100: Color(0xFFFFD5D8),
-    200: Color(0xFFFFB9BE),
-    300: Color(0xFFFF9DA4),
-    400: Color(0xFFFF8891),
-    500: Color(_coralPrimaryValue),
-    600: Color(0xFFFF6B75),
-    700: Color(0xFFFF606A),
-    800: Color(0xFFFF5660),
-    900: Color(0xFFFF434D),
-  });
-  static const int _coralPrimaryValue = 0xFFFF737D;
-
-  static const MaterialColor coralAccent =
-      MaterialColor(_coralAccentValue, <int, Color>{
-    100: Color(0xFFFFFFFF),
-    200: Color(_coralAccentValue),
-    400: Color(0xFFFFEBEC),
-    700: Color(0xFFFFD1D3),
-  });
-  static const int _coralAccentValue = 0xFFFFFFFF;
+  static const int _slateblueAccentValue = 0xFFA7CCFF;
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +44,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'TaskPie',
       theme: ThemeData(
-        primarySwatch: coral,
+        primarySwatch: slateblue,
         inputDecorationTheme: const InputDecorationTheme(
-          labelStyle: TextStyle(color: Color(0xFFF46262)),
+          labelStyle: TextStyle(color: slateblue),
           border: OutlineInputBorder(
             gapPadding: 10,
           ),

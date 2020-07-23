@@ -197,7 +197,7 @@ class LabelText extends StatelessWidget {
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: Colors.indigo,
+        color: Color(0xFF3F88C5),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

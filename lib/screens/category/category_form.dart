@@ -74,7 +74,6 @@ class CategoryFormState extends State<CategoryForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.title}: ${widget.subtitle}'),
-        // backgroundColor: Color(0xFFFF737D),
       ),
       backgroundColor: Colors.white,
       floatingActionButton: submitFormButton(context, submitForm),

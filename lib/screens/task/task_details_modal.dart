@@ -63,7 +63,7 @@ class TaskDetailsModal extends StatelessWidget {
                   task.name,
                   style: TextStyle(
                     fontSize: 18.0,
-                    color: Colors.indigo,
+                    color: Color(0xFF3F88C5),
                   ),
                 ),
                 Spacer(),
@@ -112,7 +112,7 @@ class TaskDetailsModal extends StatelessWidget {
                                 ? Icons.add_alert
                                 : Icons.notifications_off,
                             color: (task.alertSet != true)
-                                ? Colors.indigo
+                                ? Color(0xFF3F88C5)
                                 : Colors.red,
                             size: 40,
                           ),
@@ -146,7 +146,7 @@ class TaskDetailsModal extends StatelessWidget {
                   icon: Icon(
                     Icons.timer,
                     size: 40,
-                    color: Colors.indigo,
+                    color: Color(0xFF3F88C5),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -164,7 +164,7 @@ class TaskDetailsModal extends StatelessWidget {
                   icon: Icon(
                     Icons.create,
                     size: 40,
-                    color: Colors.indigo,
+                    color: Color(0xFF3F88C5),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();

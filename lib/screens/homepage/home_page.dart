@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       floatingActionButton: UnicornDialer(
         backgroundColor: Color.fromRGBO(255, 255, 255, 0.5),
-        parentButtonBackground: Colors.indigo,
+        parentButtonBackground: Color(0xFF3F88C5),
         orientation: UnicornOrientation.VERTICAL,
         parentButton: Icon(Icons.add),
         childButtons: _getChildButtons(),
@@ -276,7 +276,7 @@ class _HomePageState extends State<HomePage> {
         else
           return DateRow(
             date,
-            background: Colors.indigo,
+            background: Color(0xFF3F88C5),
             selectedDayStyle: TextStyle(color: Colors.white),
             selectedDayOfWeekStyle: TextStyle(color: Colors.white),
             selectedMonthStyle: TextStyle(color: Colors.white),
@@ -294,7 +294,7 @@ class _HomePageState extends State<HomePage> {
         labelText: "New Task",
         currentButton: FloatingActionButton(
           heroTag: "task",
-          backgroundColor: Colors.indigo,
+          backgroundColor: Color(0xFF3F88C5),
           mini: true,
           child: Icon(Icons.event_note),
           onPressed: () {
@@ -325,7 +325,7 @@ class _HomePageState extends State<HomePage> {
         labelText: "New Category",
         currentButton: FloatingActionButton(
           heroTag: "category",
-          backgroundColor: Colors.indigo,
+          backgroundColor: Color(0xFF3F88C5),
           mini: true,
           child: Icon(Icons.label),
           onPressed: () {

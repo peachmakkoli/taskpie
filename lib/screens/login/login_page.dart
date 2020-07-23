@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.indigo,
+        color: Color(0xFF3F88C5),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -58,14 +58,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 signInCallback: signInWithEmailCallback,
                 gradientColors: [firstColor, secondColor],
-                borderColor: Colors.indigo,
+                borderColor: Color(0xFF3F88C5),
               ),
               SizedBox(height: 30),
               SignInButton(
                 label: 'Sign in with Google',
                 icon: googleLogo,
                 signInCallback: signInWithGoogleCallback,
-                gradientColors: [Colors.indigo, Colors.indigo],
+                gradientColors: [Color(0xFF3F88C5), Color(0xFF3F88C5)],
                 borderColor: Colors.white,
               ),
             ],
