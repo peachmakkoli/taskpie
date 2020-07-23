@@ -117,7 +117,8 @@ Future<List<dynamic>> getCategories(user) async {
   return [];
 }
 
-Future<bool> isOverlapPartial(user, timeField, timeStart, timeEnd) async {
+Future<bool> isOverlapPartial(
+    user, timeField, timeStart, timeEnd, action) async {
   final CollectionReference usersRef = Firestore.instance.collection('users');
   final snapShot = await usersRef.document(user.uid).get();
 
@@ -129,13 +130,14 @@ Future<bool> isOverlapPartial(user, timeField, timeStart, timeEnd) async {
         .where(timeField, isLessThan: timeEnd)
         .getDocuments();
 
-    return result.documents.iterator.moveNext();
+    if (action == 'Update Task' && result.documents.length == 1)
+      return false;
+    else
+      return result.documents.iterator.moveNext();
   }
-
-  return false;
 }
 
-Future<bool> isOverlapComplete(user, timeStart, timeEnd) async {
+Future<bool> isOverlapComplete(user, timeStart, timeEnd, action) async {
   final CollectionReference usersRef = Firestore.instance.collection('users');
   final snapShot = await usersRef.document(user.uid).get();
 
@@ -146,10 +148,12 @@ Future<bool> isOverlapComplete(user, timeStart, timeEnd) async {
         .where('time_end', isGreaterThan: timeEnd)
         .getDocuments();
 
-    DocumentSnapshot overlappingDocument = result.documents.singleWhere(
-        (document) => document['time_start'].toDate().isBefore(timeStart));
-    return overlappingDocument.exists;
+    if (action == 'Update Task' && result.documents.length == 1)
+      return false;
+    else {
+      DocumentSnapshot overlappingDocument = result.documents.singleWhere(
+          (document) => document['time_start'].toDate().isBefore(timeStart));
+      return overlappingDocument.exists;
+    }
   }
-
-  return false;
 }

@@ -107,6 +107,7 @@ class TaskFormState extends State<TaskForm> {
                 'time_start',
                 widget.showRecordedTime ? _task.recordStart : _task.timeStart,
                 widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
+                widget.subtitle,
               ),
               builder: (context, snapshotEndOverlapPartial) {
                 return FutureBuilder<bool>(
@@ -117,6 +118,7 @@ class TaskFormState extends State<TaskForm> {
                           ? _task.recordStart
                           : _task.timeStart,
                       widget.showRecordedTime ? _task.recordEnd : _task.timeEnd,
+                      widget.subtitle,
                     ),
                     builder: (context, snapshotStartOverlapPartial) {
                       return FutureBuilder<bool>(
@@ -128,6 +130,7 @@ class TaskFormState extends State<TaskForm> {
                             widget.showRecordedTime
                                 ? _task.recordEnd
                                 : _task.timeEnd,
+                            widget.subtitle,
                           ),
                           builder: (context, snapshotOverlapComplete) {
                             return ExpandableBottomSheet(
