@@ -84,14 +84,18 @@ class TaskDetailsModal extends StatelessWidget {
                   constraints: BoxConstraints(minWidth: 85),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color(0xFFF46262),
+                    color: task.color,
                   ),
                   padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                  child: Text('Category',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  margin: EdgeInsets.only(top: 5),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text('Category',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
                 ),
                 SizedBox(width: 10),
                 Text(task.category),
@@ -104,14 +108,17 @@ class TaskDetailsModal extends StatelessWidget {
                   constraints: BoxConstraints(minWidth: 85),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color(0xFFF46262),
+                    color: Colors.green[400],
                   ),
                   padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                  child: Text(showRecordedTime ? 'Recorded Start' : 'Start',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(showRecordedTime ? 'Recorded Start' : 'Start',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
                 ),
                 SizedBox(width: 10),
                 showRecordedTime
@@ -126,14 +133,17 @@ class TaskDetailsModal extends StatelessWidget {
                   constraints: BoxConstraints(minWidth: 85),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color(0xFFF46262),
+                    color: Colors.red[400],
                   ),
                   padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                  child: Text(showRecordedTime ? 'Recorded End' : 'End',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(showRecordedTime ? 'Recorded End' : 'End',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
                 ),
                 SizedBox(width: 10),
                 showRecordedTime
@@ -148,15 +158,18 @@ class TaskDetailsModal extends StatelessWidget {
                   constraints: BoxConstraints(minWidth: 85),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color(0xFFF46262),
+                    color: Color(0xFF3F88C5),
                   ),
                   padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                  child:
-                      Text(showRecordedTime ? 'Recorded Duration' : 'Duration',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          )),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                        showRecordedTime ? 'Recorded Duration' : 'Duration',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
                 ),
                 SizedBox(width: 10),
                 Text('$_durationHour h $_durationMinute m'),
@@ -169,16 +182,19 @@ class TaskDetailsModal extends StatelessWidget {
                   constraints: BoxConstraints(minWidth: 85),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color(0xFFF46262),
+                    color: Color(0xFF3F88C5),
                   ),
                   padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-                  child: Text('Notes',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  margin: EdgeInsets.only(bottom: 5),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text('Notes',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
                 ),
-                SizedBox(width: 10),
                 Text(task.notes == null ? '' : task.notes),
               ],
             ),
