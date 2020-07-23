@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   void signInWithGoogleCallback() {
     LoadingDialog.show(context);
     signInWithGoogle().whenComplete(() {
+      Navigator.of(context).pop();
       LoadingDialog.hide(context);
       Navigator.of(context).popUntil((route) => route.isFirst);
     });

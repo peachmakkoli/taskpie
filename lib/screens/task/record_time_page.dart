@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wakelock/wakelock.dart';
 
 import 'package:taskpie/components/loading_dialog.dart';
 import 'package:taskpie/components/submit_form_button.dart';
@@ -125,6 +126,7 @@ class _RecordTimePageState extends State<RecordTimePage> {
                           recordStart = DateTime.now();
                         }
                         newRecording = false;
+                        Wakelock.enable();
                       });
                     },
                   ),
@@ -146,6 +148,7 @@ class _RecordTimePageState extends State<RecordTimePage> {
                         recordEnd =
                             recordStart.add(Duration(seconds: secondsPassed));
                         newRecording = true;
+                        Wakelock.enable();
                       });
                     },
                   ),
