@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -140,7 +141,8 @@ class _HomePageState extends State<HomePage> {
   Future<CupertinoAlertDialog> onDidReceiveLocalNotification(
       int id, String title, String body, String payload) async {
     return CupertinoAlertDialog(
-      title: Text(title),
+      title: Text(title,
+          style: GoogleFonts.chelaOne(textStyle: TextStyle(fontSize: 26.0))),
       content: Text(body),
       actions: <Widget>[
         CupertinoDialogAction(
@@ -158,7 +160,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title,
+            style: GoogleFonts.chelaOne(textStyle: TextStyle(fontSize: 26.0))),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           FlatButton(
@@ -201,7 +204,8 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Recorded Tasks'),
+                  Text('Recorded Tasks',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   Switch(
                     value: showRecordedTime,
                     onChanged: (value) {
@@ -247,6 +251,7 @@ class _HomePageState extends State<HomePage> {
                     'Categories',
                     style: TextStyle(
                       fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
@@ -278,15 +283,18 @@ class _HomePageState extends State<HomePage> {
         if (index != 2)
           return DateRow(
             date,
+            selectedDayStyle: TextStyle(color: Colors.black, height: 1.1),
+            selectedDayOfWeekStyle: TextStyle(color: Colors.black, height: 1.1),
+            selectedMonthStyle: TextStyle(color: Colors.black, height: 1.1),
             width: width,
           );
         else
           return DateRow(
             date,
             background: Color(0xFF3F88C5),
-            selectedDayStyle: TextStyle(color: Colors.white),
-            selectedDayOfWeekStyle: TextStyle(color: Colors.white),
-            selectedMonthStyle: TextStyle(color: Colors.white),
+            selectedDayStyle: TextStyle(color: Colors.white, height: 1.1),
+            selectedDayOfWeekStyle: TextStyle(color: Colors.white, height: 1.1),
+            selectedMonthStyle: TextStyle(color: Colors.white, height: 1.1),
             width: width,
           );
       },

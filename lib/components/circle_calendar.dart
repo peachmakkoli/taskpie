@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -129,8 +130,8 @@ class CircleCalendar extends StatelessWidget {
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment(0.0, 0.0),
                     child: Text(showRecordedTime
-                        ? 'No recorded tasks found for selected day.'
-                        : 'No tasks found for selected day.'));
+                        ? 'No recordings on this day!'
+                        : 'No pie on this day!'));
               return Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -173,6 +174,7 @@ class CircleCalendar extends StatelessWidget {
                       dataLabelSettings: DataLabelSettings(
                         isVisible: true,
                         useSeriesColor: true,
+                        textStyle: GoogleFonts.openSans(),
                       ),
                     )
                   ],

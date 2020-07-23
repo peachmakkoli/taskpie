@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wakelock/wakelock.dart';
@@ -65,7 +66,10 @@ class _RecordTimePageState extends State<RecordTimePage> {
     int hours = secondsPassed ~/ (60 * 60);
 
     return Scaffold(
-      appBar: AppBar(title: Text('TaskPie: Record Time')),
+      appBar: AppBar(
+          title: Text('TaskPie: Record Time',
+              style:
+                  GoogleFonts.chelaOne(textStyle: TextStyle(fontSize: 26.0)))),
       floatingActionButton: submitFormButton(context, submitForm),
       body: Center(
         child: Column(

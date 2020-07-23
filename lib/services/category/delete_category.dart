@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -48,7 +49,8 @@ Future<void> showDeleteCategoryAlert(context, categoryName, user) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('$categoryName'),
+        title: Text('$categoryName',
+            style: GoogleFonts.chelaOne(textStyle: TextStyle(fontSize: 26.0))),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[

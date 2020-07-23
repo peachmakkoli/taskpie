@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter_login/flutter_login.dart';
 
@@ -38,17 +39,19 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                'TaskPie',
-                style: TextStyle(
-                  fontSize: 48,
-                  color: Colors.white,
-                ),
-              ),
               Image(
                   image: ExactAssetImage('assets/apple-pie.png'),
-                  height: 300.0),
-              SizedBox(height: 50),
+                  height: 230.0),
+              Text(
+                'TaskPie',
+                style: GoogleFonts.chelaOne(
+                  textStyle: TextStyle(
+                    fontSize: 80,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(height: 30),
               SignInButton(
                 label: 'Sign in with Email   ',
                 icon: Icon(
@@ -110,7 +113,8 @@ class EmailSignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TaskPie'),
+        title: Text('TaskPie',
+            style: GoogleFonts.chelaOne(textStyle: TextStyle(fontSize: 26.0))),
       ),
       body: FlutterLogin(
         title: null,
@@ -149,7 +153,7 @@ class SignInButton extends StatelessWidget {
     return Container(
       height: 60.0,
       child: OutlineButton(
-        splashColor: Colors.white,
+        splashColor: textColor,
         onPressed: signInCallback,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         highlightElevation: 0,

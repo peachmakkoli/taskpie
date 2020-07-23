@@ -1,5 +1,6 @@
 // Image Credit: App logo by Freepik: http://www.freepik.com/
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:syncfusion_flutter_core/core.dart';
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'TaskPie',
       theme: ThemeData(
+        textTheme: GoogleFonts.openSansTextTheme(
+          Theme.of(context).textTheme,
+        ),
         primarySwatch: slateblue,
         inputDecorationTheme: const InputDecorationTheme(
           labelStyle: TextStyle(color: slateblue),

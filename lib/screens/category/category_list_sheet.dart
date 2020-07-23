@@ -43,7 +43,7 @@ class CategoryListSheet extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         _categories[index].documentID,
-                        style: TextStyle(color: _adaptiveColor),
+                        style: TextStyle(color: _adaptiveColor, fontSize: 16.0),
                       ),
                       Spacer(),
                       ButtonBar(

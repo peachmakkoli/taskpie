@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -73,7 +74,8 @@ class CategoryFormState extends State<CategoryForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.title}: ${widget.subtitle}'),
+        title: Text('${widget.title}: ${widget.subtitle}',
+            style: GoogleFonts.chelaOne(textStyle: TextStyle(fontSize: 26.0))),
       ),
       backgroundColor: Colors.white,
       floatingActionButton: submitFormButton(context, submitForm),

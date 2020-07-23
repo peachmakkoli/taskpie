@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -21,7 +22,8 @@ Future<void> showDeleteTaskAlert(context, task, user) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('${task.name}'),
+        title: Text('${task.name}',
+            style: GoogleFonts.chelaOne(textStyle: TextStyle(fontSize: 26.0))),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
