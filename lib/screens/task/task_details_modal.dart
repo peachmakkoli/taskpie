@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:one_context/one_context.dart';
 
 import 'package:taskpie/models/task_model.dart';
 import 'package:taskpie/screens/task/record_time_page.dart';
@@ -122,6 +123,10 @@ class TaskDetailsModal extends StatelessWidget {
                                   });
                                   saveTask(task, user);
                                   _scheduleNotification();
+                                  OneContext().showSnackBar(
+                                      builder: (_) => SnackBar(
+                                          content: Text(
+                                              'Reminders set for ${task.name}')));
                                 }
                               : () {
                                   setButtonState(() {
@@ -129,6 +134,10 @@ class TaskDetailsModal extends StatelessWidget {
                                   });
                                   saveTask(task, user);
                                   _cancelNotification();
+                                  OneContext().showSnackBar(
+                                      builder: (_) => SnackBar(
+                                          content: Text(
+                                              'Reminders cancelled for ${task.name}')));
                                 },
                         );
                       }),

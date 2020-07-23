@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:syncfusion_flutter_core/core.dart';
+import 'package:one_context/one_context.dart';
 
 import 'package:taskpie/screens/login/landing_page.dart';
 
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: OneContext().builder,
       debugShowCheckedModeBanner: false,
       title: 'TaskPie',
       theme: ThemeData(
