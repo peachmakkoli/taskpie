@@ -218,10 +218,10 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         persistentHeader: Container(
-          height: 60,
+          height: 80,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
-                topRight: Radius.circular(60), topLeft: Radius.circular(60)),
+                topRight: Radius.circular(20), topLeft: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
                   color: Colors.blueGrey[100],
@@ -231,19 +231,27 @@ class _HomePageState extends State<HomePage> {
             ],
             color: Color(0xFFFF737D),
           ),
-          child: Center(
-            child: Text(
-              'Categories',
-              style: TextStyle(fontSize: 18.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30.0),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.drag_handle, size: 40.0),
+                  SizedBox(width: 20),
+                  Text(
+                    'Categories',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
         expandableContent: Container(
-          height: MediaQuery.of(context).size.height / 3,
+          height: MediaQuery.of(context).size.height * .6,
           color: Colors.white,
-          child: Center(
-            child: CategoryListSheet(user: widget.user),
-          ),
+          child: CategoryListSheet(user: widget.user),
         ),
       ),
     );
