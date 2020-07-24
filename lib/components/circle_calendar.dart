@@ -127,11 +127,15 @@ class CircleCalendar extends StatelessWidget {
                     child: Text('Baking...'));
               if (tasksSnapshot.data.documents.isEmpty)
                 return Container(
-                    height: MediaQuery.of(context).size.height,
-                    alignment: Alignment(0.0, 0.0),
-                    child: Text(showRecordedTime
-                        ? 'No recordings on this day!'
-                        : 'No pie on this day!'));
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: ExactAssetImage("assets/pie-clock.png"),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  height: MediaQuery.of(context).size.height / 1.2,
+                  alignment: Alignment(0.0, 0.0),
+                );
               return Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
