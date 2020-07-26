@@ -10,15 +10,17 @@ Click to learn more, including a demo:
 
 ## 🥧 Contents
 
-1. [Features](#features)
-2. [Dependencies](#dependencies)
-3. [Installation Guide](#installation-guide)
-4. [Acknowledgements](#acknowledgements)
+#### 1. [Features](#features)
+#### 2. [Dependencies](#dependencies)
+- ##### [Mobile](#mobile)
+- ##### [Flutter Packages & Plugins](#flutter-packages-plugins)
+#### 3. [Installation Guide](#installation-guide)
+#### 4. [Acknowledgements](#acknowledgements)
 
 ## 🥧 Features
 
 Current features are marked with a check, and planned features will be completed during 2020-2021 as time allows.
-#### As a user...
+##### As a user...
 - [x] I want to be able to log into the app using Google or email/password. **(MVP)**
 - [x] I want my calendar to look like a circle representing a 24-hour clock, which is split into "pie slices," each representing a single task, so I can see all of the day's activities and what percentage of the day they take up. **(MVP)**
 - [x] I want to be able to create and update tasks via a form. **(MVP)**
@@ -66,24 +68,24 @@ Current features are marked with a check, and planned features will be completed
 
 ## 🥧 Installation Guide
 
-###### 1. Install Flutter SDK, Android Studio, and XCode for your operating system
+#### 1. Install Flutter SDK, Android Studio, and XCode for your operating system
 - https://flutter.dev/docs/get-started/install
 
-###### 2. Set up your editor of choice
+#### 2. Set up your editor of choice
 - https://flutter.dev/docs/get-started/editor
 
-###### 3. Add Firebase
+#### 3. Add Firebase
 - iOS: https://firebase.google.com/docs/flutter/setup?platform=ios
 - Android: https://firebase.google.com/docs/flutter/setup?platform=android
 - *For Android, add SHA certificate fingerprints*: https://developers.google.com/android/guides/client-auth
 
-###### 4. Add Syncfusion
+#### 4. Add Syncfusion
 1. Apply for a free Community License: https://www.syncfusion.com/products/communitylicense
 2. Generate Syncfusion license key: https://help.syncfusion.com/common/essential-studio/licensing/license-key
 3. Create a `.env` file in the top directory of the app (i.e., /taskpie)
 4. Add `SF_LICENSE_KEY=`, followed by your license key
 
-###### 5. Check your setup
+#### 5. Check your setup
 Run the following commands in order:
 1. `flutter doctor`, follow instructions to solve any errors
 2. `flutter clean`
@@ -93,7 +95,7 @@ Run the following commands in order:
 6. `pod repo update`
 7. `pod update`
 
-###### 6. Run the app!
+#### 6. Run the app!
 - To run the app on a specific device, run `flutter devices` on the command line and note the name of your device. Then run `flutter run -d` followed by the name or ID of your device.
 - Otherwise, run `flutter run -d all` to run on all connected devices.
 
