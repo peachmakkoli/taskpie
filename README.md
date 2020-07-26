@@ -15,7 +15,8 @@ Click to learn more, including a demo:
 - ##### [Mobile](#mobile)
 - ##### [Flutter Packages & Plugins](#flutter-packages-plugins)
 #### 3. [Installation Guide](#installation-guide)
-#### 4. [Acknowledgements](#acknowledgements)
+#### 4. [Trello Board](#trello-board)
+#### 5. [Acknowledgements](#acknowledgements)
 
 ## 🥧 Features
 
@@ -33,8 +34,6 @@ Current features are marked with a check, and planned features will be completed
 - [ ] I want to be able to import my tasks from Google Calendar (or from a CSV file), so I do not have to recreate tasks I've already entered elsewhere. (Note: Overlapping tasks are not yet supported.)
 - [ ] I want to be able to set a custom start and end hour for my calendar, so I can define the boundaries of my day (e.g., day starts when I wake up at 8am)
 - [ ] I want to be able to share my calendar with friends by superimposing their pie chart over mine, so I can easily see where our free time aligns and plan tasks together.
-
-##### If you'd like access to my [Trello Board](https://trello.com/b/PiePJUPH/taskpie-app), please contact me through Github or email.
 
 ## 🥧 Dependencies
 
@@ -98,6 +97,10 @@ Run the following commands in order:
 #### 6. Run the app!
 - To run the app on a specific device, run `flutter devices` on the command line and note the name of your device. Then run `flutter run -d` followed by the name or ID of your device.
 - Otherwise, run `flutter run -d all` to run on all connected devices.
+
+## 🥧 Trello Board
+
+Access here: https://trello.com/b/PiePJUPH/taskpie-app
 
 ## 🥧 Acknowledgements
 
