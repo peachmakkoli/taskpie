@@ -10,13 +10,11 @@ Click to learn more, including a demo:
 
 ## 🥧 Contents
 
-#### 1. [Features](#features)
-#### 2. [Dependencies](#dependencies)
-- ##### [Mobile](#mobile)
-- ##### [Flutter Packages & Plugins](#flutter-packages-plugins)
-#### 3. [Installation Guide](#installation-guide)
-#### 4. [Trello Board](#trello-board)
-#### 5. [Acknowledgements](#acknowledgements)
+1. [Features](#-features)
+2. [Dependencies](#-dependencies)
+3. [Installation Guide](#-installation-guide)
+4. [Trello Board](#-trello-board)
+5. [Acknowledgements](#-acknowledgements)
 
 ## 🥧 Features
 
