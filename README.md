@@ -116,4 +116,4 @@ This app would not be possible without the support of the following individuals 
 
 - And [Freepik](http://www.freepik.com/), for providing this cute icon for the app logo!
 
-[![TaskPie Main Screen](https://imgur.com/AV22W8h.png)](https://youtu.be/-evC9avD0hI)
+![TaskPie logo](https://imgur.com/AV22W8h.png)
