@@ -17,7 +17,8 @@ Click to learn more, including a demo:
 
 ## 🥧 Features
 
-**As a user...**
+Current features are marked with a check, and planned features will be completed during 2020-2021 as time allows.
+#### As a user...
 - [x] I want to be able to log into the app using Google or email/password. **(MVP)**
 - [x] I want my calendar to look like a circle representing a 24-hour clock, which is split into "pie slices," each representing a single task, so I can see all of the day's activities and what percentage of the day they take up. **(MVP)**
 - [x] I want to be able to create and update tasks via a form. **(MVP)**
@@ -30,6 +31,8 @@ Click to learn more, including a demo:
 - [ ] I want to be able to import my tasks from Google Calendar (or from a CSV file), so I do not have to recreate tasks I've already entered elsewhere. (Note: Overlapping tasks are not yet supported.)
 - [ ] I want to be able to set a custom start and end hour for my calendar, so I can define the boundaries of my day (e.g., day starts when I wake up at 8am)
 - [ ] I want to be able to share my calendar with friends by superimposing their pie chart over mine, so I can easily see where our free time aligns and plan tasks together.
+
+##### If you'd like access to my [Trello Board](https://trello.com/b/PiePJUPH/taskpie-app), please contact me through Github or email.
 
 ## 🥧 Dependencies
 
@@ -108,6 +111,6 @@ This app would not be possible without the support of the following individuals 
 
 - My family and friends who contributed to my crowdfund and made it possible for me to move to Seattle to attend Ada Developers Academy. 
 
-- And [Freepik](http://www.freepik.com/), for providing this cute icon!
+- And [Freepik](http://www.freepik.com/), for providing this cute icon for the app logo!
 
-[![TaskPie Main Screen](https://imgur.com/97Dc4lY.png)](https://youtu.be/-evC9avD0hI)
+[![TaskPie Main Screen](https://imgur.com/AV22W8h.png)](https://youtu.be/-evC9avD0hI)
