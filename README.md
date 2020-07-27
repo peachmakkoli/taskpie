@@ -3,17 +3,17 @@
 TaskPie is a time management and task planning app for Android and iOS, intended to help users visualize how much of the day is devoted to different tasks and
 better estimate how long a task will take via recording tools.
 
-Developed by Lee Higgins (they/them) using Flutter SDK and Firebase from July 6-24th, 2020 to satisfy their Capstone project for [Ada Developers Academy](https://adadevelopersacademy.org/), Cohort 13. This app is a work in progress with future enhancements planned (see [Features](#features) below)!
+The first version of TaskPie was developed by Lee Higgins (they/them) using Flutter SDK and Firebase from July 6-24th, 2020 to satisfy their Capstone project for [Ada Developers Academy](https://adadevelopersacademy.org/), Cohort 13. This app is a work in progress with future enhancements planned. Check back later for updates!
 
-Click to learn more, including a demo:
+Click for a demo:
 [![TaskPie Main Screen](https://i.imgur.com/tqwuaWn.png)](https://youtu.be/-evC9avD0hI)
 
 ## 🥧 Contents
 
 1. [Features](#-features)
-2. [Dependencies](#-dependencies)
-3. [Installation Guide](#-installation-guide)
-4. [Trello Board](#-trello-board)
+2. [Installation Guide](#-installation-guide)
+3. [Dependencies](#-dependencies)
+4. [Trello Board](https://trello.com/b/PiePJUPH/taskpie-app)
 5. [Acknowledgements](#-acknowledgements)
 
 ## 🥧 Features
@@ -32,36 +32,6 @@ Current features are marked with a check, and planned features will be completed
 - [ ] I want to be able to import my tasks from Google Calendar (or from a CSV file), so I do not have to recreate tasks I've already entered elsewhere. (Note: Overlapping tasks are not yet supported.)
 - [ ] I want to be able to set a custom start and end hour for my calendar, so I can define the boundaries of my day (e.g., day starts when I wake up at 8am)
 - [ ] I want to be able to share my calendar with friends by superimposing their pie chart over mine, so I can easily see where our free time aligns and plan tasks together.
-
-## 🥧 Dependencies
-
-### Mobile
-- Android 5.0 'Lollipop' or higher (SDK Vers. 21+)
-- iOS 10.0 or higher
-
-### Flutter Packages & Plugins
-
-#### *UX*
-- [Cloud Firestore](https://pub.dev/packages/cloud_firestore): ^0.13.7
-- [Google Sign In](https://pub.dev/packages/google_sign_in): ^4.5.1
-- [Flutter DotENV](https://pub.dev/packages/flutter_dotenv): ^2.1.0
-- [Flutter Local Notifications](https://pub.dev/packages/flutter_local_notifications): ^1.4.4+2
-- [Firebase Auth](https://pub.dev/packages/firebase_auth): ^0.16.1
-- [Firebase Auth OAuth](https://pub.dev/packages/firebase_auth_oauth): ^0.1.1+1
-- [One Context](https://pub.dev/packages/one_context): ^0.4.0
-- [RXDart](https://pub.dev/packages/rxdart): ^0.23.1
-- [Wakelock](https://pub.dev/packages/wakelock): ^0.1.4+2
-
-#### *UI*
-- [Card Settings](https://pub.dev/packages/card_settings): ^1.11.0
-- [Cupertino Icons](https://pub.dev/packages/cupertino_icons): ^0.1.3
-- [Custom Horizontal Calendar](https://pub.dev/packages/custom_horizontal_calendar): ^0.1.3
-- [Google Fonts](https://pub.dev/packages/google_fonts): ^1.1.0
-- [Expandable Bottom Sheet](https://pub.dev/packages/expandable_bottom_sheet): ^0.2.1+1 
-- [Flutter Launcher Icons](https://pub.dev/packages/flutter_launcher_icons): ^0.7.2
-- [Flutter Login](https://pub.dev/packages/flutter_login): ^1.0.14
-- [Syncfusion Flutter Charts](https://pub.dev/packages/syncfusion_flutter_charts): ^18.2.44
-- [UnicornDial](https://pub.dev/packages/unicorndial): ^1.1.5
 
 ## 🥧 Installation Guide
 
@@ -96,9 +66,35 @@ Run the following commands in order:
 - To run the app on a specific device, run `flutter devices` on the command line and note the name of your device. Then run `flutter run -d` followed by the name or ID of your device.
 - Otherwise, run `flutter run -d all` to run on all connected devices.
 
-## 🥧 Trello Board
+## 🥧 Dependencies
 
-Access here: https://trello.com/b/PiePJUPH/taskpie-app
+### Mobile Platform
+- Android 5.0 'Lollipop' or higher (SDK Vers. 21+)
+- iOS 10.0 or higher
+
+### Flutter Packages & Plugins
+
+#### *UX*
+- [Cloud Firestore](https://pub.dev/packages/cloud_firestore): ^0.13.7
+- [Google Sign In](https://pub.dev/packages/google_sign_in): ^4.5.1
+- [Flutter DotENV](https://pub.dev/packages/flutter_dotenv): ^2.1.0
+- [Flutter Local Notifications](https://pub.dev/packages/flutter_local_notifications): ^1.4.4+2
+- [Firebase Auth](https://pub.dev/packages/firebase_auth): ^0.16.1
+- [Firebase Auth OAuth](https://pub.dev/packages/firebase_auth_oauth): ^0.1.1+1
+- [One Context](https://pub.dev/packages/one_context): ^0.4.0
+- [RXDart](https://pub.dev/packages/rxdart): ^0.23.1
+- [Wakelock](https://pub.dev/packages/wakelock): ^0.1.4+2
+
+#### *UI*
+- [Card Settings](https://pub.dev/packages/card_settings): ^1.11.0
+- [Cupertino Icons](https://pub.dev/packages/cupertino_icons): ^0.1.3
+- [Custom Horizontal Calendar](https://pub.dev/packages/custom_horizontal_calendar): ^0.1.3
+- [Google Fonts](https://pub.dev/packages/google_fonts): ^1.1.0
+- [Expandable Bottom Sheet](https://pub.dev/packages/expandable_bottom_sheet): ^0.2.1+1 
+- [Flutter Launcher Icons](https://pub.dev/packages/flutter_launcher_icons): ^0.7.2
+- [Flutter Login](https://pub.dev/packages/flutter_login): ^1.0.14
+- [Syncfusion Flutter Charts](https://pub.dev/packages/syncfusion_flutter_charts): ^18.2.44
+- [UnicornDial](https://pub.dev/packages/unicorndial): ^1.1.5
 
 ## 🥧 Acknowledgements
 
