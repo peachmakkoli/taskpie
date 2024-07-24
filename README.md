@@ -3,7 +3,7 @@
 TaskPie is a time management and task planning app for Android and iOS, intended to help users visualize how much of the day is devoted to different tasks and
 better estimate how long a task will take via recording tools.
 
-The first version of TaskPie was developed by Lee Higgins (they/them) using Flutter SDK and Firebase from July 6-24th, 2020 to satisfy their Capstone project for [Ada Developers Academy](https://adadevelopersacademy.org/), Cohort 13. This app is a work in progress with future enhancements planned. Check back later for updates!
+The first version of TaskPie was developed by Theo Moon (he/they), formerly known as Lee Higgins, using Flutter SDK and Firebase from July 6-24th, 2020 to satisfy his Capstone project for [Ada Developers Academy](https://adadevelopersacademy.org/), Cohort 13. This app is a work in progress with future enhancements planned. Check back later for updates!
 
 Click for a demo:
 [![TaskPie Main Screen](https://i.imgur.com/tqwuaWn.png)](https://youtu.be/-evC9avD0hI)
