@@ -18,7 +18,7 @@ Click for a demo:
 
 ## 🥧 Features
 
-Current features are marked with a check, and planned features will be completed during 2020-2021 as time allows.
+Current features are marked with a check, and planned features will be completed as time allows.
 ##### As a user...
 - [x] I want to be able to log into the app using Google or email/password. **(MVP)**
 - [x] I want my calendar to look like a circle representing a 24-hour clock, which is split into "pie slices," each representing a single task, so I can see all of the day's activities and what percentage of the day they take up. **(MVP)**
